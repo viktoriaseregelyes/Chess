@@ -17,15 +17,15 @@ public class Result implements Serializable {
         this.winner = winner;
     }
 
-    public String getPlayerWhite() {
-        return this.white.getName();
+    public String GetPlayerWhite() {
+        return this.white.GetName();
     }
 
-    public String getPlayerBlack() {
-        return this.black.getName();
+    public String GetPlayerBlack() {
+        return this.black.GetName();
     }
 
-    public String getWinner() {
-        return this.winner.getName();
+    public String GetWinner() {
+        return this.winner.GetName();
     }
 }

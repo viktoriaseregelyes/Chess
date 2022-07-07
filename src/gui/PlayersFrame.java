@@ -60,11 +60,8 @@ public class PlayersFrame extends JFrame {
             Player player1 = new Player(Player1, players.Type.BLACK);
             Player player2 = new Player(Player2, players.Type.WHITE);
 
-            player1.setGame(game);
-            player2.setGame(game);
-
-            game.setBlack(player1);
-            game.setWhite(player2);
+            game.SetBlack(player1);
+            game.SetWhite(player2);
 
             gameFrame = new GameFrame("Chess", game, resultData, frame);
 

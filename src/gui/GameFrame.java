@@ -26,8 +26,8 @@ public class GameFrame extends JFrame {
         button_menu.addActionListener(new MenuButtonActionListener());
         panel_menu.add(button_menu);
 
-        JLabel label_white = new JLabel("White: "+ game.getPlayerWhite().getName());
-        JLabel label_black = new JLabel("Black: "+ game.getPlayerBlack().getName());
+        JLabel label_white = new JLabel("White: "+ game.GetPlayerWhite().GetName());
+        JLabel label_black = new JLabel("Black: "+ game.GetPlayerBlack().GetName());
         panel_players.add(label_white);
         panel_players.add(label_black);
 

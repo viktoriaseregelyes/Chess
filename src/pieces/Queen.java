@@ -15,81 +15,81 @@ public class Queen extends Piece {
 		super(type, x, y, board);
 	}
 
-	public boolean validMove(int endX, int endY) {
-		int x_diff = Math.abs(this.getX() - endX);
-		int y_diff = Math.abs(this.getY() - endY);
+	public boolean ValidMove(int endX, int endY) {
+		int x_diff = Math.abs(this.GetX() - endX);
+		int y_diff = Math.abs(this.GetY() - endY);
 
 		return (y_diff == x_diff) || (y_diff == 0 || x_diff == 0);
 	}
 	
-	public boolean move(int endX, int endY) {
-		if(this.validMove(endX, endY)) {
+	public boolean Move(int endX, int endY) {
+		if(this.ValidMove(endX, endY)) {
 			int dist;
 			boolean settable = true;
 
-			if(Math.abs(this.getY() - endY) == Math.abs(this.getX() - endX)) {
+			if(Math.abs(this.GetY() - endY) == Math.abs(this.GetX() - endX)) {
 				int x_diff = 1;
 				int y_diff = 1;
 
-				dist = Math.abs(this.getX() - endX);
+				dist = Math.abs(this.GetX() - endX);
 
-				if((endX - this.getX())<0) x_diff = -1;
-				if((endY - this.getY())<0) y_diff = -1;
+				if((endX - this.GetX())<0) x_diff = -1;
+				if((endY - this.GetY())<0) y_diff = -1;
 
 				if(dist == 1) settable = true;
 				else
 					for(int i=2;i<dist-1;i++)
-						if(board.getPiece(this.getX() + x_diff*i, this.getY() + y_diff*i) != null) {
+						if(GetBoard().GetPiece(this.GetX() + x_diff*i, this.GetY() + y_diff*i) != null) {
 							settable = false;
 							break;
 						}
 			}
-			if(Math.abs(this.getY() - endY) == 0 || Math.abs(this.getX() - endX) == 0) {
+			if(Math.abs(this.GetY() - endY) == 0 || Math.abs(this.GetX() - endX) == 0) {
 				int diff = 1;
 
-				if(Math.abs(this.getX() - endX) != 0) {
-					dist = Math.abs(this.getX() - endX);
-					if ((endX - this.getX()) < 0) diff = -1;
+				if(Math.abs(this.GetX() - endX) != 0) {
+					dist = Math.abs(this.GetX() - endX);
+					if ((endX - this.GetX()) < 0) diff = -1;
 
 					if (dist == 1) settable = true;
 					else
 						for (int i = 0; i < dist - 1; i++)
-							if (board.getPiece(this.getX() + (i + 1) * diff, endY) != null) {
+							if (GetBoard().GetPiece(this.GetX() + (i + 1) * diff, endY) != null) {
 								settable = false;
 								break;
 							}
 				}
 				else {
-					dist = Math.abs(this.getY() - endY);
-					if((endY - this.getY())<0) diff = -1;
+					dist = Math.abs(this.GetY() - endY);
+					if((endY - this.GetY())<0) diff = -1;
 
 					if(dist == 1) settable = true;
 					else
 						for(int i=1;i<dist-1;i++)
-							if(board.getPiece(endX,this.getY() + i*diff) != null) {
+							if(GetBoard().GetPiece(endX,this.GetY() + i*diff) != null) {
 								settable = false;
 								break;
 							}
 				}
 			}
-			if(settable && board.getPiece(endX, endY) != null && board.getPiece(endX, endY).getType() == this.getType()) settable = false;
+			if(settable && GetBoard().GetPiece(endX, endY) != null && GetBoard().GetPiece(endX, endY).GetType() == this.GetType()) settable = false;
 
 			if(settable) {
-				this.setX(endX);
-				this.setY(endY);
-				board.setPiece(this);
+				this.SetX(endX);
+				this.SetY(endY);
+				GetBoard().SetPiece(this);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public ImageIcon getImageIcon() {
-		if(this.getType() == Type.BLACK) return b_queen;
+	public ImageIcon GetImageIcon() {
+		if(this.GetType() == Type.BLACK) return b_queen;
 		return w_queen;
 	}
 
-	public TypeOfPiece getTypeOfPiece() {
+	public TypeOfPiece GetTypeOfPiece() {
 		return this.top;
 	}
 }

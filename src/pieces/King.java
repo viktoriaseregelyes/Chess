@@ -15,32 +15,32 @@ public class King extends Piece {
 		super(type, x, y, board);
 	}
 
-	public boolean validMove(int endX, int endY) {
-		return Math.abs(this.getY()-endY)<=1 && Math.abs(this.getX()-endX)<=1;
+	public boolean ValidMove(int endX, int endY) {
+		return Math.abs(this.GetY()-endY)<=1 && Math.abs(this.GetX()-endX)<=1;
 	}
 
-	public boolean move(int endX, int endY) {
-		if(this.validMove(endX, endY)) {
+	public boolean Move(int endX, int endY) {
+		if(this.ValidMove(endX, endY)) {
 			boolean settable = false;
-			if(board.getPiece(endX, endY) != null && board.getPiece(endX, endY).getType() != this.getType()) settable = true;
-			if(board.getPiece(endX, endY) == null) settable = true;
+			if(GetBoard().GetPiece(endX, endY) != null && GetBoard().GetPiece(endX, endY).GetType() != this.GetType()) settable = true;
+			if(GetBoard().GetPiece(endX, endY) == null) settable = true;
 
 			if(settable) {
-				this.setX(endX);
-				this.setY(endY);
-				board.setPiece(this);
+				this.SetX(endX);
+				this.SetY(endY);
+				GetBoard().SetPiece(this);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public ImageIcon getImageIcon() {
-		if(this.getType() == Type.BLACK) return b_king;
+	public ImageIcon GetImageIcon() {
+		if(this.GetType() == Type.BLACK) return b_king;
 		return w_king;
 	}
 
-	public TypeOfPiece getTypeOfPiece() {
+	public TypeOfPiece GetTypeOfPiece() {
 		return this.top;
 	}
 }

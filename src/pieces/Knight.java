@@ -15,35 +15,35 @@ public class Knight extends Piece {
 		super(type, x, y, board);
 	}
 
-	public boolean validMove(int endX, int endY) {
-		int x_diff = Math.abs(this.getX() - endX);
-		int y_diff = Math.abs(this.getY() - endY);
+	public boolean ValidMove(int endX, int endY) {
+		int x_diff = Math.abs(this.GetX() - endX);
+		int y_diff = Math.abs(this.GetY() - endY);
 
 		return ((x_diff == 2 && y_diff == 1) || (y_diff == 2 && x_diff == 1));
 	}
 
-	public boolean move(int endX, int endY) {
-		if(this.validMove(endX, endY)) {
+	public boolean Move(int endX, int endY) {
+		if(this.ValidMove(endX, endY)) {
 			boolean settable = false;
-			if(board.getPiece(endX, endY) != null && board.getPiece(endX, endY).getType() != this.getType()) settable = true;
-			if(board.getPiece(endX, endY) == null) settable = true;
+			if(GetBoard().GetPiece(endX, endY) != null && GetBoard().GetPiece(endX, endY).GetType() != this.GetType()) settable = true;
+			if(GetBoard().GetPiece(endX, endY) == null) settable = true;
 
 			if(settable) {
-				this.setX(endX);
-				this.setY(endY);
-				board.setPiece(this);
+				this.SetX(endX);
+				this.SetY(endY);
+				GetBoard().SetPiece(this);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public ImageIcon getImageIcon() {
-		if(this.getType() == Type.BLACK) return b_knight;
+	public ImageIcon GetImageIcon() {
+		if(this.GetType() == Type.BLACK) return b_knight;
 		return w_knight;
 	}
 
-	public TypeOfPiece getTypeOfPiece() {
+	public TypeOfPiece GetTypeOfPiece() {
 		return this.top;
 	}
 }

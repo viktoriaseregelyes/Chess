@@ -48,9 +48,9 @@ public class ChessPanel extends JPanel {
         chessButton.remove(chessButton);
         for (int y=0;y<N;y++) {
             for (int x=0;x<N;x++) {
-                Piece piece = game.getBoard().getPiece(x, y);
+                Piece piece = game.GetBoard().GetPiece(x, y);
                 if (piece != null) {
-                    ImageIcon image = piece.getImageIcon();
+                    ImageIcon image = piece.GetImageIcon();
                     chessButton.get(x).add(y, new ChessButton(image, x, y));
                 }
                 else {
@@ -108,7 +108,7 @@ public class ChessPanel extends JPanel {
                 if(canMove) switchType();
                 startX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 startY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                piece = game.getBoard().getPiece(startX, startY);
+                piece = game.GetBoard().GetPiece(startX, startY);
                 if(piece != null) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
             }
 
@@ -116,15 +116,15 @@ public class ChessPanel extends JPanel {
                 if(ae == null) return;
                 endX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                canMove = game.round(piece, endX, endY);
+                canMove = game.Round(piece, endX, endY);
 
                 if(canMove) {
-                    game.getBoard().setField(startX, startY);
+                    game.GetBoard().SetField(startX, startY);
                     repaintPanel();
-                    if(game.endgame()) winnerFrame.setVisible(true);
+                    if(game.Endgame()) winnerFrame.setVisible(true);
                 }
             }
-            if(piece != null && piece.getType() == type && canMove) switchState();
+            if(piece != null && piece.GetType() == type && canMove) switchState();
         }
     }
 }

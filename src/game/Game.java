@@ -1,66 +1,66 @@
 package game;
 
-import java.io.*;
-import java.util.ArrayList;
-
 import board.*;
 import players.*;
 
-public class Game implements Serializable {
-	public Player black, white;
-	public Board board;
-	public Type type = Type.WHITE;
+public class Game {
+	private static Game instance = null;
+	private Player black, white;
+	private Board board;
+	private Type type = Type.WHITE;
 
 	public Game() {
-		this.board = new Board(this);
+		this.board = new Board();
 	}
 
-	public boolean round(Piece piece, int endX, int endY) {
-		boolean canMove = false;
-		if(type == Type.WHITE) canMove = white.move(piece, endX, endY);
-		if(type == Type.BLACK) canMove = black.move(piece, endX, endY);
+	public static Game GetInstance() {
+		if (instance == null)
+			instance = new Game();
+		return instance;
+	}
 
-		switchType();
+	public boolean Round(Piece piece, int endX, int endY) {
+		boolean canMove = false;
+		if(type == Type.WHITE) canMove = white.Move(piece, endX, endY);
+		if(type == Type.BLACK) canMove = black.Move(piece, endX, endY);
+
+		SwitchType();
 		return canMove;
 	}
 
-	public boolean endgame() {
-		return board.missingKing();
+	public boolean Endgame() {
+		return board.MissingKing();
 	}
 
-	public void switchType() {
-		if(type == Type.WHITE) {
+	public void SwitchType() {
+		if(type == Type.WHITE)
 			type = Type.BLACK;
-		}
 		else type = Type.WHITE;
 	}
 
-	public Player getPlayerWhite() {
+	public Player GetPlayerWhite() {
 		return white;
 	}
 
-	public Player getPlayerBlack() {
+	public Player GetPlayerBlack() {
 		return black;
 	}
 
-	public Board getBoard() {
+	public Board GetBoard() {
 		return board;
 	}
 
-	public Type getType() {
-		return type;
+	public Player GetWinner() {
+		if (type == Type.BLACK)
+			return white;
+		return black;
 	}
 
-	public Player getWinner() {
-		if (type == Type.BLACK) return white;
-		else return black;
-	}
-
-	public void setBlack(Player black) {
+	public void SetBlack(Player black) {
 		this.black = black;
 	}
 
-	public void setWhite(Player white) {
+	public void SetWhite(Player white) {
 		this.white = white;
 	}
 }

@@ -38,8 +38,8 @@ public class WinnerFrame extends JFrame {
     public void setVisible(boolean bool) {
         super.setVisible(bool);
         if(bool) {
-            this.label_winner.setText("Winner: " + game.getWinner().getName());
-            resultData.add(new Result(game.getPlayerWhite(), game.getPlayerBlack(), game.getWinner()));
+            this.label_winner.setText("Winner: " + game.GetWinner().GetName());
+            resultData.add(new Result(game.GetPlayerWhite(), game.GetPlayerBlack(), game.GetWinner()));
         }
     }
 

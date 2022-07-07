@@ -16,9 +16,9 @@ public class Pawn extends Piece {
 		super(type, x, y, board);
 	}
 
-	public boolean validMove(int endX, int endY) {
-		int x_diff = Math.abs(this.getX() - endX);
-		int y_diff = Math.abs(this.getY() - endY);
+	public boolean ValidMove(int endX, int endY) {
+		int x_diff = Math.abs(this.GetX() - endX);
+		int y_diff = Math.abs(this.GetY() - endY);
 		boolean valid = (y_diff == 1 && x_diff == 0);
 
 		if(step == 1 && y_diff == 2 && x_diff == 0) valid = true;
@@ -27,24 +27,24 @@ public class Pawn extends Piece {
 		return valid;
 	}
 	
-	public boolean move(int endX, int endY) {
-		if(this.validMove(endX, endY)) {
-			int x_diff = Math.abs(endX - this.getX());
-			int y_diff = endY - this.getY();
+	public boolean Move(int endX, int endY) {
+		if(this.ValidMove(endX, endY)) {
+			int x_diff = Math.abs(endX - this.GetX());
+			int y_diff = endY - this.GetY();
 			int sign_x = 1;
 			int sign_y = 1;
 
-			if(endX - this.getX() < 0) sign_x = -1;
-			if(this.getType() == Type.BLACK) sign_y = -1;
+			if(endX - this.GetX() < 0) sign_x = -1;
+			if(this.GetType() == Type.BLACK) sign_y = -1;
 
 			boolean settable = false;
-			if(x_diff == 0 && y_diff == sign_y && board.getPiece(this.getX(), this.getY() + y_diff) == null) {
+			if(x_diff == 0 && y_diff == sign_y && GetBoard().GetPiece(this.GetX(), this.GetY() + y_diff) == null) {
 				settable = true;
 			}
 
 			if(x_diff == 0 && y_diff == 2*sign_y) {
 				for(int i=1;i<=Math.abs(y_diff);i++) {
-					if(board.getPiece(this.getX(), this.getY() + i*sign_y) == null) {
+					if(GetBoard().GetPiece(this.GetX(), this.GetY() + i*sign_y) == null) {
 						settable = true;
 					}
 					else {
@@ -54,15 +54,15 @@ public class Pawn extends Piece {
 				}
 			}
 			if(x_diff == sign_x && y_diff == sign_y) {
-				if (board.getPiece(this.getX() + x_diff*sign_x, this.getY() + y_diff) != null && board.getPiece(this.getX() + x_diff*sign_x, this.getY() + y_diff).getType() != this.getType()) {
+				if (GetBoard().GetPiece(this.GetX() + x_diff*sign_x, this.GetY() + y_diff) != null && GetBoard().GetPiece(this.GetX() + x_diff*sign_x, this.GetY() + y_diff).GetType() != this.GetType()) {
 					settable = true;
 				}
 			}
 
 			if(settable) {
-				this.setX(endX);
-				this.setY(endY);
-				board.setPiece(this);
+				this.SetX(endX);
+				this.SetY(endY);
+				GetBoard().SetPiece(this);
 				step++;
 				return true;
 			}
@@ -70,14 +70,14 @@ public class Pawn extends Piece {
 		return false;
 	}
 
-	public ImageIcon getImageIcon() {
-		if(this.getType() == Type.BLACK) {
+	public ImageIcon GetImageIcon() {
+		if(this.GetType() == Type.BLACK) {
 			return b_pawn;
 		}
 		return w_pawn;
 	}
 
-	public TypeOfPiece getTypeOfPiece() {
+	public TypeOfPiece GetTypeOfPiece() {
 		return this.top;
 	}
 }

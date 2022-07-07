@@ -40,9 +40,9 @@ public class ResultData extends AbstractTableModel implements Serializable {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Result res = results.get(rowIndex);
         switch(columnIndex) {
-            case 0: return res.getPlayerWhite();
-            case 1: return res.getPlayerBlack();
-            default: return res.getWinner();
+            case 0: return res.GetPlayerWhite();
+            case 1: return res.GetPlayerBlack();
+            default: return res.GetWinner();
         }
     }
 
