@@ -7,7 +7,7 @@ import players.Type;
 import java.util.*;
 
 public class Board {
-    private int size = 8;
+    private static int size = 8;
     private ArrayList<ArrayList<Piece>> field = new ArrayList<>(size);
 
     public Board() {

@@ -1,6 +1,6 @@
 package gui;
 
-import game.Game;
+import game.Controller;
 import game.ResultData;
 
 import javax.swing.*;
@@ -9,25 +9,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameFrame extends JFrame {
-    public Game game;
-    public Frame frame;
 
-    public GameFrame(String name, Game game, ResultData resultData, Frame frame) {
+    public GameFrame(String name, ResultData resultData) {
         super(name);
-        this.frame = frame;
-        this.game = game;
 
         JPanel panel_players = new JPanel();
         panel_players.setLayout(new BoxLayout(panel_players, BoxLayout.PAGE_AXIS));
-        ChessPanel chessPanel = new ChessPanel(game, resultData, frame, this);
+        ChessPanel chessPanel = new ChessPanel(resultData, this);
 
         JPanel panel_menu = new JPanel();
         JButton button_menu = new JButton("Menu");
         button_menu.addActionListener(new MenuButtonActionListener());
         panel_menu.add(button_menu);
 
-        JLabel label_white = new JLabel("White: "+ game.GetPlayerWhite().GetName());
-        JLabel label_black = new JLabel("Black: "+ game.GetPlayerBlack().GetName());
+        JLabel label_white = new JLabel("White: "+ Controller.GetInstance().GetGame().GetPlayerWhite().GetName());
+        JLabel label_black = new JLabel("Black: "+ Controller.GetInstance().GetGame().GetPlayerBlack().GetName());
         panel_players.add(label_white);
         panel_players.add(label_black);
 
@@ -47,7 +43,7 @@ public class GameFrame extends JFrame {
     private class MenuButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            frame.setVisible(true);
+            Controller.GetInstance().GetFrame().setVisible(true);
         }
     }
 }

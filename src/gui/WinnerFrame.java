@@ -7,17 +7,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class WinnerFrame extends JFrame {
-    public Game game;
-    public ResultData resultData;
-    public Frame frame;
-    public GameFrame gameFrame;
-    public JLabel label_winner;
+    private ResultData resultData;
+    private GameFrame gameFrame;
+    private JLabel label_winner;
 
-    public WinnerFrame(String name, Game game, ResultData resultData, Frame frame, GameFrame gameFrame) {
+    public WinnerFrame(String name, ResultData resultData, GameFrame gameFrame) {
         super(name);
-        this.game = game;
         this.resultData = resultData;
-        this.frame = frame;
         this.gameFrame = gameFrame;
 
         JPanel panel_winner = new JPanel();
@@ -38,8 +34,8 @@ public class WinnerFrame extends JFrame {
     public void setVisible(boolean bool) {
         super.setVisible(bool);
         if(bool) {
-            this.label_winner.setText("Winner: " + game.GetWinner().GetName());
-            resultData.add(new Result(game.GetPlayerWhite(), game.GetPlayerBlack(), game.GetWinner()));
+            this.label_winner.setText("Winner: " + Controller.GetInstance().GetGame().GetWinner().GetName());
+            resultData.add(new Result(Controller.GetInstance().GetGame().GetPlayerWhite(), Controller.GetInstance().GetGame().GetPlayerBlack(), Controller.GetInstance().GetGame().GetWinner()));
         }
     }
 
@@ -47,7 +43,7 @@ public class WinnerFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             gameFrame.setVisible(false);
-            frame.setVisible(true);
+            Controller.GetInstance().GetFrame().setVisible(true);
         }
     }
 }

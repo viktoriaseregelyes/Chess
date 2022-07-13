@@ -1,5 +1,6 @@
 package gui;
 
+import game.Controller;
 import game.ResultData;
 
 import javax.swing.*;
@@ -8,13 +9,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ResultFrame extends JFrame {
-    public ResultData resultData;
-    public Frame frame;
+    private ResultData resultData;
 
-    public ResultFrame(String name, Frame frame, ResultData resultData) {
+    public ResultFrame(String name, ResultData resultData) {
         super(name);
         this.resultData = resultData;
-        this.frame = frame;
 
         this.setLayout(new BorderLayout());
         JTable table = new JTable(resultData);
@@ -50,7 +49,7 @@ public class ResultFrame extends JFrame {
     public class MenuButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            frame.setVisible(true);
+            Controller.GetInstance().GetFrame().setVisible(true);
         }
     }
 }

@@ -5,27 +5,31 @@ import game.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 
-public class Frame implements Serializable {
+public class Frame {
+    private static Frame instance = null;
+    private JFrame frame;
+    private PlayersFrame playersFrame;
+    private ResultFrame resultFrame;
+    private ResultData resultData;
 
-    @Serial
-    private static final long serialVersionUID = 3769575128566519194L;
-    public JFrame frame = new JFrame("Chess");
-    public PlayersFrame playersFrame;
-    public Game game;
-    public ResultFrame resultFrame;
-    public ResultData resultData;
+    public static Frame GetInstance() {
+        if (instance == null)
+            instance = new Frame();
+        return instance;
+    }
 
     public Frame() {
+        frame = new JFrame("Chess");
+
         this.resultData = new ResultData();
-        this.playersFrame = new PlayersFrame("Players", this, resultData);
-        this.resultFrame = new ResultFrame("Results", this, resultData);
+        this.playersFrame = new PlayersFrame("Players",  resultData);
+        this.resultFrame = new ResultFrame("Results", resultData);
 
         JButton button_game = new JButton("Game");
-        JButton button_eredmeny = new JButton("Result");
+        JButton button_result = new JButton("Result");
         button_game.addActionListener(new PlayersButtonActionListener());
-        button_eredmeny.addActionListener(new ResultButtonActionListener());
+        button_result.addActionListener(new ResultButtonActionListener());
         JPanel panel_chess = new JPanel();
         JPanel panel_menu = new JPanel();
         JLabel label_chess = new JLabel("Chess");
@@ -34,7 +38,7 @@ public class Frame implements Serializable {
         frame.add(panel_chess, BorderLayout.NORTH);
 
         panel_menu.add(button_game);
-        panel_menu.add(button_eredmeny);
+        panel_menu.add(button_result);
         frame.add(panel_menu);
 
         frame.pack();
@@ -51,7 +55,6 @@ public class Frame implements Serializable {
     public class PlayersButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            playersFrame.setGame(new Game());
             playersFrame.setVisible(true);
         }
     }

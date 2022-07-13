@@ -9,29 +9,26 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ChessPanel extends JPanel {
-    public static int N = 8, SIZE = 60;
-    public Game game;
-    public Piece piece;
-    public boolean canMove = true;
-    public int startX, startY, endX, endY;
-    public Type type = Type.BLACK;
-    public WinnerFrame winnerFrame;
-    public ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
+    private static int N = 8, SIZE = 60;
+    private Piece piece;
+    private boolean canMove = true;
+    private int startX, startY, endX, endY;
+    private Type type = Type.BLACK;
+    private WinnerFrame winnerFrame;
+    private ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
     enum State {
         FIRST, LAST
     }
     public State state = State.FIRST;
 
-    {
+    public ChessPanel(ResultData resultData, GameFrame gameFrame) {
+        super(new GridLayout(N, N));
+
         for (int x = 0; x < N; x++) {
             chessButton.add(new ArrayList<>(N));
         }
-    }
 
-    public ChessPanel(Game game, ResultData resultData, Frame frame, GameFrame gameFrame) {
-        super(new GridLayout(N, N));
-        this.game = game;
-        this.winnerFrame = new WinnerFrame("Winner", game, resultData, frame, gameFrame);
+        this.winnerFrame = new WinnerFrame("Winner", resultData, gameFrame);
 
         this.setPreferredSize(new Dimension(N * SIZE, N * SIZE));
         addButtons();
@@ -48,7 +45,7 @@ public class ChessPanel extends JPanel {
         chessButton.remove(chessButton);
         for (int y=0;y<N;y++) {
             for (int x=0;x<N;x++) {
-                Piece piece = game.GetBoard().GetPiece(x, y);
+                Piece piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(x, y);
                 if (piece != null) {
                     ImageIcon image = piece.GetImageIcon();
                     chessButton.get(x).add(y, new ChessButton(image, x, y));
@@ -108,7 +105,7 @@ public class ChessPanel extends JPanel {
                 if(canMove) switchType();
                 startX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 startY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                piece = game.GetBoard().GetPiece(startX, startY);
+                piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(startX, startY);
                 if(piece != null) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
             }
 
@@ -116,12 +113,12 @@ public class ChessPanel extends JPanel {
                 if(ae == null) return;
                 endX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                canMove = game.Round(piece, endX, endY);
+                canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
 
                 if(canMove) {
-                    game.GetBoard().SetField(startX, startY);
+                    Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                     repaintPanel();
-                    if(game.Endgame()) winnerFrame.setVisible(true);
+                    if(Controller.GetInstance().GetGame().Endgame()) winnerFrame.setVisible(true);
                 }
             }
             if(piece != null && piece.GetType() == type && canMove) switchState();
