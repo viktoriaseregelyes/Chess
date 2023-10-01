@@ -6,7 +6,6 @@ import java.io.*;
 
 public class Result implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 5836294106830313151L;
     public Player white, black, winner;
 
