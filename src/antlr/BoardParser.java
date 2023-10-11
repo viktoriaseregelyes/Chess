@@ -21,20 +21,20 @@ public class BoardParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, INT=16;
 	public static final int
 		RULE_board = 0, RULE_size = 1, RULE_piecePlacement = 2, RULE_rank = 3, 
-		RULE_piece = 4, RULE_digit17 = 5, RULE_whitePiece = 6, RULE_blackPiece = 7, 
-		RULE_nextPlayer = 8;
+		RULE_pieceOnBoard = 4, RULE_piece = 5, RULE_digit = 6, RULE_whitePiece = 7, 
+		RULE_blackPiece = 8, RULE_nextPlayer = 9, RULE_line = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"board", "size", "piecePlacement", "rank", "piece", "digit17", "whitePiece", 
-			"blackPiece", "nextPlayer"
+			"board", "size", "piecePlacement", "rank", "pieceOnBoard", "piece", "digit", 
+			"whitePiece", "blackPiece", "nextPlayer", "line"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "' '", "'/'", "'P'", "'N'", "'B'", "'R'", "'Q'", "'K'", "'p'", 
-			"'n'", "'b'", "'r'", "'q'", "'k'", "'w'"
+			null, "' '", "'P'", "'N'", "'B'", "'R'", "'Q'", "'K'", "'p'", "'n'", 
+			"'b'", "'r'", "'q'", "'k'", "'w'", "'/'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -131,15 +131,15 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18);
-			size();
-			setState(19);
-			match(T__0);
-			setState(20);
-			piecePlacement();
-			setState(21);
-			match(T__0);
 			setState(22);
+			size();
+			setState(23);
+			match(T__0);
+			setState(24);
+			piecePlacement();
+			setState(25);
+			match(T__0);
+			setState(26);
 			nextPlayer();
 			}
 		}
@@ -182,7 +182,7 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
+			setState(28);
 			match(INT);
 			}
 		}
@@ -204,6 +204,12 @@ public class BoardParser extends Parser {
 		}
 		public RankContext rank(int i) {
 			return getRuleContext(RankContext.class,i);
+		}
+		public List<LineContext> line() {
+			return getRuleContexts(LineContext.class);
+		}
+		public LineContext line(int i) {
+			return getRuleContext(LineContext.class,i);
 		}
 		public PiecePlacementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -231,19 +237,19 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(35);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==INT) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 114684L) != 0)) {
 				{
 				{
-				setState(26);
+				setState(30);
 				rank();
-				setState(27);
-				match(T__1);
+				setState(31);
+				line();
 				}
 				}
-				setState(33);
+				setState(37);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -262,20 +268,17 @@ public class BoardParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class RankContext extends ParserRuleContext {
-		public List<Digit17Context> digit17() {
-			return getRuleContexts(Digit17Context.class);
+		public List<PieceOnBoardContext> pieceOnBoard() {
+			return getRuleContexts(PieceOnBoardContext.class);
 		}
-		public Digit17Context digit17(int i) {
-			return getRuleContext(Digit17Context.class,i);
+		public PieceOnBoardContext pieceOnBoard(int i) {
+			return getRuleContext(PieceOnBoardContext.class,i);
 		}
-		public List<PieceContext> piece() {
-			return getRuleContexts(PieceContext.class);
+		public List<DigitContext> digit() {
+			return getRuleContexts(DigitContext.class);
 		}
-		public PieceContext piece(int i) {
-			return getRuleContext(PieceContext.class,i);
-		}
-		public SizeContext size() {
-			return getRuleContext(SizeContext.class,0);
+		public DigitContext digit(int i) {
+			return getRuleContext(DigitContext.class,i);
 		}
 		public RankContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -301,41 +304,115 @@ public class BoardParser extends Parser {
 		enterRule(_localctx, 6, RULE_rank);
 		int _la;
 		try {
-			setState(45);
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(41);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(34);
-				digit17();
-				setState(35);
-				piece();
-				setState(41);
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(38);
+					pieceOnBoard();
+					}
+					} 
+				}
+				setState(43);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==INT) {
-					{
-					{
-					setState(36);
-					digit17();
-					setState(37);
-					piece();
-					}
-					}
-					setState(43);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			}
+			setState(47);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==INT) {
+				{
 				{
 				setState(44);
-				size();
+				digit();
+				}
+				}
+				setState(49);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class PieceOnBoardContext extends ParserRuleContext {
+		public DigitContext digit() {
+			return getRuleContext(DigitContext.class,0);
+		}
+		public PieceContext piece() {
+			return getRuleContext(PieceContext.class,0);
+		}
+		public PieceOnBoardContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_pieceOnBoard; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterPieceOnBoard(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitPieceOnBoard(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPieceOnBoard(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PieceOnBoardContext pieceOnBoard() throws RecognitionException {
+		PieceOnBoardContext _localctx = new PieceOnBoardContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_pieceOnBoard);
+		try {
+			setState(54);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case INT:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(50);
+				digit();
+				setState(51);
+				piece();
 				}
 				break;
+			case T__1:
+			case T__2:
+			case T__3:
+			case T__4:
+			case T__5:
+			case T__6:
+			case T__7:
+			case T__8:
+			case T__9:
+			case T__10:
+			case T__11:
+			case T__12:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(53);
+				piece();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -378,32 +455,32 @@ public class BoardParser extends Parser {
 
 	public final PieceContext piece() throws RecognitionException {
 		PieceContext _localctx = new PieceContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_piece);
+		enterRule(_localctx, 10, RULE_piece);
 		try {
-			setState(49);
+			setState(58);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
+			case T__1:
 			case T__2:
 			case T__3:
 			case T__4:
 			case T__5:
 			case T__6:
-			case T__7:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(47);
+				setState(56);
 				whitePiece();
 				}
 				break;
+			case T__7:
 			case T__8:
 			case T__9:
 			case T__10:
 			case T__11:
 			case T__12:
-			case T__13:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(48);
+				setState(57);
 				blackPiece();
 				}
 				break;
@@ -423,34 +500,34 @@ public class BoardParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Digit17Context extends ParserRuleContext {
+	public static class DigitContext extends ParserRuleContext {
 		public TerminalNode INT() { return getToken(BoardParser.INT, 0); }
-		public Digit17Context(ParserRuleContext parent, int invokingState) {
+		public DigitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_digit17; }
+		@Override public int getRuleIndex() { return RULE_digit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterDigit17(this);
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterDigit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitDigit17(this);
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitDigit(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitDigit17(this);
+			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitDigit(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Digit17Context digit17() throws RecognitionException {
-		Digit17Context _localctx = new Digit17Context(_ctx, getState());
-		enterRule(_localctx, 10, RULE_digit17);
+	public final DigitContext digit() throws RecognitionException {
+		DigitContext _localctx = new DigitContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_digit);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(51);
+			setState(60);
 			match(INT);
 			}
 		}
@@ -488,14 +565,14 @@ public class BoardParser extends Parser {
 
 	public final WhitePieceContext whitePiece() throws RecognitionException {
 		WhitePieceContext _localctx = new WhitePieceContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_whitePiece);
+		enterRule(_localctx, 14, RULE_whitePiece);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
+			setState(62);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 504L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 252L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -539,14 +616,14 @@ public class BoardParser extends Parser {
 
 	public final BlackPieceContext blackPiece() throws RecognitionException {
 		BlackPieceContext _localctx = new BlackPieceContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_blackPiece);
+		enterRule(_localctx, 16, RULE_blackPiece);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
+			setState(64);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 32256L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 16128L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -590,14 +667,14 @@ public class BoardParser extends Parser {
 
 	public final NextPlayerContext nextPlayer() throws RecognitionException {
 		NextPlayerContext _localctx = new NextPlayerContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_nextPlayer);
+		enterRule(_localctx, 18, RULE_nextPlayer);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57);
+			setState(66);
 			_la = _input.LA(1);
-			if ( !(_la==T__10 || _la==T__14) ) {
+			if ( !(_la==T__9 || _la==T__13) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -618,42 +695,88 @@ public class BoardParser extends Parser {
 		return _localctx;
 	}
 
+	@SuppressWarnings("CheckReturnValue")
+	public static class LineContext extends ParserRuleContext {
+		public LineContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_line; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterLine(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitLine(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitLine(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LineContext line() throws RecognitionException {
+		LineContext _localctx = new LineContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_line);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(68);
+			match(T__14);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\u0004\u0001\u0010<\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0010G\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
-		"\b\u0007\b\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0000"+
-		"\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0005\u0002\u001e\b\u0002\n\u0002\f\u0002!\t\u0002\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0005\u0003(\b\u0003\n\u0003"+
-		"\f\u0003+\t\u0003\u0001\u0003\u0003\u0003.\b\u0003\u0001\u0004\u0001\u0004"+
-		"\u0003\u00042\b\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006"+
-		"\u0001\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0000\u0000\t\u0000\u0002"+
-		"\u0004\u0006\b\n\f\u000e\u0010\u0000\u0003\u0001\u0000\u0003\b\u0001\u0000"+
-		"\t\u000e\u0002\u0000\u000b\u000b\u000f\u000f6\u0000\u0012\u0001\u0000"+
-		"\u0000\u0000\u0002\u0018\u0001\u0000\u0000\u0000\u0004\u001f\u0001\u0000"+
-		"\u0000\u0000\u0006-\u0001\u0000\u0000\u0000\b1\u0001\u0000\u0000\u0000"+
-		"\n3\u0001\u0000\u0000\u0000\f5\u0001\u0000\u0000\u0000\u000e7\u0001\u0000"+
-		"\u0000\u0000\u00109\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0002\u0001"+
-		"\u0000\u0013\u0014\u0005\u0001\u0000\u0000\u0014\u0015\u0003\u0004\u0002"+
-		"\u0000\u0015\u0016\u0005\u0001\u0000\u0000\u0016\u0017\u0003\u0010\b\u0000"+
-		"\u0017\u0001\u0001\u0000\u0000\u0000\u0018\u0019\u0005\u0010\u0000\u0000"+
-		"\u0019\u0003\u0001\u0000\u0000\u0000\u001a\u001b\u0003\u0006\u0003\u0000"+
-		"\u001b\u001c\u0005\u0002\u0000\u0000\u001c\u001e\u0001\u0000\u0000\u0000"+
-		"\u001d\u001a\u0001\u0000\u0000\u0000\u001e!\u0001\u0000\u0000\u0000\u001f"+
-		"\u001d\u0001\u0000\u0000\u0000\u001f \u0001\u0000\u0000\u0000 \u0005\u0001"+
-		"\u0000\u0000\u0000!\u001f\u0001\u0000\u0000\u0000\"#\u0003\n\u0005\u0000"+
-		"#)\u0003\b\u0004\u0000$%\u0003\n\u0005\u0000%&\u0003\b\u0004\u0000&(\u0001"+
-		"\u0000\u0000\u0000\'$\u0001\u0000\u0000\u0000(+\u0001\u0000\u0000\u0000"+
-		")\'\u0001\u0000\u0000\u0000)*\u0001\u0000\u0000\u0000*.\u0001\u0000\u0000"+
-		"\u0000+)\u0001\u0000\u0000\u0000,.\u0003\u0002\u0001\u0000-\"\u0001\u0000"+
-		"\u0000\u0000-,\u0001\u0000\u0000\u0000.\u0007\u0001\u0000\u0000\u0000"+
-		"/2\u0003\f\u0006\u000002\u0003\u000e\u0007\u00001/\u0001\u0000\u0000\u0000"+
-		"10\u0001\u0000\u0000\u00002\t\u0001\u0000\u0000\u000034\u0005\u0010\u0000"+
-		"\u00004\u000b\u0001\u0000\u0000\u000056\u0007\u0000\u0000\u00006\r\u0001"+
-		"\u0000\u0000\u000078\u0007\u0001\u0000\u00008\u000f\u0001\u0000\u0000"+
-		"\u00009:\u0007\u0002\u0000\u0000:\u0011\u0001\u0000\u0000\u0000\u0004"+
-		"\u001f)-1";
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0001\u0000\u0001\u0000\u0001"+
+		"\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0005\u0002\"\b\u0002\n\u0002\f\u0002%"+
+		"\t\u0002\u0001\u0003\u0005\u0003(\b\u0003\n\u0003\f\u0003+\t\u0003\u0001"+
+		"\u0003\u0005\u0003.\b\u0003\n\u0003\f\u00031\t\u0003\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0003\u00047\b\u0004\u0001\u0005\u0001"+
+		"\u0005\u0003\u0005;\b\u0005\u0001\u0006\u0001\u0006\u0001\u0007\u0001"+
+		"\u0007\u0001\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0000\u0000"+
+		"\u000b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0000\u0003"+
+		"\u0001\u0000\u0002\u0007\u0001\u0000\b\r\u0002\u0000\n\n\u000e\u000e@"+
+		"\u0000\u0016\u0001\u0000\u0000\u0000\u0002\u001c\u0001\u0000\u0000\u0000"+
+		"\u0004#\u0001\u0000\u0000\u0000\u0006)\u0001\u0000\u0000\u0000\b6\u0001"+
+		"\u0000\u0000\u0000\n:\u0001\u0000\u0000\u0000\f<\u0001\u0000\u0000\u0000"+
+		"\u000e>\u0001\u0000\u0000\u0000\u0010@\u0001\u0000\u0000\u0000\u0012B"+
+		"\u0001\u0000\u0000\u0000\u0014D\u0001\u0000\u0000\u0000\u0016\u0017\u0003"+
+		"\u0002\u0001\u0000\u0017\u0018\u0005\u0001\u0000\u0000\u0018\u0019\u0003"+
+		"\u0004\u0002\u0000\u0019\u001a\u0005\u0001\u0000\u0000\u001a\u001b\u0003"+
+		"\u0012\t\u0000\u001b\u0001\u0001\u0000\u0000\u0000\u001c\u001d\u0005\u0010"+
+		"\u0000\u0000\u001d\u0003\u0001\u0000\u0000\u0000\u001e\u001f\u0003\u0006"+
+		"\u0003\u0000\u001f \u0003\u0014\n\u0000 \"\u0001\u0000\u0000\u0000!\u001e"+
+		"\u0001\u0000\u0000\u0000\"%\u0001\u0000\u0000\u0000#!\u0001\u0000\u0000"+
+		"\u0000#$\u0001\u0000\u0000\u0000$\u0005\u0001\u0000\u0000\u0000%#\u0001"+
+		"\u0000\u0000\u0000&(\u0003\b\u0004\u0000\'&\u0001\u0000\u0000\u0000(+"+
+		"\u0001\u0000\u0000\u0000)\'\u0001\u0000\u0000\u0000)*\u0001\u0000\u0000"+
+		"\u0000*/\u0001\u0000\u0000\u0000+)\u0001\u0000\u0000\u0000,.\u0003\f\u0006"+
+		"\u0000-,\u0001\u0000\u0000\u0000.1\u0001\u0000\u0000\u0000/-\u0001\u0000"+
+		"\u0000\u0000/0\u0001\u0000\u0000\u00000\u0007\u0001\u0000\u0000\u0000"+
+		"1/\u0001\u0000\u0000\u000023\u0003\f\u0006\u000034\u0003\n\u0005\u0000"+
+		"47\u0001\u0000\u0000\u000057\u0003\n\u0005\u000062\u0001\u0000\u0000\u0000"+
+		"65\u0001\u0000\u0000\u00007\t\u0001\u0000\u0000\u00008;\u0003\u000e\u0007"+
+		"\u00009;\u0003\u0010\b\u0000:8\u0001\u0000\u0000\u0000:9\u0001\u0000\u0000"+
+		"\u0000;\u000b\u0001\u0000\u0000\u0000<=\u0005\u0010\u0000\u0000=\r\u0001"+
+		"\u0000\u0000\u0000>?\u0007\u0000\u0000\u0000?\u000f\u0001\u0000\u0000"+
+		"\u0000@A\u0007\u0001\u0000\u0000A\u0011\u0001\u0000\u0000\u0000BC\u0007"+
+		"\u0002\u0000\u0000C\u0013\u0001\u0000\u0000\u0000DE\u0005\u000f\u0000"+
+		"\u0000E\u0015\u0001\u0000\u0000\u0000\u0005#)/6:";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -9,7 +9,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ChessPanel extends JPanel {
-    private static int N = 8, SIZE = 60;
+    private static int SIZE = 60;
+    private int N;
     private Piece piece;
     private boolean canMove = true;
     private int startX, startY, endX, endY;
@@ -22,7 +23,9 @@ public class ChessPanel extends JPanel {
     public State state = State.FIRST;
 
     public ChessPanel(ResultData resultData, GameFrame gameFrame) {
-        super(new GridLayout(N, N));
+        super(new GridLayout(game.Controller.GetInstance().GetGame().GetBoard().GetSize(), game.Controller.GetInstance().GetGame().GetBoard().GetSize()));
+
+        N = game.Controller.GetInstance().GetGame().GetBoard().GetSize();
 
         for (int x = 0; x < N; x++) {
             chessButton.add(new ArrayList<>(N));

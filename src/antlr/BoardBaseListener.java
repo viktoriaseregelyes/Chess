@@ -65,6 +65,18 @@ public class BoardBaseListener implements BoardListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPieceOnBoard(BoardParser.PieceOnBoardContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPiece(BoardParser.PieceContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -77,13 +89,13 @@ public class BoardBaseListener implements BoardListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDigit17(BoardParser.Digit17Context ctx) { }
+	@Override public void enterDigit(BoardParser.DigitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDigit17(BoardParser.Digit17Context ctx) { }
+	@Override public void exitDigit(BoardParser.DigitContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -120,6 +132,18 @@ public class BoardBaseListener implements BoardListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNextPlayer(BoardParser.NextPlayerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLine(BoardParser.LineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLine(BoardParser.LineContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

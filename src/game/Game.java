@@ -59,8 +59,15 @@ public class Game {
 	public void SetBlack(Player black) {
 		this.black = black;
 	}
+	public void SetType(Type type) {
+		this.type = type;
+	}
 
 	public void SetWhite(Player white) {
 		this.white = white;
+	}
+
+	public String GetType() {
+		return String.valueOf(type);
 	}
 }

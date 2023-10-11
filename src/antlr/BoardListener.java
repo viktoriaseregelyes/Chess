@@ -48,6 +48,16 @@ public interface BoardListener extends ParseTreeListener {
 	 */
 	void exitRank(BoardParser.RankContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BoardParser#pieceOnBoard}.
+	 * @param ctx the parse tree
+	 */
+	void enterPieceOnBoard(BoardParser.PieceOnBoardContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BoardParser#pieceOnBoard}.
+	 * @param ctx the parse tree
+	 */
+	void exitPieceOnBoard(BoardParser.PieceOnBoardContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BoardParser#piece}.
 	 * @param ctx the parse tree
 	 */
@@ -58,15 +68,15 @@ public interface BoardListener extends ParseTreeListener {
 	 */
 	void exitPiece(BoardParser.PieceContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardParser#digit17}.
+	 * Enter a parse tree produced by {@link BoardParser#digit}.
 	 * @param ctx the parse tree
 	 */
-	void enterDigit17(BoardParser.Digit17Context ctx);
+	void enterDigit(BoardParser.DigitContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link BoardParser#digit17}.
+	 * Exit a parse tree produced by {@link BoardParser#digit}.
 	 * @param ctx the parse tree
 	 */
-	void exitDigit17(BoardParser.Digit17Context ctx);
+	void exitDigit(BoardParser.DigitContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BoardParser#whitePiece}.
 	 * @param ctx the parse tree
@@ -97,4 +107,14 @@ public interface BoardListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNextPlayer(BoardParser.NextPlayerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BoardParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void enterLine(BoardParser.LineContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BoardParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void exitLine(BoardParser.LineContext ctx);
 }
