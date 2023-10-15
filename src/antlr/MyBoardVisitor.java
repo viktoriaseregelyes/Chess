@@ -1,7 +1,7 @@
 package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import pieces.King;
+import pieces.*;
 import players.Type;
 
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
@@ -68,11 +68,59 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
                 System.out.println(
                         "error at " + getPosition(ctx.digit()) + ", digit of piece is not compatible with the size of the board");
             }
-
-            //TODO: switch case for the pieces
-
-            King piece = new King(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
-            game.Controller.GetInstance().GetGame().GetBoard().SetPiece(piece);
+            System.out.println(ctx.digit().getText());
+            switch(ctx.piece().getText()) {
+                case "p":
+                    Pawn pawn = new Pawn(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(pawn);
+                    break;
+                case "n":
+                    Knight knight = new Knight(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(knight);
+                    break;
+                case "k":
+                    King king = new King(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(king);
+                    break;
+                case "b":
+                    Bishop bishop = new Bishop(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(bishop);
+                    break;
+                case "r":
+                    Rook rook = new Rook(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(rook);
+                    break;
+                case "q":
+                    Queen queen = new Queen(Type.BLACK,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(queen);
+                    break;
+                case "P":
+                    Pawn Pawn = new Pawn(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(Pawn);
+                    break;
+                case "N":
+                    Knight Knight = new Knight(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(Knight);
+                    break;
+                case "K":
+                    King King = new King(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(King);
+                    break;
+                case "B":
+                    Bishop Bishop = new Bishop(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(Bishop);
+                    break;
+                case "R":
+                    Rook Rook = new Rook(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(Rook);
+                    break;
+                case "Q":
+                    Queen Queen = new Queen(Type.WHITE,digit,line,game.Controller.GetInstance().GetGame().GetBoard());
+                    game.Controller.GetInstance().GetGame().GetBoard().SetPiece(Queen);
+                    break;
+                default:
+                    break;
+            }
         }
 
         return visitChildren(ctx);
