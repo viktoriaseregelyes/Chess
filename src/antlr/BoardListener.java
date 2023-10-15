@@ -38,16 +38,6 @@ public interface BoardListener extends ParseTreeListener {
 	 */
 	void exitPiecePlacement(BoardParser.PiecePlacementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardParser#rank}.
-	 * @param ctx the parse tree
-	 */
-	void enterRank(BoardParser.RankContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BoardParser#rank}.
-	 * @param ctx the parse tree
-	 */
-	void exitRank(BoardParser.RankContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link BoardParser#pieceOnBoard}.
 	 * @param ctx the parse tree
 	 */
@@ -68,36 +58,6 @@ public interface BoardListener extends ParseTreeListener {
 	 */
 	void exitPiece(BoardParser.PieceContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardParser#digit}.
-	 * @param ctx the parse tree
-	 */
-	void enterDigit(BoardParser.DigitContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BoardParser#digit}.
-	 * @param ctx the parse tree
-	 */
-	void exitDigit(BoardParser.DigitContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BoardParser#whitePiece}.
-	 * @param ctx the parse tree
-	 */
-	void enterWhitePiece(BoardParser.WhitePieceContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BoardParser#whitePiece}.
-	 * @param ctx the parse tree
-	 */
-	void exitWhitePiece(BoardParser.WhitePieceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BoardParser#blackPiece}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlackPiece(BoardParser.BlackPieceContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BoardParser#blackPiece}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlackPiece(BoardParser.BlackPieceContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link BoardParser#nextPlayer}.
 	 * @param ctx the parse tree
 	 */
@@ -108,13 +68,13 @@ public interface BoardListener extends ParseTreeListener {
 	 */
 	void exitNextPlayer(BoardParser.NextPlayerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BoardParser#line}.
+	 * Enter a parse tree produced by {@link BoardParser#player}.
 	 * @param ctx the parse tree
 	 */
-	void enterLine(BoardParser.LineContext ctx);
+	void enterPlayer(BoardParser.PlayerContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link BoardParser#line}.
+	 * Exit a parse tree produced by {@link BoardParser#player}.
 	 * @param ctx the parse tree
 	 */
-	void exitLine(BoardParser.LineContext ctx);
+	void exitPlayer(BoardParser.PlayerContext ctx);
 }

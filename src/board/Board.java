@@ -13,11 +13,15 @@ public class Board {
     public Board() {}
 
     public boolean MissingKing() {
+        return CountKings() != 2;
+    }
+
+    public int CountKings() {
         int king = 0;
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
                 if (this.GetPiece(i, j) != null && this.GetPiece(i, j).GetTypeOfPiece() == TypeOfPiece.KING) king++;
-        return king != 2;
+        return king;
     }
 
     public Piece GetPiece(int x, int y) throws NullPointerException {

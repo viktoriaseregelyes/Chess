@@ -53,18 +53,6 @@ public class BoardBaseListener implements BoardListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRank(BoardParser.RankContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRank(BoardParser.RankContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterPieceOnBoard(BoardParser.PieceOnBoardContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -89,42 +77,6 @@ public class BoardBaseListener implements BoardListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDigit(BoardParser.DigitContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDigit(BoardParser.DigitContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWhitePiece(BoardParser.WhitePieceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhitePiece(BoardParser.WhitePieceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBlackPiece(BoardParser.BlackPieceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBlackPiece(BoardParser.BlackPieceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNextPlayer(BoardParser.NextPlayerContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -137,13 +89,13 @@ public class BoardBaseListener implements BoardListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLine(BoardParser.LineContext ctx) { }
+	@Override public void enterPlayer(BoardParser.PlayerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLine(BoardParser.LineContext ctx) { }
+	@Override public void exitPlayer(BoardParser.PlayerContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

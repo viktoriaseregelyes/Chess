@@ -29,12 +29,6 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPiecePlacement(BoardParser.PiecePlacementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoardParser#rank}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRank(BoardParser.RankContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BoardParser#pieceOnBoard}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -47,33 +41,15 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPiece(BoardParser.PieceContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoardParser#digit}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDigit(BoardParser.DigitContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link BoardParser#whitePiece}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWhitePiece(BoardParser.WhitePieceContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link BoardParser#blackPiece}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlackPiece(BoardParser.BlackPieceContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link BoardParser#nextPlayer}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNextPlayer(BoardParser.NextPlayerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoardParser#line}.
+	 * Visit a parse tree produced by {@link BoardParser#player}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLine(BoardParser.LineContext ctx);
+	T visitPlayer(BoardParser.PlayerContext ctx);
 }

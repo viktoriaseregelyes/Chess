@@ -3,5 +3,7 @@ board size is: 8
 piece(s) on the board is:
 white pawn is at 2 row 3 column
 black king is at 5 row 6 column
+white king is at 4 row 6 column
+white king is at 7 row 1 column
 
-next player is: white
+next player is: black

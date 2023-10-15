@@ -17,31 +17,31 @@ public class BoardParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, INT=16;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, INT=7, DIGIT=8, WHITE=9, 
+		BLACK=10, PAWN=11, KNIGHT=12, BISHOP=13, KING=14, QUEEN=15, ROOK=16, WS=17;
 	public static final int
-		RULE_board = 0, RULE_size = 1, RULE_piecePlacement = 2, RULE_rank = 3, 
-		RULE_pieceOnBoard = 4, RULE_piece = 5, RULE_digit = 6, RULE_whitePiece = 7, 
-		RULE_blackPiece = 8, RULE_nextPlayer = 9, RULE_line = 10;
+		RULE_board = 0, RULE_size = 1, RULE_piecePlacement = 2, RULE_pieceOnBoard = 3, 
+		RULE_piece = 4, RULE_nextPlayer = 5, RULE_player = 6;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"board", "size", "piecePlacement", "rank", "pieceOnBoard", "piece", "digit", 
-			"whitePiece", "blackPiece", "nextPlayer", "line"
+			"board", "size", "piecePlacement", "pieceOnBoard", "piece", "nextPlayer", 
+			"player"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "' '", "'P'", "'N'", "'B'", "'R'", "'Q'", "'K'", "'p'", "'n'", 
-			"'b'", "'r'", "'q'", "'k'", "'w'", "'/'"
+			null, "'board size is: '", "'piece(s) on the board is:'", "' is at '", 
+			"'row'", "'column'", "'next player is: '", null, null, "'white'", "'black'", 
+			"'pawn'", "'knight'", "'bishop'", "'king'", "'queen'", "'rook'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "INT"
+			null, null, null, null, null, null, null, "INT", "DIGIT", "WHITE", "BLACK", 
+			"PAWN", "KNIGHT", "BISHOP", "KING", "QUEEN", "ROOK", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -131,15 +131,11 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22);
+			setState(14);
 			size();
-			setState(23);
-			match(T__0);
-			setState(24);
+			setState(15);
 			piecePlacement();
-			setState(25);
-			match(T__0);
-			setState(26);
+			setState(16);
 			nextPlayer();
 			}
 		}
@@ -182,7 +178,9 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(18);
+			match(T__0);
+			setState(19);
 			match(INT);
 			}
 		}
@@ -199,17 +197,11 @@ public class BoardParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PiecePlacementContext extends ParserRuleContext {
-		public List<RankContext> rank() {
-			return getRuleContexts(RankContext.class);
+		public List<PieceOnBoardContext> pieceOnBoard() {
+			return getRuleContexts(PieceOnBoardContext.class);
 		}
-		public RankContext rank(int i) {
-			return getRuleContext(RankContext.class,i);
-		}
-		public List<LineContext> line() {
-			return getRuleContexts(LineContext.class);
-		}
-		public LineContext line(int i) {
-			return getRuleContext(LineContext.class,i);
+		public PieceOnBoardContext pieceOnBoard(int i) {
+			return getRuleContext(PieceOnBoardContext.class,i);
 		}
 		public PiecePlacementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -237,103 +229,19 @@ public class BoardParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(21);
+			match(T__1);
+			setState(25);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 114684L) != 0)) {
+			while (_la==WHITE || _la==BLACK) {
 				{
 				{
-				setState(30);
-				rank();
-				setState(31);
-				line();
+				setState(22);
+				pieceOnBoard();
 				}
 				}
-				setState(37);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class RankContext extends ParserRuleContext {
-		public List<PieceOnBoardContext> pieceOnBoard() {
-			return getRuleContexts(PieceOnBoardContext.class);
-		}
-		public PieceOnBoardContext pieceOnBoard(int i) {
-			return getRuleContext(PieceOnBoardContext.class,i);
-		}
-		public List<DigitContext> digit() {
-			return getRuleContexts(DigitContext.class);
-		}
-		public DigitContext digit(int i) {
-			return getRuleContext(DigitContext.class,i);
-		}
-		public RankContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_rank; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterRank(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitRank(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitRank(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final RankContext rank() throws RecognitionException {
-		RankContext _localctx = new RankContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_rank);
-		int _la;
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(41);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(38);
-					pieceOnBoard();
-					}
-					} 
-				}
-				setState(43);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
-			}
-			setState(47);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==INT) {
-				{
-				{
-				setState(44);
-				digit();
-				}
-				}
-				setState(49);
+				setState(27);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -352,11 +260,15 @@ public class BoardParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PieceOnBoardContext extends ParserRuleContext {
-		public DigitContext digit() {
-			return getRuleContext(DigitContext.class,0);
+		public PlayerContext player() {
+			return getRuleContext(PlayerContext.class,0);
 		}
 		public PieceContext piece() {
 			return getRuleContext(PieceContext.class,0);
+		}
+		public List<TerminalNode> INT() { return getTokens(BoardParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(BoardParser.INT, i);
 		}
 		public PieceOnBoardContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -379,40 +291,24 @@ public class BoardParser extends Parser {
 
 	public final PieceOnBoardContext pieceOnBoard() throws RecognitionException {
 		PieceOnBoardContext _localctx = new PieceOnBoardContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_pieceOnBoard);
+		enterRule(_localctx, 6, RULE_pieceOnBoard);
 		try {
-			setState(54);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case INT:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(50);
-				digit();
-				setState(51);
-				piece();
-				}
-				break;
-			case T__1:
-			case T__2:
-			case T__3:
-			case T__4:
-			case T__5:
-			case T__6:
-			case T__7:
-			case T__8:
-			case T__9:
-			case T__10:
-			case T__11:
-			case T__12:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(53);
-				piece();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(28);
+			player();
+			setState(29);
+			piece();
+			setState(30);
+			match(T__2);
+			setState(31);
+			match(INT);
+			setState(32);
+			match(T__3);
+			setState(33);
+			match(INT);
+			setState(34);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -428,12 +324,12 @@ public class BoardParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PieceContext extends ParserRuleContext {
-		public WhitePieceContext whitePiece() {
-			return getRuleContext(WhitePieceContext.class,0);
-		}
-		public BlackPieceContext blackPiece() {
-			return getRuleContext(BlackPieceContext.class,0);
-		}
+		public TerminalNode PAWN() { return getToken(BoardParser.PAWN, 0); }
+		public TerminalNode KNIGHT() { return getToken(BoardParser.KNIGHT, 0); }
+		public TerminalNode BISHOP() { return getToken(BoardParser.BISHOP, 0); }
+		public TerminalNode ROOK() { return getToken(BoardParser.ROOK, 0); }
+		public TerminalNode QUEEN() { return getToken(BoardParser.QUEEN, 0); }
+		public TerminalNode KING() { return getToken(BoardParser.KING, 0); }
 		public PieceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -455,175 +351,14 @@ public class BoardParser extends Parser {
 
 	public final PieceContext piece() throws RecognitionException {
 		PieceContext _localctx = new PieceContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_piece);
-		try {
-			setState(58);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__1:
-			case T__2:
-			case T__3:
-			case T__4:
-			case T__5:
-			case T__6:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(56);
-				whitePiece();
-				}
-				break;
-			case T__7:
-			case T__8:
-			case T__9:
-			case T__10:
-			case T__11:
-			case T__12:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(57);
-				blackPiece();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class DigitContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(BoardParser.INT, 0); }
-		public DigitContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_digit; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterDigit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitDigit(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitDigit(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final DigitContext digit() throws RecognitionException {
-		DigitContext _localctx = new DigitContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_digit);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(60);
-			match(INT);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class WhitePieceContext extends ParserRuleContext {
-		public WhitePieceContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_whitePiece; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterWhitePiece(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitWhitePiece(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitWhitePiece(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final WhitePieceContext whitePiece() throws RecognitionException {
-		WhitePieceContext _localctx = new WhitePieceContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_whitePiece);
+		enterRule(_localctx, 8, RULE_piece);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62);
+			setState(36);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 252L) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class BlackPieceContext extends ParserRuleContext {
-		public BlackPieceContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_blackPiece; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterBlackPiece(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitBlackPiece(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitBlackPiece(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final BlackPieceContext blackPiece() throws RecognitionException {
-		BlackPieceContext _localctx = new BlackPieceContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_blackPiece);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(64);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 16128L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 129024L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -646,6 +381,9 @@ public class BoardParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class NextPlayerContext extends ParserRuleContext {
+		public PlayerContext player() {
+			return getRuleContext(PlayerContext.class,0);
+		}
 		public NextPlayerContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -667,14 +405,60 @@ public class BoardParser extends Parser {
 
 	public final NextPlayerContext nextPlayer() throws RecognitionException {
 		NextPlayerContext _localctx = new NextPlayerContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_nextPlayer);
+		enterRule(_localctx, 10, RULE_nextPlayer);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(38);
+			match(T__5);
+			setState(39);
+			player();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	@SuppressWarnings("CheckReturnValue")
+	public static class PlayerContext extends ParserRuleContext {
+		public TerminalNode WHITE() { return getToken(BoardParser.WHITE, 0); }
+		public TerminalNode BLACK() { return getToken(BoardParser.BLACK, 0); }
+		public PlayerContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_player; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterPlayer(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitPlayer(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPlayer(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PlayerContext player() throws RecognitionException {
+		PlayerContext _localctx = new PlayerContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_player);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(66);
+			setState(41);
 			_la = _input.LA(1);
-			if ( !(_la==T__9 || _la==T__13) ) {
+			if ( !(_la==WHITE || _la==BLACK) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -695,88 +479,33 @@ public class BoardParser extends Parser {
 		return _localctx;
 	}
 
-	@SuppressWarnings("CheckReturnValue")
-	public static class LineContext extends ParserRuleContext {
-		public LineContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_line; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).enterLine(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoardListener ) ((BoardListener)listener).exitLine(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitLine(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LineContext line() throws RecognitionException {
-		LineContext _localctx = new LineContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_line);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(68);
-			match(T__14);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static final String _serializedATN =
-		"\u0004\u0001\u0010G\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0011,\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
-		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
-		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0001\u0000\u0001\u0000\u0001"+
-		"\u0000\u0001\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001"+
-		"\u0002\u0001\u0002\u0001\u0002\u0005\u0002\"\b\u0002\n\u0002\f\u0002%"+
-		"\t\u0002\u0001\u0003\u0005\u0003(\b\u0003\n\u0003\f\u0003+\t\u0003\u0001"+
-		"\u0003\u0005\u0003.\b\u0003\n\u0003\f\u00031\t\u0003\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0003\u00047\b\u0004\u0001\u0005\u0001"+
-		"\u0005\u0003\u0005;\b\u0005\u0001\u0006\u0001\u0006\u0001\u0007\u0001"+
-		"\u0007\u0001\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0000\u0000"+
-		"\u000b\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0000\u0003"+
-		"\u0001\u0000\u0002\u0007\u0001\u0000\b\r\u0002\u0000\n\n\u000e\u000e@"+
-		"\u0000\u0016\u0001\u0000\u0000\u0000\u0002\u001c\u0001\u0000\u0000\u0000"+
-		"\u0004#\u0001\u0000\u0000\u0000\u0006)\u0001\u0000\u0000\u0000\b6\u0001"+
-		"\u0000\u0000\u0000\n:\u0001\u0000\u0000\u0000\f<\u0001\u0000\u0000\u0000"+
-		"\u000e>\u0001\u0000\u0000\u0000\u0010@\u0001\u0000\u0000\u0000\u0012B"+
-		"\u0001\u0000\u0000\u0000\u0014D\u0001\u0000\u0000\u0000\u0016\u0017\u0003"+
-		"\u0002\u0001\u0000\u0017\u0018\u0005\u0001\u0000\u0000\u0018\u0019\u0003"+
-		"\u0004\u0002\u0000\u0019\u001a\u0005\u0001\u0000\u0000\u001a\u001b\u0003"+
-		"\u0012\t\u0000\u001b\u0001\u0001\u0000\u0000\u0000\u001c\u001d\u0005\u0010"+
-		"\u0000\u0000\u001d\u0003\u0001\u0000\u0000\u0000\u001e\u001f\u0003\u0006"+
-		"\u0003\u0000\u001f \u0003\u0014\n\u0000 \"\u0001\u0000\u0000\u0000!\u001e"+
-		"\u0001\u0000\u0000\u0000\"%\u0001\u0000\u0000\u0000#!\u0001\u0000\u0000"+
-		"\u0000#$\u0001\u0000\u0000\u0000$\u0005\u0001\u0000\u0000\u0000%#\u0001"+
-		"\u0000\u0000\u0000&(\u0003\b\u0004\u0000\'&\u0001\u0000\u0000\u0000(+"+
-		"\u0001\u0000\u0000\u0000)\'\u0001\u0000\u0000\u0000)*\u0001\u0000\u0000"+
-		"\u0000*/\u0001\u0000\u0000\u0000+)\u0001\u0000\u0000\u0000,.\u0003\f\u0006"+
-		"\u0000-,\u0001\u0000\u0000\u0000.1\u0001\u0000\u0000\u0000/-\u0001\u0000"+
-		"\u0000\u0000/0\u0001\u0000\u0000\u00000\u0007\u0001\u0000\u0000\u0000"+
-		"1/\u0001\u0000\u0000\u000023\u0003\f\u0006\u000034\u0003\n\u0005\u0000"+
-		"47\u0001\u0000\u0000\u000057\u0003\n\u0005\u000062\u0001\u0000\u0000\u0000"+
-		"65\u0001\u0000\u0000\u00007\t\u0001\u0000\u0000\u00008;\u0003\u000e\u0007"+
-		"\u00009;\u0003\u0010\b\u0000:8\u0001\u0000\u0000\u0000:9\u0001\u0000\u0000"+
-		"\u0000;\u000b\u0001\u0000\u0000\u0000<=\u0005\u0010\u0000\u0000=\r\u0001"+
-		"\u0000\u0000\u0000>?\u0007\u0000\u0000\u0000?\u000f\u0001\u0000\u0000"+
-		"\u0000@A\u0007\u0001\u0000\u0000A\u0011\u0001\u0000\u0000\u0000BC\u0007"+
-		"\u0002\u0000\u0000C\u0013\u0001\u0000\u0000\u0000DE\u0005\u000f\u0000"+
-		"\u0000E\u0015\u0001\u0000\u0000\u0000\u0005#)/6:";
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0001\u0000\u0001\u0000\u0001"+
+		"\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0001"+
+		"\u0002\u0005\u0002\u0018\b\u0002\n\u0002\f\u0002\u001b\t\u0002\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0000\u0000\u0007\u0000\u0002\u0004"+
+		"\u0006\b\n\f\u0000\u0002\u0001\u0000\u000b\u0010\u0001\u0000\t\n%\u0000"+
+		"\u000e\u0001\u0000\u0000\u0000\u0002\u0012\u0001\u0000\u0000\u0000\u0004"+
+		"\u0015\u0001\u0000\u0000\u0000\u0006\u001c\u0001\u0000\u0000\u0000\b$"+
+		"\u0001\u0000\u0000\u0000\n&\u0001\u0000\u0000\u0000\f)\u0001\u0000\u0000"+
+		"\u0000\u000e\u000f\u0003\u0002\u0001\u0000\u000f\u0010\u0003\u0004\u0002"+
+		"\u0000\u0010\u0011\u0003\n\u0005\u0000\u0011\u0001\u0001\u0000\u0000\u0000"+
+		"\u0012\u0013\u0005\u0001\u0000\u0000\u0013\u0014\u0005\u0007\u0000\u0000"+
+		"\u0014\u0003\u0001\u0000\u0000\u0000\u0015\u0019\u0005\u0002\u0000\u0000"+
+		"\u0016\u0018\u0003\u0006\u0003\u0000\u0017\u0016\u0001\u0000\u0000\u0000"+
+		"\u0018\u001b\u0001\u0000\u0000\u0000\u0019\u0017\u0001\u0000\u0000\u0000"+
+		"\u0019\u001a\u0001\u0000\u0000\u0000\u001a\u0005\u0001\u0000\u0000\u0000"+
+		"\u001b\u0019\u0001\u0000\u0000\u0000\u001c\u001d\u0003\f\u0006\u0000\u001d"+
+		"\u001e\u0003\b\u0004\u0000\u001e\u001f\u0005\u0003\u0000\u0000\u001f "+
+		"\u0005\u0007\u0000\u0000 !\u0005\u0004\u0000\u0000!\"\u0005\u0007\u0000"+
+		"\u0000\"#\u0005\u0005\u0000\u0000#\u0007\u0001\u0000\u0000\u0000$%\u0007"+
+		"\u0000\u0000\u0000%\t\u0001\u0000\u0000\u0000&\'\u0005\u0006\u0000\u0000"+
+		"\'(\u0003\f\u0006\u0000(\u000b\u0001\u0000\u0000\u0000)*\u0007\u0001\u0000"+
+		"\u0000*\r\u0001\u0000\u0000\u0000\u0001\u0019";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
