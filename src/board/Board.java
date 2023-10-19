@@ -48,4 +48,14 @@ public class Board {
     public int GetSize() {
         return this.size;
     }
+
+    public boolean SymmetricalBoard() {
+        for (int i = 0; i < size; i++) {
+            field.add(i, new ArrayList<>(size));
+            for (int j = 0; j < size; j++)
+                field.get(i).add(j, null);
+        }
+
+        return true;
+    }
 }

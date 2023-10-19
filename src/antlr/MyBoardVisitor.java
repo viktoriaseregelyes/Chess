@@ -1,6 +1,7 @@
 package antlr;
 
 import game.Controller;
+import game.Game;
 import org.antlr.v4.runtime.ParserRuleContext;
 import pieces.*;
 import players.Type;
@@ -31,6 +32,15 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
     @Override
     public Object visitSize(BoardParser.SizeContext ctx) {
+        if(ctx == null) {
+            System.out.println("error at " + getPosition(ctx) + ", there is no size of the board, you should give it.");
+            System.exit(0);
+        }
+        else if(!ctx.getStart().getText().equals("board size is: ")) {
+            System.out.println("error at " + getPosition(ctx) + ", the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.");
+            System.exit(0);
+        }
+
         size = Integer.parseInt(ctx.INT().getText());
         System.out.println("Size of the board: " + size + "x" + size);
         game.Controller.GetInstance().GetGame().GetBoard().CreateBoard(size);
@@ -71,6 +81,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
                 break;
             default:
                 System.out.println("error at " + getPosition(ctx) + ", piece's type is not exist.");
+                System.exit(0);
                 break;
         }
 
@@ -83,7 +94,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     @Override public Object visitPlayer(BoardParser.PlayerContext ctx) {
         if (ctx.getText() == null) {
             System.out.println("error at " + getPosition(ctx) + ", there is no next player.");
-            return null;
+            System.exit(0);
         }
 
         var player = ctx.getText();
@@ -92,7 +103,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
         else if (player.equals("black")) { playerType = Type.BLACK; }
         else {
             System.out.println("error at " + getPosition(ctx) + ", player's type is not exist, it can be 'white' or 'black'.");
-            return null;
+            System.exit(0);
         }
 
         return visitChildren(ctx);
@@ -100,16 +111,16 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
     @Override
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) {
-        if (ctx.INT(0).getText().equals("<missing INT>")) { System.out.println("error at " + getPosition(ctx) + ", the row and the column is missing"); return null; }
-        else if (ctx.INT(1) == null) { System.out.println("error at " + getPosition(ctx) + ", the row or the column is missing"); return null; }
+        if (ctx.INT(0).getText().equals("<missing INT>")) { System.out.println("error at " + getPosition(ctx) + ", the row and the column is missing"); System.exit(0); }
+        else if (ctx.INT(1) == null) { System.out.println("error at " + getPosition(ctx) + ", the row or the column is missing"); System.exit(0); }
 
         row = Integer.parseInt(ctx.INT(0).getText()) - 1;
         col = Integer.parseInt(ctx.INT(1).getText()) - 1;
 
-        if (row < 0) { System.out.println("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); return null; }
-        else if (row > size) { System.out.println("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); return null; }
-        else if (col > size) { System.out.println("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); return null; }
-        else if (col < 0) { System.out.println("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); return null; }
+        if (row < 0) { System.out.println("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); System.exit(0); }
+        else if (row >= size) { System.out.println("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); System.exit(0); }
+        else if (col >= size) { System.out.println("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); System.exit(0); }
+        else if (col < 0) { System.out.println("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); System.exit(0); }
 
         return visitChildren(ctx);
     }
@@ -118,9 +129,16 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) {
         if(!moreThanTwoKing()) {
             System.out.println("error at " + getPosition(ctx) + ", there is not enough kings.");
+            System.exit(0);
         } else if (ctx.player() == null) {
             System.out.println("error at " + getPosition(ctx) + ", there is no next player.");
-            return null;
+            System.exit(0);
+        } else if(ctx == null) {
+            System.out.println("error at " + getPosition(ctx) + ", there is no next player, you should give it.");
+            System.exit(0);
+        } else if(!ctx.getStart().getText().equals("next player is: ")) {
+            System.out.println("error at " + getPosition(ctx) + ", the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.");
+            System.exit(0);
         }
 
         var player = ctx.player().getText();

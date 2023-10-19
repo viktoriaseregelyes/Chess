@@ -4,7 +4,6 @@ import antlr.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import players.Type;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,6 +28,5 @@ public class Main {
         Controller.GetInstance();
         var board = readAST("inputs\\board.txt");
         new MyBoardVisitor().visit(board);
-
     }
 }
