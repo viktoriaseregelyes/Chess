@@ -1,14 +1,11 @@
 package antlr;
 
 import game.Controller;
-import game.Game;
 import org.antlr.v4.runtime.ParserRuleContext;
 import pieces.*;
 import players.Type;
 
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
-    Env env;
-    TypeSystem ts;
     Type playerType;
     int size;
     int row;
@@ -25,8 +22,6 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
     @Override
     public Object visitBoard(BoardParser.BoardContext ctx) {
-        env = new Env();
-        ts = new TypeSystem();
         return super.visitChildren(ctx);
     }
 

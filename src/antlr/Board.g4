@@ -9,8 +9,6 @@ piece: PAWN | KNIGHT | BISHOP | ROOK | QUEEN | KING;
 nextPlayer: 'next player is: ' player;
 player: WHITE | BLACK;
 
-//absztrakt összedobása
-
 INT: DIGIT+;
 DIGIT: [0-9];
 
