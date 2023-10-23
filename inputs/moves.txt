@@ -1,4 +1,4 @@
 general rule:
 move again when hit
 
-pawn role:
+pawn rule:

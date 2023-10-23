@@ -1,4 +1,4 @@
-board size s: 8
+board size is: 8
 
 piece(s) on the board is:
 white pawn is at 2 row 3 column
@@ -7,7 +7,3 @@ white king is at 4 row 6 column
 white king is at 7 row 1 column
 
 next player is: black
-
-// progin belül text area, oda jelezzen vissza
-// lépésekhez nyelvtan
-// dolgozat írása!! - absztrakt

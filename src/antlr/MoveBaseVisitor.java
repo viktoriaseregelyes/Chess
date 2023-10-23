@@ -25,21 +25,21 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGeneral_role(MoveParser.General_roleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGeneral_rule(MoveParser.General_ruleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPiece_role(MoveParser.Piece_roleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPiece_rule(MoveParser.Piece_ruleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRole(MoveParser.RoleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRule(MoveParser.RuleContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

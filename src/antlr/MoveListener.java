@@ -18,35 +18,35 @@ public interface MoveListener extends ParseTreeListener {
 	 */
 	void exitMoves(MoveParser.MovesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MoveParser#general_role}.
+	 * Enter a parse tree produced by {@link MoveParser#general_rule}.
 	 * @param ctx the parse tree
 	 */
-	void enterGeneral_role(MoveParser.General_roleContext ctx);
+	void enterGeneral_rule(MoveParser.General_ruleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MoveParser#general_role}.
+	 * Exit a parse tree produced by {@link MoveParser#general_rule}.
 	 * @param ctx the parse tree
 	 */
-	void exitGeneral_role(MoveParser.General_roleContext ctx);
+	void exitGeneral_rule(MoveParser.General_ruleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MoveParser#piece_role}.
+	 * Enter a parse tree produced by {@link MoveParser#piece_rule}.
 	 * @param ctx the parse tree
 	 */
-	void enterPiece_role(MoveParser.Piece_roleContext ctx);
+	void enterPiece_rule(MoveParser.Piece_ruleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MoveParser#piece_role}.
+	 * Exit a parse tree produced by {@link MoveParser#piece_rule}.
 	 * @param ctx the parse tree
 	 */
-	void exitPiece_role(MoveParser.Piece_roleContext ctx);
+	void exitPiece_rule(MoveParser.Piece_ruleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MoveParser#role}.
+	 * Enter a parse tree produced by {@link MoveParser#rule}.
 	 * @param ctx the parse tree
 	 */
-	void enterRole(MoveParser.RoleContext ctx);
+	void enterRule(MoveParser.RuleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MoveParser#role}.
+	 * Exit a parse tree produced by {@link MoveParser#rule}.
 	 * @param ctx the parse tree
 	 */
-	void exitRole(MoveParser.RoleContext ctx);
+	void exitRule(MoveParser.RuleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MoveParser#action}.
 	 * @param ctx the parse tree

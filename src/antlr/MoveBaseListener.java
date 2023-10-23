@@ -29,37 +29,37 @@ public class MoveBaseListener implements MoveListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGeneral_role(MoveParser.General_roleContext ctx) { }
+	@Override public void enterGeneral_rule(MoveParser.General_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGeneral_role(MoveParser.General_roleContext ctx) { }
+	@Override public void exitGeneral_rule(MoveParser.General_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPiece_role(MoveParser.Piece_roleContext ctx) { }
+	@Override public void enterPiece_rule(MoveParser.Piece_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPiece_role(MoveParser.Piece_roleContext ctx) { }
+	@Override public void exitPiece_rule(MoveParser.Piece_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRole(MoveParser.RoleContext ctx) { }
+	@Override public void enterRule(MoveParser.RuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRole(MoveParser.RoleContext ctx) { }
+	@Override public void exitRule(MoveParser.RuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

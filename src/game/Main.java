@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Main {
-    public static ParseTree readAST(String fileName) throws IOException {
+    public static ParseTree readASTBoard(String fileName) throws IOException {
         try {
             var code = Files.readString(Paths.get(fileName));
             var inputStream = CharStreams.fromString(code);
@@ -24,9 +24,25 @@ public class Main {
             throw e;
         }
     }
+    public static ParseTree readASTMoves(String fileName) throws IOException {
+        try {
+            var code = Files.readString(Paths.get(fileName));
+            var inputStream = CharStreams.fromString(code);
+            var lexer = new MoveLexer(inputStream);
+            var tokenStream = new CommonTokenStream(lexer);
+            var parser = new MoveParser(tokenStream);
+            var context = parser.moves();
+            return context;
+        }
+        catch(IOException e) {
+            throw e;
+        }
+    }
     public static void main(String[] args) throws IOException {
         Controller.GetInstance();
-        var board = readAST("inputs\\board.txt");
+        var board = readASTBoard("inputs\\board.txt");
+        var move = readASTMoves("inputs\\moves.txt");
         new MyBoardVisitor().visit(board);
+        new MyMoveVisitor().visit(move);
     }
 }

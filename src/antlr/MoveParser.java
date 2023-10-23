@@ -17,14 +17,15 @@ public class MoveParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, HIT=4, RIGHT=5, LEFT=6, BACK=7, FORWARD=8, INT=9, 
-		DIGIT=10, PAWN=11, KNIGHT=12, BISHOP=13, KING=14, QUEEN=15, ROOK=16, WS=17;
+		T__0=1, T__1=2, T__2=3, HIT=4, RIGHT=5, LEFT=6, BACK=7, FORWARD=8, AGAIN=9, 
+		MOVE=10, MOVE_AGAIN=11, INT=12, DIGIT=13, PAWN=14, KNIGHT=15, BISHOP=16, 
+		KING=17, QUEEN=18, ROOK=19, WS=20;
 	public static final int
-		RULE_moves = 0, RULE_general_role = 1, RULE_piece_role = 2, RULE_role = 3, 
+		RULE_moves = 0, RULE_general_rule = 1, RULE_piece_rule = 2, RULE_rule = 3, 
 		RULE_action = 4, RULE_event = 5, RULE_directions = 6, RULE_piece = 7;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"moves", "general_role", "piece_role", "role", "action", "event", "directions", 
+			"moves", "general_rule", "piece_rule", "rule", "action", "event", "directions", 
 			"piece"
 		};
 	}
@@ -32,16 +33,17 @@ public class MoveParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'general role:'", "' role:'", "'if'", "'hit'", "'right'", "'left'", 
-			"'back'", "'forward'", null, null, "'pawn'", "'knight'", "'bishop'", 
-			"'king'", "'queen'", "'rook'"
+			null, "'general rule: '", "' rule:'", "'when'", "'hit'", "'right'", "'left'", 
+			"'back'", "'forward'", "'again'", "'move'", null, null, null, "'pawn'", 
+			"'knight'", "'bishop'", "'king'", "'queen'", "'rook'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, "HIT", "RIGHT", "LEFT", "BACK", "FORWARD", "INT", 
-			"DIGIT", "PAWN", "KNIGHT", "BISHOP", "KING", "QUEEN", "ROOK", "WS"
+			null, null, null, null, "HIT", "RIGHT", "LEFT", "BACK", "FORWARD", "AGAIN", 
+			"MOVE", "MOVE_AGAIN", "INT", "DIGIT", "PAWN", "KNIGHT", "BISHOP", "KING", 
+			"QUEEN", "ROOK", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -97,11 +99,11 @@ public class MoveParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MovesContext extends ParserRuleContext {
-		public General_roleContext general_role() {
-			return getRuleContext(General_roleContext.class,0);
+		public General_ruleContext general_rule() {
+			return getRuleContext(General_ruleContext.class,0);
 		}
-		public Piece_roleContext piece_role() {
-			return getRuleContext(Piece_roleContext.class,0);
+		public Piece_ruleContext piece_rule() {
+			return getRuleContext(Piece_ruleContext.class,0);
 		}
 		public MovesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -129,9 +131,9 @@ public class MoveParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(16);
-			general_role();
+			general_rule();
 			setState(17);
-			piece_role();
+			piece_rule();
 			}
 		}
 		catch (RecognitionException re) {
@@ -146,52 +148,54 @@ public class MoveParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class General_roleContext extends ParserRuleContext {
-		public List<RoleContext> role() {
-			return getRuleContexts(RoleContext.class);
+	public static class General_ruleContext extends ParserRuleContext {
+		public List<RuleContext> rule_() {
+			return getRuleContexts(RuleContext.class);
 		}
-		public RoleContext role(int i) {
-			return getRuleContext(RoleContext.class,i);
+		public RuleContext rule_(int i) {
+			return getRuleContext(RuleContext.class,i);
 		}
-		public General_roleContext(ParserRuleContext parent, int invokingState) {
+		public General_ruleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_general_role; }
+		@Override public int getRuleIndex() { return RULE_general_rule; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterGeneral_role(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterGeneral_rule(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitGeneral_role(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitGeneral_rule(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitGeneral_role(this);
+			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitGeneral_rule(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final General_roleContext general_role() throws RecognitionException {
-		General_roleContext _localctx = new General_roleContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_general_role);
+	public final General_ruleContext general_rule() throws RecognitionException {
+		General_ruleContext _localctx = new General_ruleContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_general_rule);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(19);
 			match(T__0);
-			setState(23);
+			setState(20);
+			rule_();
+			setState(24);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==HIT) {
+			while (_la==MOVE_AGAIN) {
 				{
 				{
-				setState(20);
-				role();
+				setState(21);
+				rule_();
 				}
 				}
-				setState(25);
+				setState(26);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -209,72 +213,72 @@ public class MoveParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Piece_roleContext extends ParserRuleContext {
+	public static class Piece_ruleContext extends ParserRuleContext {
 		public List<PieceContext> piece() {
 			return getRuleContexts(PieceContext.class);
 		}
 		public PieceContext piece(int i) {
 			return getRuleContext(PieceContext.class,i);
 		}
-		public List<RoleContext> role() {
-			return getRuleContexts(RoleContext.class);
+		public List<RuleContext> rule_() {
+			return getRuleContexts(RuleContext.class);
 		}
-		public RoleContext role(int i) {
-			return getRuleContext(RoleContext.class,i);
+		public RuleContext rule_(int i) {
+			return getRuleContext(RuleContext.class,i);
 		}
-		public Piece_roleContext(ParserRuleContext parent, int invokingState) {
+		public Piece_ruleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_piece_role; }
+		@Override public int getRuleIndex() { return RULE_piece_rule; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterPiece_role(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterPiece_rule(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitPiece_role(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitPiece_rule(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitPiece_role(this);
+			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitPiece_rule(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Piece_roleContext piece_role() throws RecognitionException {
-		Piece_roleContext _localctx = new Piece_roleContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_piece_role);
+	public final Piece_ruleContext piece_rule() throws RecognitionException {
+		Piece_ruleContext _localctx = new Piece_ruleContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_piece_rule);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(37);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 129024L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1032192L) != 0)) {
 				{
 				{
-				setState(26);
-				piece();
 				setState(27);
+				piece();
+				setState(28);
 				match(T__1);
-				setState(31);
+				setState(32);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==HIT) {
+				while (_la==MOVE_AGAIN) {
 					{
 					{
-					setState(28);
-					role();
+					setState(29);
+					rule_();
 					}
 					}
-					setState(33);
+					setState(34);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 				}
-				setState(38);
+				setState(39);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -292,43 +296,43 @@ public class MoveParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class RoleContext extends ParserRuleContext {
+	public static class RuleContext extends ParserRuleContext {
 		public ActionContext action() {
 			return getRuleContext(ActionContext.class,0);
 		}
 		public EventContext event() {
 			return getRuleContext(EventContext.class,0);
 		}
-		public RoleContext(ParserRuleContext parent, int invokingState) {
+		public RuleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_role; }
+		@Override public int getRuleIndex() { return RULE_rule; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterRole(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).enterRule(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitRole(this);
+			if ( listener instanceof MoveListener ) ((MoveListener)listener).exitRule(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitRole(this);
+			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitRule(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final RoleContext role() throws RecognitionException {
-		RoleContext _localctx = new RoleContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_role);
+	public final RuleContext rule_() throws RecognitionException {
+		RuleContext _localctx = new RuleContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_rule);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
-			action();
 			setState(40);
-			match(T__2);
+			action();
 			setState(41);
+			match(T__2);
+			setState(42);
 			event();
 			}
 		}
@@ -345,7 +349,7 @@ public class MoveParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ActionContext extends ParserRuleContext {
-		public TerminalNode HIT() { return getToken(MoveParser.HIT, 0); }
+		public TerminalNode MOVE_AGAIN() { return getToken(MoveParser.MOVE_AGAIN, 0); }
 		public ActionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -371,8 +375,8 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(43);
-			match(HIT);
+			setState(44);
+			match(MOVE_AGAIN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -388,6 +392,7 @@ public class MoveParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class EventContext extends ParserRuleContext {
+		public TerminalNode HIT() { return getToken(MoveParser.HIT, 0); }
 		public EventContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -413,6 +418,8 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
+			setState(46);
+			match(HIT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -458,7 +465,7 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47);
+			setState(48);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 480L) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -515,9 +522,9 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(50);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 129024L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1032192L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -539,37 +546,37 @@ public class MoveParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u00114\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u00145\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0001"+
-		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0005\u0001\u0016"+
-		"\b\u0001\n\u0001\f\u0001\u0019\t\u0001\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0005\u0002\u001e\b\u0002\n\u0002\f\u0002!\t\u0002\u0005\u0002#\b\u0002"+
-		"\n\u0002\f\u0002&\t\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
-		"\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006"+
-		"\u0001\u0007\u0001\u0007\u0001\u0007\u0000\u0000\b\u0000\u0002\u0004\u0006"+
-		"\b\n\f\u000e\u0000\u0002\u0001\u0000\u0005\b\u0001\u0000\u000b\u0010."+
-		"\u0000\u0010\u0001\u0000\u0000\u0000\u0002\u0013\u0001\u0000\u0000\u0000"+
-		"\u0004$\u0001\u0000\u0000\u0000\u0006\'\u0001\u0000\u0000\u0000\b+\u0001"+
-		"\u0000\u0000\u0000\n-\u0001\u0000\u0000\u0000\f/\u0001\u0000\u0000\u0000"+
-		"\u000e1\u0001\u0000\u0000\u0000\u0010\u0011\u0003\u0002\u0001\u0000\u0011"+
-		"\u0012\u0003\u0004\u0002\u0000\u0012\u0001\u0001\u0000\u0000\u0000\u0013"+
-		"\u0017\u0005\u0001\u0000\u0000\u0014\u0016\u0003\u0006\u0003\u0000\u0015"+
-		"\u0014\u0001\u0000\u0000\u0000\u0016\u0019\u0001\u0000\u0000\u0000\u0017"+
-		"\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001\u0000\u0000\u0000\u0018"+
-		"\u0003\u0001\u0000\u0000\u0000\u0019\u0017\u0001\u0000\u0000\u0000\u001a"+
-		"\u001b\u0003\u000e\u0007\u0000\u001b\u001f\u0005\u0002\u0000\u0000\u001c"+
-		"\u001e\u0003\u0006\u0003\u0000\u001d\u001c\u0001\u0000\u0000\u0000\u001e"+
-		"!\u0001\u0000\u0000\u0000\u001f\u001d\u0001\u0000\u0000\u0000\u001f \u0001"+
-		"\u0000\u0000\u0000 #\u0001\u0000\u0000\u0000!\u001f\u0001\u0000\u0000"+
-		"\u0000\"\u001a\u0001\u0000\u0000\u0000#&\u0001\u0000\u0000\u0000$\"\u0001"+
-		"\u0000\u0000\u0000$%\u0001\u0000\u0000\u0000%\u0005\u0001\u0000\u0000"+
-		"\u0000&$\u0001\u0000\u0000\u0000\'(\u0003\b\u0004\u0000()\u0005\u0003"+
-		"\u0000\u0000)*\u0003\n\u0005\u0000*\u0007\u0001\u0000\u0000\u0000+,\u0005"+
-		"\u0004\u0000\u0000,\t\u0001\u0000\u0000\u0000-.\u0001\u0000\u0000\u0000"+
-		".\u000b\u0001\u0000\u0000\u0000/0\u0007\u0000\u0000\u00000\r\u0001\u0000"+
-		"\u0000\u000012\u0007\u0001\u0000\u00002\u000f\u0001\u0000\u0000\u0000"+
-		"\u0003\u0017\u001f$";
+		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0005"+
+		"\u0001\u0017\b\u0001\n\u0001\f\u0001\u001a\t\u0001\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0005\u0002\u001f\b\u0002\n\u0002\f\u0002\"\t\u0002\u0005"+
+		"\u0002$\b\u0002\n\u0002\f\u0002\'\t\u0002\u0001\u0003\u0001\u0003\u0001"+
+		"\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0005\u0001\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0000\u0000\b\u0000"+
+		"\u0002\u0004\u0006\b\n\f\u000e\u0000\u0002\u0001\u0000\u0005\b\u0001\u0000"+
+		"\u000e\u0013/\u0000\u0010\u0001\u0000\u0000\u0000\u0002\u0013\u0001\u0000"+
+		"\u0000\u0000\u0004%\u0001\u0000\u0000\u0000\u0006(\u0001\u0000\u0000\u0000"+
+		"\b,\u0001\u0000\u0000\u0000\n.\u0001\u0000\u0000\u0000\f0\u0001\u0000"+
+		"\u0000\u0000\u000e2\u0001\u0000\u0000\u0000\u0010\u0011\u0003\u0002\u0001"+
+		"\u0000\u0011\u0012\u0003\u0004\u0002\u0000\u0012\u0001\u0001\u0000\u0000"+
+		"\u0000\u0013\u0014\u0005\u0001\u0000\u0000\u0014\u0018\u0003\u0006\u0003"+
+		"\u0000\u0015\u0017\u0003\u0006\u0003\u0000\u0016\u0015\u0001\u0000\u0000"+
+		"\u0000\u0017\u001a\u0001\u0000\u0000\u0000\u0018\u0016\u0001\u0000\u0000"+
+		"\u0000\u0018\u0019\u0001\u0000\u0000\u0000\u0019\u0003\u0001\u0000\u0000"+
+		"\u0000\u001a\u0018\u0001\u0000\u0000\u0000\u001b\u001c\u0003\u000e\u0007"+
+		"\u0000\u001c \u0005\u0002\u0000\u0000\u001d\u001f\u0003\u0006\u0003\u0000"+
+		"\u001e\u001d\u0001\u0000\u0000\u0000\u001f\"\u0001\u0000\u0000\u0000 "+
+		"\u001e\u0001\u0000\u0000\u0000 !\u0001\u0000\u0000\u0000!$\u0001\u0000"+
+		"\u0000\u0000\" \u0001\u0000\u0000\u0000#\u001b\u0001\u0000\u0000\u0000"+
+		"$\'\u0001\u0000\u0000\u0000%#\u0001\u0000\u0000\u0000%&\u0001\u0000\u0000"+
+		"\u0000&\u0005\u0001\u0000\u0000\u0000\'%\u0001\u0000\u0000\u0000()\u0003"+
+		"\b\u0004\u0000)*\u0005\u0003\u0000\u0000*+\u0003\n\u0005\u0000+\u0007"+
+		"\u0001\u0000\u0000\u0000,-\u0005\u000b\u0000\u0000-\t\u0001\u0000\u0000"+
+		"\u0000./\u0005\u0004\u0000\u0000/\u000b\u0001\u0000\u0000\u000001\u0007"+
+		"\u0000\u0000\u00001\r\u0001\u0000\u0000\u000023\u0007\u0001\u0000\u0000"+
+		"3\u000f\u0001\u0000\u0000\u0000\u0003\u0018 %";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
