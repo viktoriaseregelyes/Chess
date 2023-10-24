@@ -1,4 +1,10 @@
-general rule:
+all piece rule:
 move again when hit
 
 pawn rule:
+general move: 1 forward
+become rook when hit
+
+rook rule:
+general move: forward backward right left
+move left when hit

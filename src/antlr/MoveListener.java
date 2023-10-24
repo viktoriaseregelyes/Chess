@@ -18,15 +18,15 @@ public interface MoveListener extends ParseTreeListener {
 	 */
 	void exitMoves(MoveParser.MovesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MoveParser#general_rule}.
+	 * Enter a parse tree produced by {@link MoveParser#all_piece_rule}.
 	 * @param ctx the parse tree
 	 */
-	void enterGeneral_rule(MoveParser.General_ruleContext ctx);
+	void enterAll_piece_rule(MoveParser.All_piece_ruleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MoveParser#general_rule}.
+	 * Exit a parse tree produced by {@link MoveParser#all_piece_rule}.
 	 * @param ctx the parse tree
 	 */
-	void exitGeneral_rule(MoveParser.General_ruleContext ctx);
+	void exitAll_piece_rule(MoveParser.All_piece_ruleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MoveParser#piece_rule}.
 	 * @param ctx the parse tree
@@ -37,6 +37,26 @@ public interface MoveListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPiece_rule(MoveParser.Piece_ruleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MoveParser#general_rule}.
+	 * @param ctx the parse tree
+	 */
+	void enterGeneral_rule(MoveParser.General_ruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#general_rule}.
+	 * @param ctx the parse tree
+	 */
+	void exitGeneral_rule(MoveParser.General_ruleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MoveParser#move}.
+	 * @param ctx the parse tree
+	 */
+	void enterMove(MoveParser.MoveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#move}.
+	 * @param ctx the parse tree
+	 */
+	void exitMove(MoveParser.MoveContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MoveParser#rule}.
 	 * @param ctx the parse tree
@@ -77,6 +97,36 @@ public interface MoveListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDirections(MoveParser.DirectionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MoveParser#move_again}.
+	 * @param ctx the parse tree
+	 */
+	void enterMove_again(MoveParser.Move_againContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#move_again}.
+	 * @param ctx the parse tree
+	 */
+	void exitMove_again(MoveParser.Move_againContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MoveParser#move_dir}.
+	 * @param ctx the parse tree
+	 */
+	void enterMove_dir(MoveParser.Move_dirContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#move_dir}.
+	 * @param ctx the parse tree
+	 */
+	void exitMove_dir(MoveParser.Move_dirContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MoveParser#become_piece}.
+	 * @param ctx the parse tree
+	 */
+	void enterBecome_piece(MoveParser.Become_pieceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#become_piece}.
+	 * @param ctx the parse tree
+	 */
+	void exitBecome_piece(MoveParser.Become_pieceContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MoveParser#piece}.
 	 * @param ctx the parse tree

@@ -17,17 +17,29 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMoves(MoveParser.MovesContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MoveParser#general_rule}.
+	 * Visit a parse tree produced by {@link MoveParser#all_piece_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGeneral_rule(MoveParser.General_ruleContext ctx);
+	T visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#piece_rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPiece_rule(MoveParser.Piece_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#general_rule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGeneral_rule(MoveParser.General_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#move}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove(MoveParser.MoveContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#rule}.
 	 * @param ctx the parse tree
@@ -52,6 +64,24 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDirections(MoveParser.DirectionsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#move_again}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove_again(MoveParser.Move_againContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#move_dir}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove_dir(MoveParser.Move_dirContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#become_piece}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBecome_piece(MoveParser.Become_pieceContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#piece}.
 	 * @param ctx the parse tree

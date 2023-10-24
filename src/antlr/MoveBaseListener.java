@@ -29,13 +29,13 @@ public class MoveBaseListener implements MoveListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGeneral_rule(MoveParser.General_ruleContext ctx) { }
+	@Override public void enterAll_piece_rule(MoveParser.All_piece_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGeneral_rule(MoveParser.General_ruleContext ctx) { }
+	@Override public void exitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -48,6 +48,30 @@ public class MoveBaseListener implements MoveListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPiece_rule(MoveParser.Piece_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGeneral_rule(MoveParser.General_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGeneral_rule(MoveParser.General_ruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMove(MoveParser.MoveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMove(MoveParser.MoveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -96,6 +120,42 @@ public class MoveBaseListener implements MoveListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDirections(MoveParser.DirectionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMove_again(MoveParser.Move_againContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMove_again(MoveParser.Move_againContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMove_dir(MoveParser.Move_dirContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMove_dir(MoveParser.Move_dirContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBecome_piece(MoveParser.Become_pieceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBecome_piece(MoveParser.Become_pieceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
