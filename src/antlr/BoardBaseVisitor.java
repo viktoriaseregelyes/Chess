@@ -2,6 +2,8 @@
 package antlr;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
+import java.io.IOException;
+
 /**
  * This class provides an empty implementation of {@link BoardVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -25,7 +27,7 @@ public class BoardBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSize(BoardParser.SizeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSize(BoardParser.SizeContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -39,21 +41,21 @@ public class BoardBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPiece(BoardParser.PieceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPiece(BoardParser.PieceContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNextPlayer(BoardParser.NextPlayerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

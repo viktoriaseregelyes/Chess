@@ -48,6 +48,16 @@ public interface MoveListener extends ParseTreeListener {
 	 */
 	void exitGeneral_rule(MoveParser.General_ruleContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MoveParser#move_more}.
+	 * @param ctx the parse tree
+	 */
+	void enterMove_more(MoveParser.Move_moreContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#move_more}.
+	 * @param ctx the parse tree
+	 */
+	void exitMove_more(MoveParser.Move_moreContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MoveParser#move}.
 	 * @param ctx the parse tree
 	 */

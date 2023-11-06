@@ -2,6 +2,8 @@
 package antlr;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
+import java.io.IOException;
+
 /**
  * This class provides an empty implementation of {@link MoveVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -18,7 +20,7 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMoves(MoveParser.MovesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMoves(MoveParser.MovesContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -40,6 +42,13 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitGeneral_rule(MoveParser.General_ruleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMove_more(MoveParser.Move_moreContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

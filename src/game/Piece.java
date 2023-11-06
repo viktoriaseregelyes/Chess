@@ -7,7 +7,7 @@ import board.Board;
 import javax.swing.*;
 import java.io.Serializable;
 
-abstract public class Piece  implements Serializable {
+abstract public class Piece implements Serializable {
 	private Type type;
 	private TypeOfPiece top;
 	private int x, y;
@@ -19,10 +19,11 @@ abstract public class Piece  implements Serializable {
 		this.y = y;
 		this.board = board;
 	}
-	
-	abstract public boolean ValidMove(int endX, int endY);
-	
-	abstract public boolean Move(int endX, int endY);
+	public void Move(int endX, int endY) {
+		this.SetX(endX);
+		this.SetY(endY);
+		GetBoard().SetPiece(this);
+	}
 
 	abstract public ImageIcon GetImageIcon();
 	

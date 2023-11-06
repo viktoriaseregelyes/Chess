@@ -2,6 +2,8 @@
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
+import java.io.IOException;
+
 /**
  * This interface defines a complete generic visitor for a parse tree produced
  * by {@link BoardParser}.
@@ -21,7 +23,7 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSize(BoardParser.SizeContext ctx);
+	T visitSize(BoardParser.SizeContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link BoardParser#piecePlacement}.
 	 * @param ctx the parse tree
@@ -33,19 +35,19 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx);
+	T visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link BoardParser#piece}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPiece(BoardParser.PieceContext ctx);
+	T visitPiece(BoardParser.PieceContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link BoardParser#nextPlayer}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNextPlayer(BoardParser.NextPlayerContext ctx);
+	T visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link BoardParser#player}.
 	 * @param ctx the parse tree

@@ -2,6 +2,8 @@
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
+import java.io.IOException;
+
 /**
  * This interface defines a complete generic visitor for a parse tree produced
  * by {@link MoveParser}.
@@ -15,7 +17,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMoves(MoveParser.MovesContext ctx);
+	T visitMoves(MoveParser.MovesContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#all_piece_rule}.
 	 * @param ctx the parse tree
@@ -34,6 +36,12 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGeneral_rule(MoveParser.General_ruleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#move_more}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove_more(MoveParser.Move_moreContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#move}.
 	 * @param ctx the parse tree

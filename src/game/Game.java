@@ -1,31 +1,63 @@
 package game;
 
+import antlr.MoveLexer;
+import antlr.MoveParser;
+import antlr.MyMoveVisitor;
 import board.*;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import players.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Game {
 	private static Game instance = null;
 	private Player black, white;
 	private Board board;
 	private Type type = Type.WHITE;
+	private ParseTree move;
 
-	public Game() {
+	private Piece piece;
+
+	public Game() throws IOException {
 		this.board = new Board();
+		this.move = readASTMoves("inputs\\moves.txt");
 	}
 
-	public static Game GetInstance() {
+	public static Game GetInstance() throws IOException {
 		if (instance == null)
 			instance = new Game();
 		return instance;
 	}
 
 	public boolean Round(Piece piece, int endX, int endY) {
-		boolean canMove = false;
-		if(type == Type.WHITE) canMove = white.Move(piece, endX, endY);
-		if(type == Type.BLACK) canMove = black.Move(piece, endX, endY);
+		this.piece = piece;
+		new MyMoveVisitor().visit(this.move);
 
 		SwitchType();
-		return canMove;
+		return true;
+	}
+
+	public Piece getPiece() {
+		return piece;
+	}
+
+	public static ParseTree readASTMoves(String fileName) throws IOException {
+		try {
+			var code = Files.readString(Paths.get(fileName));
+			var inputStream = CharStreams.fromString(code);
+			var lexer = new MoveLexer(inputStream);
+			var tokenStream = new CommonTokenStream(lexer);
+			var parser = new MoveParser(tokenStream);
+			var context = parser.moves();
+			return context;
+		}
+		catch(IOException e) {
+			throw e;
+		}
 	}
 
 	public boolean Endgame() {
@@ -69,5 +101,9 @@ public class Game {
 
 	public String GetType() {
 		return String.valueOf(type);
+	}
+
+	public Type getType() {
+		return type;
 	}
 }

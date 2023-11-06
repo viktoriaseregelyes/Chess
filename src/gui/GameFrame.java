@@ -7,10 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class GameFrame extends JFrame {
 
-    public GameFrame(String name, ResultData resultData) {
+    ChessPanel chessPanel;
+
+    public GameFrame(String name, ResultData resultData) throws IOException {
         super(name);
 
         JPanel panel_players = new JPanel();
@@ -36,6 +39,10 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    public ChessPanel getChessPanel() {
+        return chessPanel;
+    }
+
     public void setVisible(boolean bool) {
         super.setVisible(bool);
     }
@@ -43,7 +50,11 @@ public class GameFrame extends JFrame {
     private class MenuButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            Controller.GetInstance().GetFrame().setVisible(true);
+            try {
+                Controller.GetInstance().GetFrame().setVisible(true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class ResultFrame extends JFrame {
     private ResultData resultData;
@@ -49,7 +50,11 @@ public class ResultFrame extends JFrame {
     public class MenuButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            Controller.GetInstance().GetFrame().setVisible(true);
+            try {
+                Controller.GetInstance().GetFrame().setVisible(true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

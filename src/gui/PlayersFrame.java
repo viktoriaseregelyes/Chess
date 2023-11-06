@@ -6,6 +6,7 @@ import players.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class PlayersFrame extends JFrame {
     public JTextField textField_player1 = new JTextField(20);
@@ -51,10 +52,22 @@ public class PlayersFrame extends JFrame {
             Player player1 = new Player(Player1, players.Type.BLACK);
             Player player2 = new Player(Player2, players.Type.WHITE);
 
-            Controller.GetInstance().GetGame().SetBlack(player1);
-            Controller.GetInstance().GetGame().SetWhite(player2);
+            try {
+                Controller.GetInstance().GetGame().SetBlack(player1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                Controller.GetInstance().GetGame().SetWhite(player2);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-            gameFrame = new GameFrame("Chess", resultData);
+            try {
+                gameFrame = new GameFrame("Chess", resultData);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             setVisible(false);
             textField_player1.setText("");

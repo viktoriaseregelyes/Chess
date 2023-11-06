@@ -4,6 +4,7 @@ import game.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
 
 public class WinnerFrame extends JFrame {
@@ -34,8 +35,16 @@ public class WinnerFrame extends JFrame {
     public void setVisible(boolean bool) {
         super.setVisible(bool);
         if(bool) {
-            this.label_winner.setText("Winner: " + Controller.GetInstance().GetGame().GetWinner().GetName());
-            resultData.add(new Result(Controller.GetInstance().GetGame().GetPlayerWhite(), Controller.GetInstance().GetGame().GetPlayerBlack(), Controller.GetInstance().GetGame().GetWinner()));
+            try {
+                this.label_winner.setText("Winner: " + Controller.GetInstance().GetGame().GetWinner().GetName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                resultData.add(new Result(Controller.GetInstance().GetGame().GetPlayerWhite(), Controller.GetInstance().GetGame().GetPlayerBlack(), Controller.GetInstance().GetGame().GetWinner()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -43,7 +52,11 @@ public class WinnerFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             gameFrame.setVisible(false);
-            Controller.GetInstance().GetFrame().setVisible(true);
+            try {
+                Controller.GetInstance().GetFrame().setVisible(true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

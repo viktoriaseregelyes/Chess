@@ -65,6 +65,18 @@ public class MoveBaseListener implements MoveListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMove_more(MoveParser.Move_moreContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMove_more(MoveParser.Move_moreContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMove(MoveParser.MoveContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -3,6 +3,7 @@ package gui;
 import game.*;
 import players.*;
 
+import java.io.IOException;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,7 +15,7 @@ public class ChessPanel extends JPanel {
     private Piece piece;
     private boolean canMove = true;
     private int startX, startY, endX, endY;
-    private Type type = Type.BLACK;
+    private Type type = Controller.GetInstance().GetGame().getType();
     private WinnerFrame winnerFrame;
     private ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
     enum State {
@@ -22,7 +23,7 @@ public class ChessPanel extends JPanel {
     }
     public State state = State.FIRST;
 
-    public ChessPanel(ResultData resultData, GameFrame gameFrame) {
+    public ChessPanel(ResultData resultData, GameFrame gameFrame) throws IOException {
         super(new GridLayout(game.Controller.GetInstance().GetGame().GetBoard().GetSize(), game.Controller.GetInstance().GetGame().GetBoard().GetSize()));
 
         N = game.Controller.GetInstance().GetGame().GetBoard().GetSize();
@@ -35,22 +36,23 @@ public class ChessPanel extends JPanel {
 
         this.setPreferredSize(new Dimension(N * SIZE, N * SIZE));
         addButtons();
+        switchType();
     }
 
-    public void repaintPanel() {
+    public void repaintPanel() throws IOException {
         this.removeAll();
         addButtons();
         this.revalidate();
         this.repaint();
     }
 
-    public void addButtons() {
+    public void addButtons() throws IOException {
         chessButton.remove(chessButton);
         for (int y=0;y<N;y++) {
             for (int x=0;x<N;x++) {
-                Piece piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(x, y);
-                if (piece != null) {
-                    ImageIcon image = piece.GetImageIcon();
+                Piece piece_tmp = Controller.GetInstance().GetGame().GetBoard().GetPiece(x, y);
+                if (piece_tmp != null) {
+                    ImageIcon image = piece_tmp.GetImageIcon();
                     chessButton.get(x).add(y, new ChessButton(image, x, y));
                 }
                 else {
@@ -108,20 +110,41 @@ public class ChessPanel extends JPanel {
                 if(canMove) switchType();
                 startX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 startY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(startX, startY);
-                if(piece != null) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
+                try {
+                    piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(startX, startY);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if(piece != null && piece.GetType() == type) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
             }
 
             if(state == State.LAST) {
                 if(ae == null) return;
                 endX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
+                chessButton.get(endX).get(endY).setBackground(new Color(204, 189, 51));
+                try {
+                    canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
                 if(canMove) {
-                    Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                    repaintPanel();
-                    if(Controller.GetInstance().GetGame().Endgame()) winnerFrame.setVisible(true);
+                    try {
+                        Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        repaintPanel();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        if(Controller.GetInstance().GetGame().Endgame()) winnerFrame.setVisible(true);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             if(piece != null && piece.GetType() == type && canMove) switchState();

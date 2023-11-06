@@ -5,13 +5,15 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import pieces.*;
 import players.Type;
 
+import java.io.IOException;
+
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     Type playerType;
     int size;
     int row;
     int col;
 
-    private static boolean moreThanTwoKing() {
+    private static boolean moreThanTwoKing() throws IOException {
         int countKing = Controller.GetInstance().GetGame().GetBoard().CountKings();
         return countKing >= 2;
     }
@@ -26,7 +28,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitSize(BoardParser.SizeContext ctx) {
+    public Object visitSize(BoardParser.SizeContext ctx) throws IOException {
         if(ctx == null) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no size of the board, you should give it.");
         }
@@ -46,7 +48,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitPiece(BoardParser.PieceContext ctx) {
+    public Object visitPiece(BoardParser.PieceContext ctx) throws IOException {
         switch(ctx.getText()) {
             case "pawn":
                 Pawn pawn = new Pawn(playerType, col, row, Controller.GetInstance().GetGame().GetBoard());
@@ -103,7 +105,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) {
+    public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
         if (ctx.INT(0).getText().equals("<missing INT>")) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); }
         else if (ctx.INT(1) == null) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row or the column is missing"); }
 
@@ -119,7 +121,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) {
+    public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException {
         if(!moreThanTwoKing()) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is not enough kings.");
         } else if (ctx.player() == null) {

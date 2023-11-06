@@ -62,6 +62,10 @@ public class Frame {
         this.war_lab.setText(wartext);
     }
 
+    public PlayersFrame getPlayersFrame() {
+        return playersFrame;
+    }
+
     public void setVisible(boolean bool) {
         frame.setVisible(bool);
     }

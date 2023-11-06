@@ -13,12 +13,6 @@ public class Player implements Serializable {
 		this.type = type;
 	}
 
-	public boolean Move(Piece piece, int endX, int endY) throws NullPointerException {
-		if(piece.GetType() != type)
-			return false;
-		return piece.Move(endX, endY);
-	}
-
 	public String GetName() {
 		return this.name;
 	}

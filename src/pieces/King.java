@@ -15,26 +15,6 @@ public class King extends Piece {
 		super(type, x, y, board);
 	}
 
-	public boolean ValidMove(int endX, int endY) {
-		return Math.abs(this.GetY()-endY)<=1 && Math.abs(this.GetX()-endX)<=1;
-	}
-
-	public boolean Move(int endX, int endY) {
-		if(this.ValidMove(endX, endY)) {
-			boolean settable = false;
-			if(GetBoard().GetPiece(endX, endY) != null && GetBoard().GetPiece(endX, endY).GetType() != this.GetType()) settable = true;
-			if(GetBoard().GetPiece(endX, endY) == null) settable = true;
-
-			if(settable) {
-				this.SetX(endX);
-				this.SetY(endY);
-				GetBoard().SetPiece(this);
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public ImageIcon GetImageIcon() {
 		if(this.GetType() == Type.BLACK) return b_king;
 		return w_king;

@@ -13,7 +13,7 @@ public class Board {
     public Board() {}
 
     public boolean MissingKing() {
-        return CountKings() != 2;
+        return CountKings() < 2;
     }
 
     public int CountKings() {

@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -167,7 +169,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitSize(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitSize(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -284,7 +292,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPieceOnBoard(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitPieceOnBoard(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -344,7 +358,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPiece(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitPiece(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -398,7 +418,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitNextPlayer(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitNextPlayer(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}
