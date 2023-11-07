@@ -36,14 +36,3 @@ public class MoveCommand implements ICommand {
         if(piece.GetType() == Type.BLACK) piece.Move(piece.GetX(), piece.GetY()+1);
     }
 }
-
-// teljesen adja hozzá a lépéseket, ha ezt megtette akkor lehet ellenőrizni hogy valid e a lépés
-// 1 move-ok fuggvényszerü megírésa, majd ezek for ciklusban több lépéssé kombinálhatóak???
-
-// átveszi GUIból hova akar lépni
-// megnézi, valid-e a lépés
-// ha igen nézi, van-e ott valaki
-// ha nincs odalép
-// ha van, akkor ütéses command (ez már nem is feltétlen itt fut majd)
-
-// hibakezelés itt vagy visitorban? - visitor

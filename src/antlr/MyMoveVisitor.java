@@ -3,6 +3,7 @@ package antlr;
 import commands.MoveCommand;
 import game.Controller;
 import game.Piece;
+import pieces.TypeOfPiece;
 
 import java.io.IOException;
 
@@ -23,12 +24,17 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
 
     @Override
     public Object visitGeneral_rule(MoveParser.General_ruleContext ctx) {
-
         return visitChildren(ctx);
     }
 
     @Override
-    public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) {
+    public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException {
+        if(ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase())) {
+            Controller.GetInstance().GetGame().setCanmove(true);
+            movecmd = new MoveCommand(piece);
+            movecmd.Execute();
+        }
+
         return visitChildren(ctx);
     }
     @Override
@@ -38,10 +44,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
 
     @Override
     public Object visitMove(MoveParser.MoveContext ctx) {
-        // át kéne vennie az endx, endy paramétereket, hogy bele lehessen venni a hány lépés problémáját
-        movecmd = new MoveCommand(piece);
-        movecmd.Execute();
-
         System.out.println(piece.GetX() + ", " + piece.GetY());
 
         return visitChildren(ctx);

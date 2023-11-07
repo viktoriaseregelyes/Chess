@@ -103,6 +103,10 @@ public class ChessPanel extends JPanel {
         }
     }
 
+    public void setCanMove(boolean move) {
+        this.canMove = move;
+    }
+
     public class ChessButtonListenerAdapter implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             if(state == State.FIRST) {
@@ -122,9 +126,9 @@ public class ChessPanel extends JPanel {
                 if(ae == null) return;
                 endX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                chessButton.get(endX).get(endY).setBackground(new Color(204, 189, 51));
                 try {
                     canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
+                    System.out.println(canMove);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -145,6 +149,16 @@ public class ChessPanel extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    try {
+                        Controller.GetInstance().GetGame().setCanmove(false);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
+                    switchState();
+                    if ((startX + startY) % 2 == 1) chessButton.get(startX).get(startY).setBackground(Color.gray);
+                    else chessButton.get(startX).get(startY).setBackground(null);
                 }
             }
             if(piece != null && piece.GetType() == type && canMove) switchState();

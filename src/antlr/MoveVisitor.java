@@ -29,7 +29,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPiece_rule(MoveParser.Piece_ruleContext ctx);
+	T visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#general_rule}.
 	 * @param ctx the parse tree

@@ -19,8 +19,9 @@ public class Game {
 	private Board board;
 	private Type type = Type.WHITE;
 	private ParseTree move;
-
 	private Piece piece;
+
+	private boolean canmove = false;
 
 	public Game() throws IOException {
 		this.board = new Board();
@@ -38,8 +39,10 @@ public class Game {
 		new MyMoveVisitor().visit(this.move);
 
 		SwitchType();
-		return true;
+		return canmove;
 	}
+
+	public void setCanmove(boolean move) { this.canmove = move; }
 
 	public Piece getPiece() {
 		return piece;
