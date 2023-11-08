@@ -128,7 +128,6 @@ public class ChessPanel extends JPanel {
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
                 try {
                     canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
-                    System.out.println(canMove);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

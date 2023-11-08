@@ -20,8 +20,9 @@ public class Game {
 	private Type type = Type.WHITE;
 	private ParseTree move;
 	private Piece piece;
-
 	private boolean canmove = false;
+
+	private int endX, endY;
 
 	public Game() throws IOException {
 		this.board = new Board();
@@ -36,6 +37,9 @@ public class Game {
 
 	public boolean Round(Piece piece, int endX, int endY) {
 		this.piece = piece;
+		this.endX = endX;
+		this.endY = endY;
+
 		new MyMoveVisitor().visit(this.move);
 
 		SwitchType();
@@ -89,6 +93,12 @@ public class Game {
 		if (type == Type.BLACK)
 			return white;
 		return black;
+	}
+	public int getEndY(){
+		return this.endY;
+	}
+	public int getEndX(){
+		return this.endX;
 	}
 
 	public void SetBlack(Player black) {

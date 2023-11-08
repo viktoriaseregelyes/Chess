@@ -433,9 +433,15 @@ public class MoveParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MoveContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(MoveParser.INT, 0); }
-		public DirectionsContext directions() {
-			return getRuleContext(DirectionsContext.class,0);
+		public List<TerminalNode> INT() { return getTokens(MoveParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(MoveParser.INT, i);
+		}
+		public List<DirectionsContext> directions() {
+			return getRuleContexts(DirectionsContext.class);
+		}
+		public DirectionsContext directions(int i) {
+			return getRuleContext(DirectionsContext.class,i);
 		}
 		public MoveContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -459,31 +465,40 @@ public class MoveParser extends Parser {
 	public final MoveContext move() throws RecognitionException {
 		MoveContext _localctx = new MoveContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_move);
+		int _la;
 		try {
-			setState(66);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(67);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case INT:
-				enterOuterAlt(_localctx, 1);
+			_la = _input.LA(1);
+			while (_la==INT) {
+				{
 				{
 				setState(63);
 				match(INT);
 				setState(64);
 				directions();
 				}
-				break;
-			case RIGHT:
-			case LEFT:
-			case BACKWARD:
-			case FORWARD:
-				enterOuterAlt(_localctx, 2);
+				}
+				setState(69);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(73);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1920L) != 0)) {
 				{
-				setState(65);
+				{
+				setState(70);
 				directions();
 				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+				}
+				setState(75);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -530,11 +545,11 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
+			setState(76);
 			action();
-			setState(69);
+			setState(77);
 			match(T__4);
-			setState(70);
+			setState(78);
 			event();
 			}
 		}
@@ -583,27 +598,27 @@ public class MoveParser extends Parser {
 		ActionContext _localctx = new ActionContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_action);
 		try {
-			setState(75);
+			setState(83);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(72);
+				setState(80);
 				move_again();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(73);
+				setState(81);
 				move_dir();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(74);
+				setState(82);
 				become_piece();
 				}
 				break;
@@ -648,7 +663,7 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
+			setState(85);
 			match(HIT);
 			}
 		}
@@ -695,7 +710,7 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(87);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1920L) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -747,9 +762,9 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(89);
 			match(MOVE);
-			setState(82);
+			setState(90);
 			match(AGAIN);
 			}
 		}
@@ -795,9 +810,9 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(92);
 			match(MOVE);
-			setState(85);
+			setState(93);
 			directions();
 			}
 		}
@@ -843,9 +858,9 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(95);
 			match(BECOME);
-			setState(88);
+			setState(96);
 			piece();
 			}
 		}
@@ -894,7 +909,7 @@ public class MoveParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90);
+			setState(98);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4128768L) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -918,7 +933,7 @@ public class MoveParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0016]\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0016e\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -927,19 +942,20 @@ public class MoveParser extends Parser {
 		"\u0001\'\b\u0001\n\u0001\f\u0001*\t\u0001\u0001\u0002\u0001\u0002\u0001"+
 		"\u0002\u0001\u0002\u0005\u00020\b\u0002\n\u0002\f\u00023\t\u0002\u0001"+
 		"\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0005"+
-		"\u0004;\b\u0004\n\u0004\f\u0004>\t\u0004\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0003\u0005C\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
-		"\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0003\u0007L\b\u0007\u0001"+
-		"\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b"+
-		"\u0001\u000b\u0001\f\u0001\f\u0001\f\u0001\r\u0001\r\u0001\r\u0000\u0000"+
-		"\u000e\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018"+
-		"\u001a\u0000\u0002\u0001\u0000\u0007\n\u0001\u0000\u0010\u0015U\u0000"+
-		"\u001c\u0001\u0000\u0000\u0000\u0002#\u0001\u0000\u0000\u0000\u0004+\u0001"+
-		"\u0000\u0000\u0000\u00064\u0001\u0000\u0000\u0000\b7\u0001\u0000\u0000"+
-		"\u0000\nB\u0001\u0000\u0000\u0000\fD\u0001\u0000\u0000\u0000\u000eK\u0001"+
-		"\u0000\u0000\u0000\u0010M\u0001\u0000\u0000\u0000\u0012O\u0001\u0000\u0000"+
-		"\u0000\u0014Q\u0001\u0000\u0000\u0000\u0016T\u0001\u0000\u0000\u0000\u0018"+
-		"W\u0001\u0000\u0000\u0000\u001aZ\u0001\u0000\u0000\u0000\u001c \u0003"+
+		"\u0004;\b\u0004\n\u0004\f\u0004>\t\u0004\u0001\u0005\u0001\u0005\u0005"+
+		"\u0005B\b\u0005\n\u0005\f\u0005E\t\u0005\u0001\u0005\u0005\u0005H\b\u0005"+
+		"\n\u0005\f\u0005K\t\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0007\u0001\u0007\u0001\u0007\u0003\u0007T\b\u0007\u0001\b\u0001"+
+		"\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b\u0001"+
+		"\u000b\u0001\f\u0001\f\u0001\f\u0001\r\u0001\r\u0001\r\u0000\u0000\u000e"+
+		"\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a"+
+		"\u0000\u0002\u0001\u0000\u0007\n\u0001\u0000\u0010\u0015^\u0000\u001c"+
+		"\u0001\u0000\u0000\u0000\u0002#\u0001\u0000\u0000\u0000\u0004+\u0001\u0000"+
+		"\u0000\u0000\u00064\u0001\u0000\u0000\u0000\b7\u0001\u0000\u0000\u0000"+
+		"\nC\u0001\u0000\u0000\u0000\fL\u0001\u0000\u0000\u0000\u000eS\u0001\u0000"+
+		"\u0000\u0000\u0010U\u0001\u0000\u0000\u0000\u0012W\u0001\u0000\u0000\u0000"+
+		"\u0014Y\u0001\u0000\u0000\u0000\u0016\\\u0001\u0000\u0000\u0000\u0018"+
+		"_\u0001\u0000\u0000\u0000\u001ab\u0001\u0000\u0000\u0000\u001c \u0003"+
 		"\u0002\u0001\u0000\u001d\u001f\u0003\u0004\u0002\u0000\u001e\u001d\u0001"+
 		"\u0000\u0000\u0000\u001f\"\u0001\u0000\u0000\u0000 \u001e\u0001\u0000"+
 		"\u0000\u0000 !\u0001\u0000\u0000\u0000!\u0001\u0001\u0000\u0000\u0000"+
@@ -954,19 +970,22 @@ public class MoveParser extends Parser {
 		"\u0001\u0000\u0000\u00007<\u0003\n\u0005\u000089\u0005\u0004\u0000\u0000"+
 		"9;\u0003\n\u0005\u0000:8\u0001\u0000\u0000\u0000;>\u0001\u0000\u0000\u0000"+
 		"<:\u0001\u0000\u0000\u0000<=\u0001\u0000\u0000\u0000=\t\u0001\u0000\u0000"+
-		"\u0000><\u0001\u0000\u0000\u0000?@\u0005\u000e\u0000\u0000@C\u0003\u0012"+
-		"\t\u0000AC\u0003\u0012\t\u0000B?\u0001\u0000\u0000\u0000BA\u0001\u0000"+
-		"\u0000\u0000C\u000b\u0001\u0000\u0000\u0000DE\u0003\u000e\u0007\u0000"+
-		"EF\u0005\u0005\u0000\u0000FG\u0003\u0010\b\u0000G\r\u0001\u0000\u0000"+
-		"\u0000HL\u0003\u0014\n\u0000IL\u0003\u0016\u000b\u0000JL\u0003\u0018\f"+
-		"\u0000KH\u0001\u0000\u0000\u0000KI\u0001\u0000\u0000\u0000KJ\u0001\u0000"+
-		"\u0000\u0000L\u000f\u0001\u0000\u0000\u0000MN\u0005\u0006\u0000\u0000"+
-		"N\u0011\u0001\u0000\u0000\u0000OP\u0007\u0000\u0000\u0000P\u0013\u0001"+
-		"\u0000\u0000\u0000QR\u0005\f\u0000\u0000RS\u0005\u000b\u0000\u0000S\u0015"+
-		"\u0001\u0000\u0000\u0000TU\u0005\f\u0000\u0000UV\u0003\u0012\t\u0000V"+
-		"\u0017\u0001\u0000\u0000\u0000WX\u0005\r\u0000\u0000XY\u0003\u001a\r\u0000"+
-		"Y\u0019\u0001\u0000\u0000\u0000Z[\u0007\u0001\u0000\u0000[\u001b\u0001"+
-		"\u0000\u0000\u0000\u0006 (1<BK";
+		"\u0000><\u0001\u0000\u0000\u0000?@\u0005\u000e\u0000\u0000@B\u0003\u0012"+
+		"\t\u0000A?\u0001\u0000\u0000\u0000BE\u0001\u0000\u0000\u0000CA\u0001\u0000"+
+		"\u0000\u0000CD\u0001\u0000\u0000\u0000DI\u0001\u0000\u0000\u0000EC\u0001"+
+		"\u0000\u0000\u0000FH\u0003\u0012\t\u0000GF\u0001\u0000\u0000\u0000HK\u0001"+
+		"\u0000\u0000\u0000IG\u0001\u0000\u0000\u0000IJ\u0001\u0000\u0000\u0000"+
+		"J\u000b\u0001\u0000\u0000\u0000KI\u0001\u0000\u0000\u0000LM\u0003\u000e"+
+		"\u0007\u0000MN\u0005\u0005\u0000\u0000NO\u0003\u0010\b\u0000O\r\u0001"+
+		"\u0000\u0000\u0000PT\u0003\u0014\n\u0000QT\u0003\u0016\u000b\u0000RT\u0003"+
+		"\u0018\f\u0000SP\u0001\u0000\u0000\u0000SQ\u0001\u0000\u0000\u0000SR\u0001"+
+		"\u0000\u0000\u0000T\u000f\u0001\u0000\u0000\u0000UV\u0005\u0006\u0000"+
+		"\u0000V\u0011\u0001\u0000\u0000\u0000WX\u0007\u0000\u0000\u0000X\u0013"+
+		"\u0001\u0000\u0000\u0000YZ\u0005\f\u0000\u0000Z[\u0005\u000b\u0000\u0000"+
+		"[\u0015\u0001\u0000\u0000\u0000\\]\u0005\f\u0000\u0000]^\u0003\u0012\t"+
+		"\u0000^\u0017\u0001\u0000\u0000\u0000_`\u0005\r\u0000\u0000`a\u0003\u001a"+
+		"\r\u0000a\u0019\u0001\u0000\u0000\u0000bc\u0007\u0001\u0000\u0000c\u001b"+
+		"\u0001\u0000\u0000\u0000\u0007 (1<CIS";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

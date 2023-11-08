@@ -7,7 +7,7 @@ piece_rule: piece ' rule:' general_rule rule*;
 general_rule: 'general move:' move_more;
 
 move_more: move (', ' move )*;
-move: INT directions | directions;
+move: (INT directions)* (directions)*;
 rule: action 'when' event;
 action: move_again | move_dir | become_piece;
 event: HIT;
