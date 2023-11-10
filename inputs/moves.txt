@@ -13,4 +13,4 @@ bishop rule:
 general move: 1 forward 1 left, 1 forward 1 right
 
 king rule:
-general move: 1 forward 1 left, 1 right
+general move: 2 forward left, 1 right

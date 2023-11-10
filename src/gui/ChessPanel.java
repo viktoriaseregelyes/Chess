@@ -119,7 +119,7 @@ public class ChessPanel extends JPanel {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                if(piece != null && piece.GetType() == type) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
+                if(piece != null) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
             }
 
             if(state == State.LAST) {
@@ -160,7 +160,7 @@ public class ChessPanel extends JPanel {
                     else chessButton.get(startX).get(startY).setBackground(null);
                 }
             }
-            if(piece != null && piece.GetType() == type && canMove) switchState();
+            if(piece != null) switchState();
         }
     }
 }

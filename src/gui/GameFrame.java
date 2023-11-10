@@ -13,6 +13,8 @@ public class GameFrame extends JFrame {
 
     ChessPanel chessPanel;
 
+    JLabel war_lab;
+
     public GameFrame(String name, ResultData resultData) throws IOException {
         super(name);
 
@@ -30,9 +32,23 @@ public class GameFrame extends JFrame {
         panel_players.add(label_white);
         panel_players.add(label_black);
 
+        war_lab = new JLabel("", SwingConstants.CENTER);
+        JPanel panel_war = new JPanel(new BorderLayout());
+        war_lab.setForeground(Color.RED);
+        war_lab.setSize(600, 150);
+        panel_war.add(war_lab, BorderLayout.SOUTH);
+
+        JPanel p = new JPanel(new BorderLayout());
+
+        p.add(panel_war,BorderLayout.CENTER);
+        p.add(panel_menu,BorderLayout.NORTH);
+
+        JPanel panel_menu_war = new JPanel(new BorderLayout());
+        panel_menu_war.add(p,BorderLayout.SOUTH);
+
         this.add(panel_players, BorderLayout.NORTH);
         this.add(chessPanel, BorderLayout.CENTER);
-        this.add(panel_menu, BorderLayout.SOUTH);
+        this.add(panel_menu_war, BorderLayout.SOUTH);
         this.pack();
         this.setSize(600, 600);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -41,6 +57,10 @@ public class GameFrame extends JFrame {
 
     public ChessPanel getChessPanel() {
         return chessPanel;
+    }
+
+    public void setWarLabel(String wartext) {
+        this.war_lab.setText(wartext);
     }
 
     public void setVisible(boolean bool) {

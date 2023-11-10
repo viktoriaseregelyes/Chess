@@ -45,6 +45,10 @@ public class PlayersFrame extends JFrame {
         super.setVisible(bool);
     }
 
+    public GameFrame getGameFrame() {
+        return gameFrame;
+    }
+
     public class GameButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             String Player1 = textField_player1.getText();
