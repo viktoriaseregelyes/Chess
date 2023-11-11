@@ -151,7 +151,9 @@ public class ChessPanel extends JPanel {
                         throw new RuntimeException(e);
                     }
                 }
-                else { switchState();}
+                else {
+                    switchState();
+                }
             }
             if(piece != null) switchState();
         }
