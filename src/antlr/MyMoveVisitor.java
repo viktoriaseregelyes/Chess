@@ -1,5 +1,7 @@
 package antlr;
 
+import commands.ActionCommand;
+import commands.EventCommand;
 import commands.MoveCommand;
 import game.Controller;
 import game.Piece;
@@ -12,12 +14,14 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private int endX, endY, rule_num = 0;
     private ArrayList<String> dir = new ArrayList<>();
     private ArrayList<Integer> dir_num = new ArrayList<>();
+    private EventCommand eventcmd;
     @Override
     public Object visitMoves(MoveParser.MovesContext ctx) throws IOException {
         if(Controller.GetInstance().GetGame().getPiece() != null) {
             piece = Controller.GetInstance().GetGame().getPiece();
             endX = Controller.GetInstance().GetGame().getEndX();
             endY = Controller.GetInstance().GetGame().getEndY();
+            eventcmd = new EventCommand();
         }
         return visitChildren(ctx);
     }
@@ -52,7 +56,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                     dir.add(ctx.general_rule().move_more().move(i).directions(j).getText());
                 }
 
-                MoveCommand movecmd = new MoveCommand(piece, dir, dir_num, endX, endY);
+                MoveCommand movecmd = new MoveCommand(piece, dir, dir_num, endX, endY, eventcmd);
                 rule_num += movecmd.Execute();
             }
             if(rule_num == moves) {
@@ -60,6 +64,13 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             }
             else {
                 game.Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().setWarLabel("");
+            }
+        }
+
+        if(eventcmd.getHit()) {
+            for(int i=0; i<ctx.rule_().size(); i++) {
+                ActionCommand actioncmd = new ActionCommand(piece, ctx.rule_(i).action().getText());
+                actioncmd.Execute();
             }
         }
 
@@ -106,9 +117,5 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     @Override
     public Object visitBecome_piece(MoveParser.Become_pieceContext ctx) {
         return visitChildren(ctx);
-    }
-
-    public void setRule_num() {
-        this.rule_num++;
     }
 }

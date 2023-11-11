@@ -20,7 +20,7 @@ public class GameFrame extends JFrame {
 
         JPanel panel_players = new JPanel();
         panel_players.setLayout(new BoxLayout(panel_players, BoxLayout.PAGE_AXIS));
-        ChessPanel chessPanel = new ChessPanel(resultData, this);
+        chessPanel = new ChessPanel(resultData, this);
 
         JPanel panel_menu = new JPanel();
         JButton button_menu = new JButton("Menu");

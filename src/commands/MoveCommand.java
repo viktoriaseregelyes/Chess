@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class MoveCommand implements ICommand {
-    Piece piece;
-    List<String> dir;
-    List<Integer> dir_num;
-    int endX, endY;
-    int startX, startY;
-    public MoveCommand(Piece piece, List<String> dir, List<Integer> dir_num, int endX, int endY) {
+    private Piece piece;
+    private List<String> dir;
+    private List<Integer> dir_num;
+    private int endX, endY, startX, startY;
+    private EventCommand eventcmd;
+    public MoveCommand(Piece piece, List<String> dir, List<Integer> dir_num, int endX, int endY, EventCommand eventcmd) {
         this.piece = piece;
         this.dir = dir;
         this.dir_num = dir_num;
@@ -22,6 +22,7 @@ public class MoveCommand implements ICommand {
         this.endY = endY;
         this.startX = piece.GetX();
         this.startY = piece.GetY();
+        this.eventcmd = eventcmd;
     }
     @Override
     public int Execute() throws IOException {
@@ -36,6 +37,9 @@ public class MoveCommand implements ICommand {
                 }
             }
             if((startX == endX) && (startY == endY)){
+                if(Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != null && Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != piece) {
+                    eventcmd.Execute();
+                }
                 piece.Move(endX, endY);
                 Controller.GetInstance().GetGame().setCanmove(true);
             }

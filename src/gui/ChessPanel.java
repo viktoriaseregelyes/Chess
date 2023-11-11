@@ -103,10 +103,6 @@ public class ChessPanel extends JPanel {
         }
     }
 
-    public void setCanMove(boolean move) {
-        this.canMove = move;
-    }
-
     public class ChessButtonListenerAdapter implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             if(state == State.FIRST) {

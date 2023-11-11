@@ -26,9 +26,6 @@ become_piece: BECOME piece;
 // hogy kéne, ha egy eventre máshogy kell reagálnia
 //      -definiálni, hogy milyen lehetséges eventek vannak
 
-// command lista az egyes eventekhez, és ezt futtatom le
-// irodalomjegyzék (BSc nem kell sok, technológiai dolgokra való hivatkozás - antlr compiler, kb 10 hiv.)
-
 piece: PAWN | KNIGHT | BISHOP | ROOK | QUEEN | KING;
 
 HIT: 'hit';
