@@ -122,7 +122,7 @@ public class ChessPanel extends JPanel {
                 if(ae == null) return;
                 endX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
-                chessButton.get(endX).get(endY).setBackground(new Color(204, 51, 64));
+                chessButton.get(startX).get(startY).setBackground(new Color(183, 44, 44));
                 try {
                     canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
                 } catch (IOException e) {
