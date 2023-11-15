@@ -15,6 +15,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private ArrayList<String> dir = new ArrayList<>();
     private ArrayList<Integer> dir_num = new ArrayList<>();
     private EventCommand eventcmd;
+    private boolean piece_changed = false;
     @Override
     public Object visitMoves(MoveParser.MovesContext ctx) throws IOException {
         if(Controller.GetInstance().GetGame().getPiece() != null) {
@@ -38,7 +39,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
 
     @Override
     public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException {
-        if(ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase())) {
+        if(ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase()) && !piece_changed) {
             rule_num = 0;
             int moves = ctx.general_rule().move_more().move().size();
             for(int i=0; i<moves; i++) {
@@ -71,6 +72,10 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             for(int i=0; i<ctx.rule_().size(); i++) {
                 ActionCommand actioncmd = new ActionCommand(piece, ctx.rule_(i).action().getText());
                 actioncmd.Execute();
+                if(this.piece != actioncmd.getPiece()) {
+                    this.piece = actioncmd.getPiece();
+                    this.piece_changed = true;
+                }
             }
         }
 

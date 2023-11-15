@@ -10,7 +10,7 @@ public class Board {
     private int size;
     private ArrayList<ArrayList<Piece>> field = new ArrayList<>(size);
 
-    public Board() {}
+    public Board() { }
 
     public boolean MissingKing() {
         return CountKings() < 2;
@@ -47,15 +47,5 @@ public class Board {
 
     public int GetSize() {
         return this.size;
-    }
-
-    public boolean SymmetricalBoard() {
-        for (int i = 0; i < size; i++) {
-            field.add(i, new ArrayList<>(size));
-            for (int j = 0; j < size; j++)
-                field.get(i).add(j, null);
-        }
-
-        return true;
     }
 }

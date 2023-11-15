@@ -61,8 +61,8 @@ public class MoveCommand implements ICommand {
         if(num == 0) startX = endX;
     }
     private void forward(int num) {
-        if(piece.GetType() == Type.WHITE && num != 0) startY = startY+num;
-        if(piece.GetType() == Type.BLACK && num != 0) startY = startY-num;
+        if(piece.GetType() == Type.WHITE) startY = startY+num;
+        if(piece.GetType() == Type.BLACK) startY = startY-num;
     }
     private void backward(int num) {
         if(piece.GetType() == Type.WHITE) startY = startY-num;
