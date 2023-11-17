@@ -70,12 +70,14 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
 
         if(eventcmd.getHit()) {
             for(int i=0; i<ctx.rule_().size(); i++) {
-                ActionCommand actioncmd = new ActionCommand(piece, ctx.rule_(i).action().getText());
+                System.out.println("elején" + this.piece + ", " + this.piece.GetX() + ", " + this.piece.GetY());
+                ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(i).action().getText());
                 actioncmd.Execute();
-                if(this.piece != actioncmd.getPiece()) {
-                    this.piece = actioncmd.getPiece();
+
+                if(this.piece != actioncmd.getPiece())
                     this.piece_changed = true;
-                }
+
+                this.piece = actioncmd.getPiece();
             }
         }
 

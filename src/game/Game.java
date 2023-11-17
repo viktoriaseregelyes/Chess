@@ -21,7 +21,6 @@ public class Game {
 	private ParseTree move;
 	private Piece piece;
 	private boolean canmove = false;
-
 	private int endX, endY;
 
 	public Game() throws IOException {
@@ -50,6 +49,10 @@ public class Game {
 
 	public Piece getPiece() {
 		return piece;
+	}
+
+	public void setPiece(Piece piece) {
+		this.piece = piece;
 	}
 
 	public static ParseTree readASTMoves(String fileName) throws IOException {

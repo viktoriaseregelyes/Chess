@@ -35,6 +35,10 @@ public class ActionCommand implements ICommand {
             move_dir();
         }
 
+        Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
+        Controller.GetInstance().GetGame().setPiece(this.piece);
+        Controller.GetInstance().GetGame().GetBoard().SetPiece(this.piece);
+
         Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
 
         return 0;
@@ -44,31 +48,37 @@ public class ActionCommand implements ICommand {
         switch(dummy) {
             case "pawn":
                 Pawn new_pawn = new Pawn(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_pawn);
                 this.piece = new_pawn;
                 break;
             case "knight":
                 Knight new_knight = new Knight(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_knight);
                 this.piece = new_knight;
                 break;
             case "king":
                 King new_king = new King(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_king);
                 this.piece = new_king;
                 break;
             case "bishop":
                 Bishop new_bishop = new Bishop(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_bishop);
                 this.piece = new_bishop;
                 break;
             case "rook":
                 Rook new_rook = new Rook(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_rook);
                 this.piece = new_rook;
                 break;
             case "queen":
                 Queen new_queen = new Queen(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
+                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
                 Controller.GetInstance().GetGame().GetBoard().SetPiece(new_queen);
                 this.piece = new_queen;
                 break;
@@ -89,8 +99,7 @@ public class ActionCommand implements ICommand {
             default: System.out.println("null"); break;
         }
         if((endX >= 0 && endX < Controller.GetInstance().GetGame().GetBoard().GetSize()) && (endY >= 0 && endY < Controller.GetInstance().GetGame().GetBoard().GetSize())){
-            piece.Move(endX, endY);
-            Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
+            this.piece.Move(endX, endY);
         }
     }
 
