@@ -142,7 +142,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
             return null;
         }
         game.Controller.GetInstance().GetGame().SetType(playerType);
-        System.out.println("Next player visited: " + game.Controller.GetInstance().GetGame().GetType().toLowerCase());
+        System.out.println("Next player visited: " + String.valueOf(game.Controller.GetInstance().GetGame().GetType()).toLowerCase());
         return visitChildren(ctx);
     }
 }

@@ -36,7 +36,7 @@ public class ActionCommand implements ICommand {
         }
 
         Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-        Controller.GetInstance().GetGame().setPiece(this.piece);
+        Controller.GetInstance().GetGame().SetPiece(this.piece);
         Controller.GetInstance().GetGame().GetBoard().SetPiece(this.piece);
 
         Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();

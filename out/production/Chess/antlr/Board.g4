@@ -9,10 +9,6 @@ piece: PAWN | KNIGHT | BISHOP | ROOK | QUEEN | KING;
 nextPlayer: 'next player is: ' player;
 player: WHITE | BLACK;
 
-// progin belül text area, oda jelezzen vissza
-// lépésekhez nyelvtan
-// dolgozat írása!! - absztrakt
-
 INT: DIGIT+;
 DIGIT: [0-9];
 

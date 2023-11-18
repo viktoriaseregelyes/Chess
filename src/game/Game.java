@@ -45,16 +45,13 @@ public class Game {
 		return canmove;
 	}
 
-	public void setCanmove(boolean move) { this.canmove = move; }
-
-	public Piece getPiece() {
+	public void SetCanmove(boolean move) { this.canmove = move; }
+	public Piece GetPiece() {
 		return piece;
 	}
-
-	public void setPiece(Piece piece) {
+	public void SetPiece(Piece piece) {
 		this.piece = piece;
 	}
-
 	public static ParseTree readASTMoves(String fileName) throws IOException {
 		try {
 			var code = Files.readString(Paths.get(fileName));
@@ -69,57 +66,44 @@ public class Game {
 			throw e;
 		}
 	}
-
 	public boolean Endgame() {
 		return board.MissingKing();
 	}
-
 	public void SwitchType() {
 		if(type == Type.WHITE)
 			type = Type.BLACK;
 		else type = Type.WHITE;
 	}
-
 	public Player GetPlayerWhite() {
 		return white;
 	}
-
 	public Player GetPlayerBlack() {
 		return black;
 	}
-
 	public Board GetBoard() {
 		return board;
 	}
-
 	public Player GetWinner() {
 		if (type == Type.BLACK)
 			return white;
 		return black;
 	}
-	public int getEndY(){
+	public int GetEndY(){
 		return this.endY;
 	}
-	public int getEndX(){
+	public int GetEndX(){
 		return this.endX;
 	}
-
 	public void SetBlack(Player black) {
 		this.black = black;
 	}
-	public void SetType(Type type) {
-		this.type = type;
-	}
-
 	public void SetWhite(Player white) {
 		this.white = white;
 	}
-
-	public String GetType() {
-		return String.valueOf(type);
-	}
-
-	public Type getType() {
+	public Type GetType() {
 		return type;
+	}
+	public void SetType(Type type) {
+		this.type = type;
 	}
 }

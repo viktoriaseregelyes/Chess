@@ -18,10 +18,10 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private boolean piece_changed = false;
     @Override
     public Object visitMoves(MoveParser.MovesContext ctx) throws IOException {
-        if(Controller.GetInstance().GetGame().getPiece() != null) {
-            piece = Controller.GetInstance().GetGame().getPiece();
-            endX = Controller.GetInstance().GetGame().getEndX();
-            endY = Controller.GetInstance().GetGame().getEndY();
+        if(Controller.GetInstance().GetGame().GetPiece() != null) {
+            piece = Controller.GetInstance().GetGame().GetPiece();
+            endX = Controller.GetInstance().GetGame().GetEndX();
+            endY = Controller.GetInstance().GetGame().GetEndY();
             eventcmd = new EventCommand();
         }
         return visitChildren(ctx);
@@ -70,7 +70,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
 
         if(eventcmd.getHit()) {
             for(int i=0; i<ctx.rule_().size(); i++) {
-                System.out.println("elején" + this.piece + ", " + this.piece.GetX() + ", " + this.piece.GetY());
                 ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(i).action().getText());
                 actioncmd.Execute();
 

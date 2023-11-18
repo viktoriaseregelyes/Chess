@@ -9,7 +9,6 @@ rook rule:
 general move: forward, backward, right, left
 move left when hit
 become bishop when hit
-move again when hit
 
 bishop rule:
 general move: 1 forward 1 left, 1 forward 1 right

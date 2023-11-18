@@ -15,7 +15,7 @@ public class ChessPanel extends JPanel {
     private Piece piece;
     private boolean canMove = true;
     private int startX, startY, endX, endY;
-    private Type type = Controller.GetInstance().GetGame().getType();
+    private Type type = Controller.GetInstance().GetGame().GetType();
     private WinnerFrame winnerFrame;
     private ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
     enum State {
@@ -38,14 +38,12 @@ public class ChessPanel extends JPanel {
         addButtons();
         switchType();
     }
-
     public void repaintPanel() throws IOException {
         this.removeAll();
         addButtons();
         this.revalidate();
         this.repaint();
     }
-
     public void addButtons() throws IOException {
         chessButton.remove(chessButton);
         for (int y=0;y<N;y++) {
@@ -64,21 +62,18 @@ public class ChessPanel extends JPanel {
             }
         }
     }
-
     public void switchState() {
         if(this.state == State.FIRST) {
             this.state = State.LAST;
         }
         else this.state = State.FIRST;
     }
-
     public void switchType() {
         if(this.type == Type.WHITE) {
             this.type = Type.BLACK;
         }
         else this.type = Type.WHITE;
     }
-
     public class ChessButton extends JButton {
         Point point;
 
@@ -102,9 +97,9 @@ public class ChessPanel extends JPanel {
             return point;
         }
     }
-
     public class ChessButtonListenerAdapter implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
+            System.out.println(type);
             if(state == State.FIRST) {
                 if(ae == null) return;
                 if(canMove) switchType();
@@ -115,7 +110,12 @@ public class ChessPanel extends JPanel {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                if(piece != null) chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
+                if(piece != null && piece.GetType() == type)
+                    chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
+                else {
+                    piece = null;
+                    canMove = false;
+                }
             }
 
             if(state == State.LAST) {
@@ -146,7 +146,7 @@ public class ChessPanel extends JPanel {
                         throw new RuntimeException(e);
                     }
                     try {
-                        Controller.GetInstance().GetGame().setCanmove(false);
+                        Controller.GetInstance().GetGame().SetCanmove(false);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

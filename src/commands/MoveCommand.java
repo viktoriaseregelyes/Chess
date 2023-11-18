@@ -41,7 +41,7 @@ public class MoveCommand implements ICommand {
                     eventcmd.Execute();
                 }
                 piece.Move(endX, endY);
-                Controller.GetInstance().GetGame().setCanmove(true);
+                Controller.GetInstance().GetGame().SetCanmove(true);
             }
             else {
                 return 1;
