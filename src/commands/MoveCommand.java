@@ -38,6 +38,7 @@ public class MoveCommand implements ICommand {
             }
             if((startX == endX) && (startY == endY)){
                 if(Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != null && Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != piece) {
+                    eventcmd.hitter(this.piece);
                     eventcmd.Execute();
                 }
                 piece.Move(endX, endY);

@@ -14,33 +14,23 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private int endX, endY, rule_num = 0;
     private ArrayList<String> dir = new ArrayList<>();
     private ArrayList<Integer> dir_num = new ArrayList<>();
-    private EventCommand eventcmd;
+    private EventCommand eventcmd = new EventCommand();
     private boolean piece_changed = false;
+
+    private MoveParser.All_piece_ruleContext allPieceRuleCtx;
     @Override
     public Object visitMoves(MoveParser.MovesContext ctx) throws IOException {
         if(Controller.GetInstance().GetGame().GetPiece() != null) {
             piece = Controller.GetInstance().GetGame().GetPiece();
             endX = Controller.GetInstance().GetGame().GetEndX();
             endY = Controller.GetInstance().GetGame().GetEndY();
-            eventcmd = new EventCommand();
         }
         return visitChildren(ctx);
     }
 
     @Override
-    public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) throws IOException {
-        /*if(eventcmd.getHit()) {
-            for(int i=0; i<ctx.rule_().size(); i++) {
-                ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(i).action().getText());
-                actioncmd.Execute();
-
-                if(this.piece != actioncmd.getPiece())
-                    this.piece_changed = true;
-
-                this.piece = actioncmd.getPiece();
-            }
-        }*/
-
+    public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) {
+        allPieceRuleCtx = ctx;
         return visitChildren(ctx);
     }
 
@@ -80,17 +70,35 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             }
         }
 
-        if(eventcmd.getHit()) {
-            for(int i=0; i<ctx.rule_().size(); i++) {
-                ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(i).action().getText());
+        if(eventcmd.getHit() && eventcmd.getPiece().GetType() == this.piece.GetType() && ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase())) {
+            for(int i=0; i<allPieceRuleCtx.rule_().size(); i++) {
+                ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
                 actioncmd.Execute();
+
+                System.out.println(allPieceRuleCtx.rule_(i).action().getText() + ", " + allPieceRuleCtx.rule_().size());
 
                 if(this.piece != actioncmd.getPiece())
                     this.piece_changed = true;
 
                 this.piece = actioncmd.getPiece();
             }
+
+            for(int j=0; j<ctx.rule_().size(); j++) {
+                ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
+                actioncmd.Execute();
+
+                System.out.println("ctx" + ctx.rule_(j).action().getText() + ", " + ctx.rule_().size());
+
+                if(this.piece != actioncmd.getPiece())
+                    this.piece_changed = true;
+
+                this.piece = actioncmd.getPiece();
+            }
+
+            System.out.println(this.piece + ", " + this.piece.GetX() + ", " + this.piece.GetY());
         }
+
+        Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
 
         return visitChildren(ctx);
     }
