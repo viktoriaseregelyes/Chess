@@ -99,7 +99,6 @@ public class ChessPanel extends JPanel {
     }
     public class ChessButtonListenerAdapter implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
-            System.out.println(type);
             if(state == State.FIRST) {
                 if(ae == null) return;
                 if(canMove) switchType();

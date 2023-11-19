@@ -25,13 +25,10 @@ public class ActionCommand implements ICommand {
     @Override
     public int Execute() throws IOException {
         if (action.contains("become")) {
-            System.out.println("become");
             become_piece();
         } else if (action.contains("moveagain")) {
-            System.out.println("move again");
             move_again();
         } else if (action.contains("move")) {
-            System.out.println("move dir");
             move_dir();
         }
 
@@ -91,7 +88,7 @@ public class ActionCommand implements ICommand {
         new MyMoveVisitor().visit(move);
     }
     private void move_dir() throws IOException {
-        switch("left") {
+        switch(action.replace("move", "")) {
             case "left": left(); break;
             case "right": right(); break;
             case "forward": forward(); break;

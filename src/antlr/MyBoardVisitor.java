@@ -13,9 +13,8 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     int row;
     int col;
 
-    private static boolean moreThanTwoKing() throws IOException {
-        int countKing = Controller.GetInstance().GetGame().GetBoard().CountKings();
-        return countKing >= 2;
+    private void error() throws IOException {
+        Controller.GetInstance().GetFrame().disappearButtons();
     }
 
     private static String getPosition(ParserRuleContext ctx) {
@@ -31,9 +30,11 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     public Object visitSize(BoardParser.SizeContext ctx) throws IOException {
         if(ctx == null) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no size of the board, you should give it.");
+            error();
         }
         else if(!ctx.getStart().getText().equals("board size is: ")) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.");
+            error();
         }
 
         size = Integer.parseInt(ctx.INT().getText());
@@ -76,6 +77,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
                 break;
             default:
                 System.out.println("error at " + getPosition(ctx) + ", piece's type is not exist.");
+                error();
                 System.exit(0);
                 break;
         }
@@ -106,30 +108,34 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
     @Override
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
-        if (ctx.INT(0).getText().equals("<missing INT>")) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); }
-        else if (ctx.INT(1) == null) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row or the column is missing"); }
+        if (ctx.INT(0).getText().equals("<missing INT>")) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); error(); }
+        else if (ctx.INT(1) == null) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row or the column is missing"); error(); }
 
         row = Integer.parseInt(ctx.INT(0).getText()) - 1;
         col = Integer.parseInt(ctx.INT(1).getText()) - 1;
 
-        if (row < 0) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); }
-        else if (row >= size) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); }
-        else if (col >= size) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); }
-        else if (col < 0) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); }
+        if (row < 0) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); error(); }
+        else if (row >= size) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); error(); }
+        else if (col >= size) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); error(); }
+        else if (col < 0) { game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); error(); }
 
         return visitChildren(ctx);
     }
 
     @Override
     public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException {
-        if(!moreThanTwoKing()) {
+        if(!Controller.GetInstance().GetGame().GetBoard().CountKings()) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is not enough kings.");
+            error();
         } else if (ctx.player() == null) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no next player.");
+            error();
         } else if(ctx == null) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no next player, you should give it.");
+            error();
         } else if(!ctx.getStart().getText().equals("next player is: ")) {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.");
+            error();
         }
 
         var player = ctx.player().getText();
@@ -139,6 +145,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
         else if (player.equals("black")) { playerType = Type.BLACK; }
         else {
             game.Controller.GetInstance().GetFrame().setWarLabel("error at " + getPosition(ctx) + ", next player's type is not exist, it can be 'white' or 'black'.");
+            error();
             return null;
         }
         game.Controller.GetInstance().GetGame().SetType(playerType);

@@ -67,7 +67,7 @@ public class Game {
 		}
 	}
 	public boolean Endgame() {
-		return board.MissingKing();
+		return !board.CountKings();
 	}
 	public void SwitchType() {
 		if(type == Type.WHITE)

@@ -194,7 +194,13 @@ public class MoveParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MoveVisitor ) return ((MoveVisitor<? extends T>)visitor).visitAll_piece_rule(this);
+			if ( visitor instanceof MoveVisitor ) {
+				try {
+					return ((MoveVisitor<? extends T>)visitor).visitAll_piece_rule(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}

@@ -28,7 +28,19 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     }
 
     @Override
-    public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) {
+    public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) throws IOException {
+        /*if(eventcmd.getHit()) {
+            for(int i=0; i<ctx.rule_().size(); i++) {
+                ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(i).action().getText());
+                actioncmd.Execute();
+
+                if(this.piece != actioncmd.getPiece())
+                    this.piece_changed = true;
+
+                this.piece = actioncmd.getPiece();
+            }
+        }*/
+
         return visitChildren(ctx);
     }
 

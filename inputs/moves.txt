@@ -1,17 +1,16 @@
 all piece rule:
-move again when hit
+become queen when hit
 
 pawn rule:
 general move: 1 left
-become rook when hit
 
 rook rule:
 general move: forward, backward, right, left
-move left when hit
+move forward when hit
 become bishop when hit
 
 bishop rule:
-general move: 1 forward 1 left, 1 forward 1 right
+general move: 1 forward 1 left, 1 forward 1 right, left
 
 king rule:
-general move: 2 forward left, 1 right
+general move: 2 forward left, forward, backward, right, left

@@ -12,8 +12,9 @@ public class Frame {
     private PlayersFrame playersFrame;
     private ResultFrame resultFrame;
     private ResultData resultData;
-
-    JLabel war_lab;
+    private JPanel panel_menu = new JPanel();
+    private JPanel panel_war = new JPanel();
+    private JTextArea war_lab;
 
     public static Frame GetInstance() {
         if (instance == null)
@@ -28,34 +29,41 @@ public class Frame {
         this.playersFrame = new PlayersFrame("Players",  resultData);
         this.resultFrame = new ResultFrame("Results", resultData);
 
+        JPanel panel_chess = new JPanel();
+        JLabel label_chess = new JLabel("Chess");
+        label_chess.setFont(new Font("Monospace", Font.PLAIN, 20));
+
+        war_lab = new JTextArea();
+        war_lab.setEditable(false);
+        war_lab.setLineWrap(true);
+        war_lab.setOpaque(false);
+        war_lab.setBorder(BorderFactory.createEmptyBorder());
+        war_lab.setFont(new Font("Monospace", Font.BOLD, 16));
+        war_lab.setForeground(Color.RED);
+        war_lab.setSize(550, 150);
+
         JButton button_game = new JButton("Game");
         JButton button_result = new JButton("Result");
         button_game.addActionListener(new PlayersButtonActionListener());
         button_result.addActionListener(new ResultButtonActionListener());
-        JPanel panel_chess = new JPanel();
-        JPanel panel_menu = new JPanel();
-        JPanel panel_war = new JPanel();
-        JLabel label_chess = new JLabel("Chess");
-        war_lab = new JLabel();
-
-        war_lab.setForeground(Color.RED);
-        war_lab.setSize(400, 150);
-
-        panel_chess.add(label_chess);
-        frame.add(panel_chess, BorderLayout.NORTH);
 
         panel_menu.add(button_game);
         panel_menu.add(button_result);
         frame.add(panel_menu);
-
+        panel_chess.add(label_chess);
+        frame.add(panel_chess, BorderLayout.NORTH);
         panel_war.add(war_lab);
-        frame.add(panel_war, BorderLayout.SOUTH);
 
         frame.pack();
-        frame.setSize(800, 180);
+        frame.setSize(600, 150);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    public void disappearButtons() {
+        panel_menu.setVisible(false);
+        frame.add(panel_war, BorderLayout.CENTER);
     }
 
     public void setWarLabel(String wartext) {

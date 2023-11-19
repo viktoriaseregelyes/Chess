@@ -12,16 +12,22 @@ public class Board {
 
     public Board() { }
 
-    public boolean MissingKing() {
-        return CountKings() < 2;
-    }
-
-    public int CountKings() {
-        int king = 0;
+    public boolean CountKings() {
+        int blackKing = 0;
+        int whiteKing = 0;
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
-                if (this.GetPiece(i, j) != null && this.GetPiece(i, j).GetTypeOfPiece() == TypeOfPiece.KING) king++;
-        return king;
+                if (this.GetPiece(i, j) != null && this.GetPiece(i, j).GetTypeOfPiece() == TypeOfPiece.KING) {
+                    if(this.GetPiece(i, j).GetType() == Type.WHITE)
+                        whiteKing++;
+                    else
+                        blackKing++;
+                }
+
+        if(whiteKing > 0 && blackKing > 0)
+            return true;
+        else
+            return false;
     }
 
     public Piece GetPiece(int x, int y) throws NullPointerException {

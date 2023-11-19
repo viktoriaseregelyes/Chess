@@ -27,7 +27,7 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
