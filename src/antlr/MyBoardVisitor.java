@@ -38,7 +38,6 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
         }
 
         size = Integer.parseInt(ctx.INT().getText());
-        System.out.println("Size of the board: " + size + "x" + size);
         game.Controller.GetInstance().GetGame().GetBoard().CreateBoard(size);
         return visitChildren(ctx);
     }
@@ -149,7 +148,6 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
             return null;
         }
         game.Controller.GetInstance().GetGame().SetType(playerType);
-        System.out.println("Next player visited: " + String.valueOf(game.Controller.GetInstance().GetGame().GetType()).toLowerCase());
         return visitChildren(ctx);
     }
 }

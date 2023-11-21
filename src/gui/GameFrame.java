@@ -10,9 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class GameFrame extends JFrame {
-
     ChessPanel chessPanel;
-
     JLabel war_lab;
 
     public GameFrame(String name, ResultData resultData) throws IOException {

@@ -1,10 +1,12 @@
 package gui;
 
+import antlr.MyBoardVisitor;
 import game.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class Frame {
     private static Frame instance = null;
@@ -82,6 +84,11 @@ public class Frame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             playersFrame.setVisible(true);
+            try {
+                new MyBoardVisitor().visit(Controller.GetInstance().GetGame().getBoardTree());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
