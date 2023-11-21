@@ -4,10 +4,10 @@ import antlr.MyMoveVisitor;
 import game.Controller;
 import game.ICommand;
 import game.Piece;
-import org.antlr.v4.runtime.tree.ParseTree;
 import pieces.*;
 import players.Type;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ActionCommand implements ICommand {
@@ -84,8 +84,7 @@ public class ActionCommand implements ICommand {
         }
     }
     private void move_again() throws IOException {
-        ParseTree move = Controller.GetInstance().GetGame().readASTMoves("inputs\\moves.txt");
-        new MyMoveVisitor().visit(move);
+        Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
     }
     private void move_dir() throws IOException {
         switch(action.replace("move", "")) {

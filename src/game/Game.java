@@ -121,4 +121,7 @@ public class Game {
 	public void SetType(Type type) {
 		this.type = type;
 	}
+	public ParseTree getMoveTree() {
+		return moveTree;
+	}
 }

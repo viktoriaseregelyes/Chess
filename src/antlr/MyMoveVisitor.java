@@ -17,13 +17,11 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private ArrayList<Integer> dir_num = new ArrayList<>();
     private EventCommand eventcmd = new EventCommand();
     private boolean piece_changed = false;
-
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
 
     private void error() throws IOException {
         Controller.GetInstance().GetFrame().disappearButtons();
     }
-
     private static String getPosition(ParserRuleContext ctx) {
         return "at line #" + ctx.getStart().getLine() + ", column #" + ctx.getStart().getCharPositionInLine();
     }
@@ -56,7 +54,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     @Override
     public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException {
         if(this.piece != null) {
-
             if (ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase()) && !piece_changed) {
                 rule_num = 0;
                 int moves = ctx.general_rule().move_more().move().size();
@@ -86,24 +83,23 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             }
 
             if (eventcmd.getHit() && eventcmd.getPiece().GetType() == this.piece.GetType() && ctx.piece().getText().equals(piece.GetTypeOfPiece().toString().toLowerCase())) {
-                for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
-                    ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
-                    actioncmd.Execute();
+                if (!piece_changed) {
+                    for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
+                        ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
+                        actioncmd.Execute();
 
-                    if (this.piece != actioncmd.getPiece())
-                        this.piece_changed = true;
+                        this.piece = actioncmd.getPiece();
+                    }
 
-                    this.piece = actioncmd.getPiece();
-                }
+                    for (int j = 0; j < ctx.rule_().size(); j++) {
+                        ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
+                        actioncmd.Execute();
 
-                for (int j = 0; j < ctx.rule_().size(); j++) {
-                    ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
-                    actioncmd.Execute();
+                        if (this.piece != actioncmd.getPiece())
+                            this.piece_changed = true;
 
-                    if (this.piece != actioncmd.getPiece())
-                        this.piece_changed = true;
-
-                    this.piece = actioncmd.getPiece();
+                        this.piece = actioncmd.getPiece();
+                    }
                 }
             }
 
