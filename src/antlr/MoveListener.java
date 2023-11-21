@@ -138,6 +138,16 @@ public interface MoveListener extends ParseTreeListener {
 	 */
 	void exitBecome_piece(MoveParser.Become_pieceContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MoveParser#move_anywhere}.
+	 * @param ctx the parse tree
+	 */
+	void enterMove_anywhere(MoveParser.Move_anywhereContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MoveParser#move_anywhere}.
+	 * @param ctx the parse tree
+	 */
+	void exitMove_anywhere(MoveParser.Move_anywhereContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MoveParser#piece}.
 	 * @param ctx the parse tree
 	 */

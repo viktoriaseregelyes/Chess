@@ -1,10 +1,10 @@
 board size is: 10
 
 piece(s) on the board is:
-white pawn is at 2 row 3 column
-black king is at 7 row 6 column
-white king is at 4 row 6 column
-white king is at 7 row 1 column
-black rook is at 7 row 7 column
+white pawn is at row 2 column 3
+black king is at row 7 column 6
+white king is at row 4 column 6
+white king is at row 7 column 1
+black rook is at row 7 column 7
 
 next player is: black

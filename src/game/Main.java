@@ -43,5 +43,6 @@ public class Main {
         var board = readASTBoard("inputs\\board.txt");
         var move = readASTMoves("inputs\\moves.txt");
         new MyBoardVisitor().visit(board);
+        new MyMoveVisitor().visit(move);
     }
 }

@@ -49,7 +49,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMove(MoveParser.MoveContext ctx);
 	/**
-	 * Visit a parse tree produced by MoveParser#rule.
+	 * Visit a parse tree produced by {@link MoveParser#rule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -90,6 +90,12 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBecome_piece(MoveParser.Become_pieceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MoveParser#move_anywhere}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMove_anywhere(MoveParser.Move_anywhereContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#piece}.
 	 * @param ctx the parse tree
