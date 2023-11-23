@@ -13,7 +13,6 @@ public class Controller {
         game = Game.getInstance();
         frame = Frame.GetInstance();
     }
-
     public static Controller getInstance() throws IOException {
         if (instance == null)
             instance = new Controller();

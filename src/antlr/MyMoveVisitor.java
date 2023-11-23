@@ -2,6 +2,7 @@ package antlr;
 
 import commands.ActionCommand;
 import commands.EventCommand;
+import commands.MoveAnywhereCommand;
 import commands.MoveCommand;
 import game.Controller;
 import game.Piece;
@@ -68,6 +69,22 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         }
 
         if(this.piece != null) {
+            if(ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
+                for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
+                    if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
+                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
+                        moveanywherecmd.Execute();
+                    }
+                }
+
+                for (int i = 0; i < ctx.rule_().size(); i++) {
+                    if(ctx.rule_(i).getText().contains("moveanywhere")) {
+                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
+                        moveanywherecmd.Execute();
+                    }
+                }
+            }
+
             if (ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase()) && !piece_changed) {
                 int rule_num = 0;
                 int moves = ctx.general_rule().move_more().move().size();
@@ -90,8 +107,13 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                     rule_num += movecmd.Execute();
                 }
                 if (rule_num == moves) {
-                    Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("This move does not comply with any of the rules of the dummy. Step somewhere else.");
-                } else {
+                    if(this.piece.getMove_times() > 0) {
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("csökkeni fog a move anywhere");
+                    }
+                    else
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("This move does not comply with any of the rules of the dummy. Step somewhere else.");
+                }
+                else {
                     Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
                 }
             }
@@ -99,20 +121,30 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             if (eventcmd.getHit() && eventcmd.getPiece().getType() == this.piece.getType() && ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
                 if (!piece_changed) {
                     for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
-                        ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
-                        actioncmd.Execute();
+                        if(!allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
+                            ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
+                            actioncmd.Execute();
 
-                        this.piece = actioncmd.getPiece();
+                            this.piece = actioncmd.getPiece();
+                        }
+
+                        if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
+                            MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
+                            moveanywherecmd.Execute();
+                            System.out.println(this.piece+", "+this.piece.getMove_times());
+                        }
                     }
 
                     for (int j = 0; j < ctx.rule_().size(); j++) {
-                        ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
-                        actioncmd.Execute();
+                        if(!ctx.rule_(j).getText().contains("moveanywhere")) {
+                            ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
+                            actioncmd.Execute();
 
-                        if (this.piece != actioncmd.getPiece())
-                            this.piece_changed = true;
+                            if (this.piece != actioncmd.getPiece())
+                                this.piece_changed = true;
 
-                        this.piece = actioncmd.getPiece();
+                            this.piece = actioncmd.getPiece();
+                        }
                     }
                 }
             }

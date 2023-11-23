@@ -10,7 +10,7 @@ import java.io.Serializable;
 abstract public class Piece implements Serializable {
 	private final Type type;
 	private TypeOfPiece top;
-	private int x, y;
+	private int x, y, move_times = -1;
 	private final Board board;
 	
 	public Piece(Type type, int x, int y, Board board) {
@@ -30,6 +30,10 @@ abstract public class Piece implements Serializable {
 	public void setY(int y) {this.y = y;}
 	public int getX() {return x;}
 	public int getY() {return y;}
+	public int getMove_times() {return move_times;}
+	public void setMove_times(int move_times) {
+		this.move_times = move_times;
+	}
 	public Board getBoard() {return board;}
 	public Type getType() {
 		return type;
