@@ -14,13 +14,11 @@ public class Queen extends Piece {
 	public Queen(Type type, int x, int y, Board board) {
 		super(type, x, y, board);
 	}
-
-	public ImageIcon GetImageIcon() {
-		if(this.GetType() == Type.BLACK) return b_queen;
+	public ImageIcon getImageIcon() {
+		if(this.getType() == Type.BLACK) return b_queen;
 		return w_queen;
 	}
-
-	public TypeOfPiece GetTypeOfPiece() {
+	public TypeOfPiece getTypeOfPiece() {
 		return this.top;
 	}
 }

@@ -26,31 +26,29 @@ public class Game {
 		this.boardTree = readASTBoard("inputs\\board.txt");
 		this.moveTree = readASTMoves("inputs\\moves.txt");
 	}
-
-	public static Game GetInstance() throws IOException {
+	public static Game getInstance() throws IOException {
 		if (instance == null)
 			instance = new Game();
 		return instance;
 	}
-
-	public boolean Round(Piece piece, int endX, int endY) {
+	public boolean round(Piece piece, int endX, int endY) {
 		this.piece = piece;
 		this.endX = endX;
 		this.endY = endY;
 
 		new MyMoveVisitor().visit(this.moveTree);
 
-		SwitchType();
+		switchType();
 		return canmove;
 	}
 	public ParseTree getBoardTree() {
 		return boardTree;
 	}
-	public void SetCanmove(boolean move) { this.canmove = move; }
-	public Piece GetPiece() {
+	public void setCanmove(boolean move) { this.canmove = move; }
+	public Piece getPiece() {
 		return piece;
 	}
-	public void SetPiece(Piece piece) {
+	public void setPiece(Piece piece) {
 		this.piece = piece;
 	}
 	public static ParseTree readASTMoves(String fileName) throws IOException {
@@ -60,8 +58,7 @@ public class Game {
 			var lexer = new MoveLexer(inputStream);
 			var tokenStream = new CommonTokenStream(lexer);
 			var parser = new MoveParser(tokenStream);
-			var context = parser.moves();
-			return context;
+			return parser.moves();
 		}
 		catch(IOException e) {
 			throw e;
@@ -74,51 +71,50 @@ public class Game {
 			var lexer = new BoardLexer(inputStream);
 			var tokenStream = new CommonTokenStream(lexer);
 			var parser = new BoardParser(tokenStream);
-			var context = parser.board();
-			return context;
+			return parser.board();
 		}
 		catch(IOException e) {
 			throw e;
 		}
 	}
-	public boolean Endgame() {
-		return !board.CountKings();
+	public boolean endGame() {
+		return !board.haveKings();
 	}
-	public void SwitchType() {
+	public void switchType() {
 		if(type == Type.WHITE)
 			type = Type.BLACK;
 		else type = Type.WHITE;
 	}
-	public Player GetPlayerWhite() {
+	public Player getPlayerWhite() {
 		return white;
 	}
-	public Player GetPlayerBlack() {
+	public Player getPlayerBlack() {
 		return black;
 	}
-	public Board GetBoard() {
+	public Board getBoard() {
 		return board;
 	}
-	public Player GetWinner() {
-		if (type == Type.BLACK)
-			return white;
-		return black;
+	public Player getWinner() {
+		if(board.countKing(Type.WHITE) == 0)
+			return black;
+		return white;
 	}
-	public int GetEndY(){
+	public int getEndY(){
 		return this.endY;
 	}
-	public int GetEndX(){
+	public int getEndX(){
 		return this.endX;
 	}
-	public void SetBlack(Player black) {
+	public void setBlack(Player black) {
 		this.black = black;
 	}
-	public void SetWhite(Player white) {
+	public void setWhite(Player white) {
 		this.white = white;
 	}
-	public Type GetType() {
+	public Type getType() {
 		return type;
 	}
-	public void SetType(Type type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 	public ParseTree getMoveTree() {

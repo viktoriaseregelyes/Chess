@@ -6,25 +6,23 @@ import java.io.IOException;
 
 public class Controller {
     private static Controller instance = null;
-    private Game game;
-    private Frame frame;
+    private final Game game;
+    private final Frame frame;
 
     public Controller() throws IOException {
-        game = Game.GetInstance();
+        game = Game.getInstance();
         frame = Frame.GetInstance();
     }
 
-    public static Controller GetInstance() throws IOException {
+    public static Controller getInstance() throws IOException {
         if (instance == null)
             instance = new Controller();
         return instance;
     }
-
-    public Game GetGame() {
+    public Game getGame() {
         return game;
     }
-
-    public Frame GetFrame() {
+    public Frame getFrame() {
         return frame;
     }
 }

@@ -40,15 +40,12 @@ public class PlayersFrame extends JFrame {
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
-
     public void setVisible(boolean bool) {
         super.setVisible(bool);
     }
-
     public GameFrame getGameFrame() {
         return gameFrame;
     }
-
     public class GameButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             String Player1 = textField_player1.getText();
@@ -57,12 +54,12 @@ public class PlayersFrame extends JFrame {
             Player player2 = new Player(Player2, players.Type.WHITE);
 
             try {
-                Controller.GetInstance().GetGame().SetBlack(player1);
+                Controller.getInstance().getGame().setBlack(player1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try {
-                Controller.GetInstance().GetGame().SetWhite(player2);
+                Controller.getInstance().getGame().setWhite(player2);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

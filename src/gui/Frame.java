@@ -23,7 +23,6 @@ public class Frame {
             instance = new Frame();
         return instance;
     }
-
     public Frame() {
         frame = new JFrame("Chess");
 
@@ -62,36 +61,30 @@ public class Frame {
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
     public void disappearButtons() {
         panel_menu.setVisible(false);
         frame.add(panel_war, BorderLayout.CENTER);
     }
-
     public void setWarLabel(String wartext) {
         this.war_lab.setText(wartext);
     }
-
     public PlayersFrame getPlayersFrame() {
         return playersFrame;
     }
-
     public void setVisible(boolean bool) {
         frame.setVisible(bool);
     }
-
     public class PlayersButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             playersFrame.setVisible(true);
             try {
-                new MyBoardVisitor().visit(Controller.GetInstance().GetGame().getBoardTree());
+                new MyBoardVisitor().visit(Controller.getInstance().getGame().getBoardTree());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-
     public class ResultButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);

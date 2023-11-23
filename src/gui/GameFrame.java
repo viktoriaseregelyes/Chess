@@ -25,8 +25,8 @@ public class GameFrame extends JFrame {
         button_menu.addActionListener(new MenuButtonActionListener());
         panel_menu.add(button_menu);
 
-        JLabel label_white = new JLabel("White: "+ Controller.GetInstance().GetGame().GetPlayerWhite().GetName());
-        JLabel label_black = new JLabel("Black: "+ Controller.GetInstance().GetGame().GetPlayerBlack().GetName());
+        JLabel label_white = new JLabel("White: "+ Controller.getInstance().getGame().getPlayerWhite().GetName());
+        JLabel label_black = new JLabel("Black: "+ Controller.getInstance().getGame().getPlayerBlack().GetName());
         panel_players.add(label_white);
         panel_players.add(label_black);
 
@@ -69,7 +69,7 @@ public class GameFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             try {
-                Controller.GetInstance().GetFrame().setVisible(true);
+                Controller.getInstance().getFrame().setVisible(true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

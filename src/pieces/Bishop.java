@@ -16,12 +16,12 @@ public class Bishop extends Piece {
 		super(type, x, y, board);
 	}
 
-	public ImageIcon GetImageIcon() {
-		if(this.GetType() == Type.BLACK) return b_bishop;
+	public ImageIcon getImageIcon() {
+		if(this.getType() == Type.BLACK) return b_bishop;
 		return w_bishop;
 	}
 
-	public TypeOfPiece GetTypeOfPiece() {
+	public TypeOfPiece getTypeOfPiece() {
 		return this.top;
 	}
 }

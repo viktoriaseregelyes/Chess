@@ -11,22 +11,21 @@ import javax.swing.*;
 
 public class ChessPanel extends JPanel {
     private static int SIZE = 60;
-    private int N;
+    private int N, startX, startY, endX, endY;
     private Piece piece;
     private boolean canMove = true;
-    private int startX, startY, endX, endY;
-    private Type type = Controller.GetInstance().GetGame().GetType();
+    private Type type = Controller.getInstance().getGame().getType();
     private WinnerFrame winnerFrame;
-    private ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
+    public ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
     enum State {
         FIRST, LAST
     }
-    public State state = State.FIRST;
+    private State state = State.FIRST;
 
     public ChessPanel(ResultData resultData, GameFrame gameFrame) throws IOException {
-        super(new GridLayout(game.Controller.GetInstance().GetGame().GetBoard().GetSize(), game.Controller.GetInstance().GetGame().GetBoard().GetSize()));
+        super(new GridLayout(game.Controller.getInstance().getGame().getBoard().getSize(), game.Controller.getInstance().getGame().getBoard().getSize()));
 
-        N = game.Controller.GetInstance().GetGame().GetBoard().GetSize();
+        N = game.Controller.getInstance().getGame().getBoard().getSize();
 
         for (int x = 0; x < N; x++) {
             chessButton.add(new ArrayList<>(N));
@@ -48,9 +47,9 @@ public class ChessPanel extends JPanel {
         chessButton.remove(chessButton);
         for (int y=0;y<N;y++) {
             for (int x=0;x<N;x++) {
-                Piece piece_tmp = Controller.GetInstance().GetGame().GetBoard().GetPiece(x, y);
+                Piece piece_tmp = Controller.getInstance().getGame().getBoard().getPiece(x, y);
                 if (piece_tmp != null) {
-                    ImageIcon image = piece_tmp.GetImageIcon();
+                    ImageIcon image = piece_tmp.getImageIcon();
                     chessButton.get(x).add(y, new ChessButton(image, x, y));
                 }
                 else {
@@ -105,11 +104,11 @@ public class ChessPanel extends JPanel {
                 startX = (int) ((ChessButton)ae.getSource()).getPoint().getX();
                 startY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
                 try {
-                    piece = Controller.GetInstance().GetGame().GetBoard().GetPiece(startX, startY);
+                    piece = Controller.getInstance().getGame().getBoard().getPiece(startX, startY);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                if(piece != null && piece.GetType() == type)
+                if(piece != null && piece.getType() == type)
                     chessButton.get(startX).get(startY).setBackground(new Color(51, 204, 51));
                 else {
                     piece = null;
@@ -123,14 +122,14 @@ public class ChessPanel extends JPanel {
                 endY = (int) ((ChessButton)ae.getSource()).getPoint().getY();
                 chessButton.get(endX).get(endY).setBackground(new Color(183, 44, 44));
                 try {
-                    canMove = Controller.GetInstance().GetGame().Round(piece, endX, endY);
+                    canMove = Controller.getInstance().getGame().round(piece, endX, endY);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
                 if(canMove) {
                     try {
-                        Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
+                        Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -140,12 +139,12 @@ public class ChessPanel extends JPanel {
                         throw new RuntimeException(e);
                     }
                     try {
-                        if(Controller.GetInstance().GetGame().Endgame()) winnerFrame.setVisible(true);
+                        if(Controller.getInstance().getGame().endGame()) winnerFrame.setVisible(true);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                     try {
-                        Controller.GetInstance().GetGame().SetCanmove(false);
+                        Controller.getInstance().getGame().setCanmove(false);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

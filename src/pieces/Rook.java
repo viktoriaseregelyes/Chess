@@ -14,13 +14,11 @@ public class Rook extends Piece {
 	public Rook(Type type, int x, int y, Board board) {
 		super(type, x, y, board);
 	}
-
-	public ImageIcon GetImageIcon() {
-		if(this.GetType() == Type.BLACK) return b_rook;
+	public ImageIcon getImageIcon() {
+		if(this.getType() == Type.BLACK) return b_rook;
 		return w_rook;
 	}
-
-	public TypeOfPiece GetTypeOfPiece() {
+	public TypeOfPiece getTypeOfPiece() {
 		return this.top;
 	}
 }

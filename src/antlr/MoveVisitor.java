@@ -35,7 +35,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGeneral_rule(MoveParser.General_ruleContext ctx);
+	T visitGeneral_rule(MoveParser.General_ruleContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#move_more}.
 	 * @param ctx the parse tree
@@ -49,11 +49,11 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMove(MoveParser.MoveContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MoveParser#rule}.
+	 * Visit a parse tree produced by .
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRule(MoveParser.RuleContext ctx);
+	T visitRule(MoveParser.RuleContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#action}.
 	 * @param ctx the parse tree
@@ -65,7 +65,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEvent(MoveParser.EventContext ctx);
+	T visitEvent(MoveParser.EventContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#directions}.
 	 * @param ctx the parse tree

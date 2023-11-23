@@ -51,7 +51,7 @@ public class ResultFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             try {
-                Controller.GetInstance().GetFrame().setVisible(true);
+                Controller.getInstance().getFrame().setVisible(true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

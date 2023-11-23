@@ -15,11 +15,9 @@ public class EventCommand implements ICommand {
     public void hitter(Piece piece) {
         this.piece = piece;
     }
-
     public boolean getHit() {
         return this.hit;
     }
-
     public Piece getPiece() {
         return this.piece;
     }

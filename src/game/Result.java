@@ -5,7 +5,6 @@ import players.*;
 import java.io.*;
 
 public class Result implements Serializable {
-
     private static final long serialVersionUID = 5836294106830313151L;
     public Player white, black, winner;
 
@@ -16,15 +15,13 @@ public class Result implements Serializable {
         this.winner = winner;
     }
 
-    public String GetPlayerWhite() {
+    public String getPlayerWhite() {
         return this.white.GetName();
     }
-
-    public String GetPlayerBlack() {
+    public String getPlayerBlack() {
         return this.black.GetName();
     }
-
-    public String GetWinner() {
+    public String getWinner() {
         return this.winner.GetName();
     }
 }

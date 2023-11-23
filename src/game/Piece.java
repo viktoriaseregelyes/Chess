@@ -8,10 +8,10 @@ import javax.swing.*;
 import java.io.Serializable;
 
 abstract public class Piece implements Serializable {
-	private Type type;
+	private final Type type;
 	private TypeOfPiece top;
 	private int x, y;
-	private Board board;
+	private final Board board;
 	
 	public Piece(Type type, int x, int y, Board board) {
 		this.type = type;
@@ -20,25 +20,21 @@ abstract public class Piece implements Serializable {
 		this.board = board;
 	}
 	public void Move(int endX, int endY) {
-		this.SetX(endX);
-		this.SetY(endY);
-		GetBoard().SetPiece(this);
+		this.setX(endX);
+		this.setY(endY);
+		getBoard().setPiece(this);
 	}
 
-	abstract public ImageIcon GetImageIcon();
-	
-	public void SetX(int x) {this.x = x;}
-	public void SetY(int y) {this.y = y;}
-	public int GetX() {return x;}
-	public int GetY() {return y;}
-
-	public Board GetBoard() {return board;}
-
-	public Type GetType() {
+	abstract public ImageIcon getImageIcon();
+	public void setX(int x) {this.x = x;}
+	public void setY(int y) {this.y = y;}
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public Board getBoard() {return board;}
+	public Type getType() {
 		return type;
 	}
-
-	public TypeOfPiece GetTypeOfPiece() {
+	public TypeOfPiece getTypeOfPiece() {
 		return top;
 	}
 }

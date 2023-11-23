@@ -20,8 +20,8 @@ public class MoveCommand implements ICommand {
         this.dir_num = dir_num;
         this.endX = endX;
         this.endY = endY;
-        this.startX = piece.GetX();
-        this.startY = piece.GetY();
+        this.startX = piece.getX();
+        this.startY = piece.getY();
         this.eventcmd = eventcmd;
     }
     @Override
@@ -37,12 +37,12 @@ public class MoveCommand implements ICommand {
                 }
             }
             if((startX == endX) && (startY == endY)){
-                if(Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != null && Controller.GetInstance().GetGame().GetBoard().GetPiece(endX, endY) != piece) {
+                if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != null && Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != piece) {
                     eventcmd.hitter(this.piece);
                     eventcmd.Execute();
                 }
                 piece.Move(endX, endY);
-                Controller.GetInstance().GetGame().SetCanmove(true);
+                Controller.getInstance().getGame().setCanmove(true);
             }
             else {
                 return 1;
@@ -52,22 +52,22 @@ public class MoveCommand implements ICommand {
     }
 
     private void left(int num) {
-        if(piece.GetType() == Type.WHITE) startX = startX+num;
-        if(piece.GetType() == Type.BLACK) startX = startX-num;
+        if(piece.getType() == Type.WHITE) startX = startX+num;
+        if(piece.getType() == Type.BLACK) startX = startX-num;
         if(num == 0) startX = endX;
     }
     private void right(int num) {
-        if(piece.GetType() == Type.WHITE) startX = startX-num;
-        if(piece.GetType() == Type.BLACK) startX = startX+num;
+        if(piece.getType() == Type.WHITE) startX = startX-num;
+        if(piece.getType() == Type.BLACK) startX = startX+num;
         if(num == 0) startX = endX;
     }
     private void forward(int num) {
-        if(piece.GetType() == Type.WHITE) startY = startY+num;
-        if(piece.GetType() == Type.BLACK) startY = startY-num;
+        if(piece.getType() == Type.WHITE) startY = startY+num;
+        if(piece.getType() == Type.BLACK) startY = startY-num;
     }
     private void backward(int num) {
-        if(piece.GetType() == Type.WHITE) startY = startY-num;
-        if(piece.GetType() == Type.BLACK) startY = startY+num;
+        if(piece.getType() == Type.WHITE) startY = startY-num;
+        if(piece.getType() == Type.BLACK) startY = startY+num;
         if(num == 0) startY = endY;
     }
 }

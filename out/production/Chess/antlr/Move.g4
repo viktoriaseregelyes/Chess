@@ -8,7 +8,7 @@ general_rule: 'general move:' move_more;
 
 move_more: move (', ' move )*;
 move: (INT directions)* (directions)*;
-rule: action 'when' event | move_anywhere;
+rule: '-' (action 'when' event | move_anywhere);
 action: move_again | move_dir | become_piece;
 event: HIT;
 directions: RIGHT | LEFT | BACKWARD | FORWARD;

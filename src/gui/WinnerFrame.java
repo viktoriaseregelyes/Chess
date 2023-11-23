@@ -8,9 +8,9 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class WinnerFrame extends JFrame {
-    private ResultData resultData;
-    private GameFrame gameFrame;
-    private JLabel label_winner;
+    private final ResultData resultData;
+    private final GameFrame gameFrame;
+    private final JLabel label_winner;
 
     public WinnerFrame(String name, ResultData resultData, GameFrame gameFrame) {
         super(name);
@@ -36,12 +36,12 @@ public class WinnerFrame extends JFrame {
         super.setVisible(bool);
         if(bool) {
             try {
-                this.label_winner.setText("Winner: " + Controller.GetInstance().GetGame().GetWinner().GetName());
+                this.label_winner.setText("Winner: " + Controller.getInstance().getGame().getWinner().GetName());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try {
-                resultData.add(new Result(Controller.GetInstance().GetGame().GetPlayerWhite(), Controller.GetInstance().GetGame().GetPlayerBlack(), Controller.GetInstance().GetGame().GetWinner()));
+                resultData.add(new Result(Controller.getInstance().getGame().getPlayerWhite(), Controller.getInstance().getGame().getPlayerBlack(), Controller.getInstance().getGame().getWinner()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -53,7 +53,7 @@ public class WinnerFrame extends JFrame {
             setVisible(false);
             gameFrame.setVisible(false);
             try {
-                Controller.GetInstance().GetFrame().setVisible(true);
+                Controller.getInstance().getFrame().setVisible(true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

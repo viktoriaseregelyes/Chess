@@ -1,24 +1,23 @@
 package commands;
 
-import antlr.MyMoveVisitor;
 import game.Controller;
 import game.ICommand;
 import game.Piece;
 import pieces.*;
 import players.Type;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class ActionCommand implements ICommand {
     private int endX, endY, startX, startY;
     private String action;
     private Piece piece;
+
     public ActionCommand(Piece piece, String action) {
         this.piece = piece;
         this.action = action;
-        this.startX = piece.GetX();
-        this.startY = piece.GetY();
+        this.startX = piece.getX();
+        this.startY = piece.getY();
         this.endX = startX;
         this.endY = startY;
     }
@@ -32,11 +31,11 @@ public class ActionCommand implements ICommand {
             move_dir();
         }
 
-        Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-        Controller.GetInstance().GetGame().SetPiece(this.piece);
-        Controller.GetInstance().GetGame().GetBoard().SetPiece(this.piece);
+        Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+        Controller.getInstance().getGame().setPiece(this.piece);
+        Controller.getInstance().getGame().getBoard().setPiece(this.piece);
 
-        Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
+        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
 
         return 0;
     }
@@ -44,39 +43,39 @@ public class ActionCommand implements ICommand {
         String dummy = action.replace("become", "");
         switch(dummy) {
             case "pawn":
-                Pawn new_pawn = new Pawn(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_pawn);
+                Pawn new_pawn = new Pawn(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_pawn);
                 this.piece = new_pawn;
                 break;
             case "knight":
-                Knight new_knight = new Knight(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_knight);
+                Knight new_knight = new Knight(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_knight);
                 this.piece = new_knight;
                 break;
             case "king":
-                King new_king = new King(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_king);
+                King new_king = new King(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_king);
                 this.piece = new_king;
                 break;
             case "bishop":
-                Bishop new_bishop = new Bishop(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_bishop);
+                Bishop new_bishop = new Bishop(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_bishop);
                 this.piece = new_bishop;
                 break;
             case "rook":
-                Rook new_rook = new Rook(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_rook);
+                Rook new_rook = new Rook(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_rook);
                 this.piece = new_rook;
                 break;
             case "queen":
-                Queen new_queen = new Queen(this.piece.GetType(), this.piece.GetX(), this.piece.GetY(), Controller.GetInstance().GetGame().GetBoard());
-                Controller.GetInstance().GetGame().GetBoard().SetField(startX, startY);
-                Controller.GetInstance().GetGame().GetBoard().SetPiece(new_queen);
+                Queen new_queen = new Queen(this.piece.getType(), this.piece.getX(), this.piece.getY(), Controller.getInstance().getGame().getBoard());
+                Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
+                Controller.getInstance().getGame().getBoard().setPiece(new_queen);
                 this.piece = new_queen;
                 break;
             default:
@@ -84,7 +83,7 @@ public class ActionCommand implements ICommand {
         }
     }
     private void move_again() throws IOException {
-        Controller.GetInstance().GetFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
+        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
     }
     private void move_dir() throws IOException {
         switch(action.replace("move", "")) {
@@ -94,26 +93,25 @@ public class ActionCommand implements ICommand {
             case "backward": backward(); break;
             default: System.out.println("null"); break;
         }
-        if((endX >= 0 && endX < Controller.GetInstance().GetGame().GetBoard().GetSize()) && (endY >= 0 && endY < Controller.GetInstance().GetGame().GetBoard().GetSize())){
+        if((endX >= 0 && endX < Controller.getInstance().getGame().getBoard().getSize()) && (endY >= 0 && endY < Controller.getInstance().getGame().getBoard().getSize())){
             this.piece.Move(endX, endY);
         }
     }
-
     private void left() {
-        if(this.piece.GetType() == Type.WHITE) endX++;
-        if(this.piece.GetType() == Type.BLACK) endX--;
+        if(this.piece.getType() == Type.WHITE) endX++;
+        if(this.piece.getType() == Type.BLACK) endX--;
     }
     private void right() {
-        if(piece.GetType() == Type.WHITE) endX--;
-        if(piece.GetType() == Type.BLACK) endX++;
+        if(piece.getType() == Type.WHITE) endX--;
+        if(piece.getType() == Type.BLACK) endX++;
     }
     private void forward() {
-        if(piece.GetType() == Type.WHITE) endY++;
-        if(piece.GetType() == Type.BLACK) endY--;
+        if(piece.getType() == Type.WHITE) endY++;
+        if(piece.getType() == Type.BLACK) endY--;
     }
     private void backward() {
-        if(piece.GetType() == Type.WHITE) endY--;
-        if(piece.GetType() == Type.BLACK) endY++;
+        if(piece.getType() == Type.WHITE) endY--;
+        if(piece.getType() == Type.BLACK) endY++;
     }
     public Piece getPiece() {
         return this.piece;
