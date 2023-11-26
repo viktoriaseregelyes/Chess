@@ -68,6 +68,9 @@ public class Frame {
     public void setWarLabel(String wartext) {
         this.war_lab.setText(wartext);
     }
+    public String getWarLabel() {
+        return this.war_lab.getText();
+    }
     public PlayersFrame getPlayersFrame() {
         return playersFrame;
     }

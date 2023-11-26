@@ -5,10 +5,12 @@ all piece rule:
 pawn rule:
 general move: forward, backward, right, left
 -move again when hit
+-move anywhere 2 times in the game
 
 rook rule:
 general move: forward, backward, left, right
 -move forward when hit
+-move anywhere 3 times in the game
 
 bishop rule:
 general move: 1 forward 1 left, 1 forward 1 right, left

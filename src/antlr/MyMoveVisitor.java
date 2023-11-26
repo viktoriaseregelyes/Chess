@@ -47,7 +47,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     }
     @Override
     public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) throws IOException {
-        if(!ctx.getStart().getText().equals("all piece rule:")) {
+        if(!ctx.getStart().getText().contains("all piece rule:")) {
             Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the all piece syntax is incorrect, you should add the rules like this: 'all piece rule: <rule><rule>'.");
             error();
         }
@@ -82,15 +82,15 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             if(ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
                 for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
                     if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
-                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                        moveanywherecmd.Execute();
+                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
+                        moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
                     }
                 }
 
                 for (int i = 0; i < ctx.rule_().size(); i++) {
                     if(ctx.rule_(i).getText().contains("moveanywhere")) {
-                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                        moveanywherecmd.Execute();
+                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
+                        moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
                     }
                 }
             }
@@ -120,17 +120,23 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                         else rule_num += moveReturn;
                     }
                 }
-                if(moveOver) Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
-                else if (rule_num == moves) {
+                if (rule_num == moves || moveOver) {
                     if(this.piece.getMove_times() > 0) {
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("csökkeni fog a move anywhere");
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
+                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, this.endX, this.endY);
+                        moveanywherecmd.setNumber(this.piece.getMove_times()-1);
+                        moveanywherecmd.Execute();
+
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchState();
                     }
                     else
                         Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
                 }
-                else {
+                else
                     Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
-                }
+
                 moveOver = false;
             }
 
@@ -145,9 +151,8 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                         }
 
                         if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
-                            MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                            moveanywherecmd.Execute();
-                            System.out.println(this.piece+", "+this.piece.getMove_times());
+                            MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
+                            moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
                         }
                     }
 
@@ -174,7 +179,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
             error();
         }
-        else if(rules == 0){
+        else if(rules == 0 && Controller.getInstance().getFrame().getWarLabel() == ""){
             Controller.getInstance().getFrame().getPanel_war().setVisible(false);
             Controller.getInstance().getFrame().getPanel_menu().setVisible(true);
             Controller.getInstance().getFrame().getFrame().add(Controller.getInstance().getFrame().getPanel_menu(), BorderLayout.CENTER);
