@@ -174,15 +174,14 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             rules--;
         }
 
-
-        if(rules != 0) {
-            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
-            error();
-        }
-        else if(rules == 0 && Controller.getInstance().getFrame().getWarLabel() == ""){
+        if(rules == 0 && Controller.getInstance().getFrame().getWarLabel().contains(", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.")){
             Controller.getInstance().getFrame().getPanel_war().setVisible(false);
             Controller.getInstance().getFrame().getPanel_menu().setVisible(true);
             Controller.getInstance().getFrame().getFrame().add(Controller.getInstance().getFrame().getPanel_menu(), BorderLayout.CENTER);
+        }
+        else if(rules != 0 && Controller.getInstance().getFrame().getWarLabel().equals("")) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
+            error();
         }
 
         return visitChildren(ctx);

@@ -34,7 +34,7 @@ public class Frame {
         JLabel label_chess = new JLabel("Chess");
         label_chess.setFont(new Font("Monospace", Font.PLAIN, 20));
 
-        war_lab = new JTextArea();
+        war_lab = new JTextArea("");
         war_lab.setEditable(false);
         war_lab.setLineWrap(true);
         war_lab.setOpaque(false);
