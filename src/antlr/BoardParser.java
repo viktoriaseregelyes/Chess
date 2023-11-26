@@ -34,8 +34,8 @@ public class BoardParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'board size is: '", "'piece(s) on the board is:'", "' is at row'", 
-			"'column'", "'next player is: '", null, null, "'white'", "'black'", "'pawn'", 
+			null, "'board size is:'", "'piece(s) on the board is:'", "'is at row'", 
+			"'column'", "'next player is:'", null, null, "'white'", "'black'", "'pawn'", 
 			"'knight'", "'bishop'", "'king'", "'queen'", "'rook'"
 		};
 	}
@@ -225,7 +225,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPiecePlacement(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitPiecePlacement(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -468,7 +474,13 @@ public class BoardParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoardVisitor ) return ((BoardVisitor<? extends T>)visitor).visitPlayer(this);
+			if ( visitor instanceof BoardVisitor ) {
+				try {
+					return ((BoardVisitor<? extends T>)visitor).visitPlayer(this);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 			else return visitor.visitChildren(this);
 		}
 	}

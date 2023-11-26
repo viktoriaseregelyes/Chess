@@ -18,7 +18,7 @@ public class Frame {
     private JPanel panel_war = new JPanel();
     private JTextArea war_lab;
 
-    public static Frame GetInstance() {
+    public static Frame getInstance() {
         if (instance == null)
             instance = new Frame();
         return instance;
@@ -41,7 +41,7 @@ public class Frame {
         war_lab.setBorder(BorderFactory.createEmptyBorder());
         war_lab.setFont(new Font("Monospace", Font.BOLD, 16));
         war_lab.setForeground(Color.RED);
-        war_lab.setSize(550, 150);
+        war_lab.setSize(570, 150);
 
         JButton button_game = new JButton("Game");
         JButton button_result = new JButton("Result");
@@ -73,6 +73,15 @@ public class Frame {
     }
     public void setVisible(boolean bool) {
         frame.setVisible(bool);
+    }
+    public JPanel getPanel_menu() {
+        return panel_menu;
+    }
+    public JPanel getPanel_war() {
+        return panel_war;
+    }
+    public JFrame getFrame() {
+        return frame;
     }
     public class PlayersButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {

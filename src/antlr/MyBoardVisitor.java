@@ -9,9 +9,7 @@ import java.io.IOException;
 
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     Type playerType;
-    int size;
-    int row;
-    int col;
+    int size, row, col;
 
     private void error() throws IOException {
         Controller.getInstance().getFrame().disappearButtons();
@@ -25,21 +23,26 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitSize(BoardParser.SizeContext ctx) throws IOException {
-        if(ctx == null) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no size of the board, you should give it.");
+        if(ctx.INT().getText().equals("<missing INT>")) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no size of the board, you should give it.");
             error();
         }
-        else if(!ctx.getStart().getText().equals("board size is: ")) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.");
+        if(!ctx.getStart().getText().equals("board size is:")) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.");
             error();
         }
 
         size = Integer.parseInt(ctx.INT().getText());
-        game.Controller.getInstance().getGame().getBoard().createBoard(size);
+        Controller.getInstance().getGame().getBoard().createBoard(size);
         return visitChildren(ctx);
     }
     @Override
-    public Object visitPiecePlacement(BoardParser.PiecePlacementContext ctx) {
+    public Object visitPiecePlacement(BoardParser.PiecePlacementContext ctx) throws IOException {
+        if(!ctx.getStart().getText().equals("piece(s) on the board is:")) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece syntax is incorrect, you should add the board size like this: 'piece(s) on the board is: <pieceRule><pieceRule>'.");
+            error();
+        }
+
         return visitChildren(ctx);
     }
     @Override
@@ -70,9 +73,8 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
                 Controller.getInstance().getGame().getBoard().setPiece(queen);
                 break;
             default:
-                System.out.println("error at " + getPosition(ctx) + ", piece's type is not exist.");
+                Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", piece's type is not exist.");
                 error();
-                System.exit(0);
                 break;
         }
 
@@ -81,10 +83,10 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
         return visitChildren(ctx);
     }
-    @Override public Object visitPlayer(BoardParser.PlayerContext ctx) {
+    @Override public Object visitPlayer(BoardParser.PlayerContext ctx) throws IOException {
         if (ctx.getText() == null) {
-            System.out.println("error at " + getPosition(ctx) + ", there is no next player.");
-            System.exit(0);
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", player's type is not exist, it can be 'white' or 'black'.");
+            error();
         }
 
         var player = ctx.getText();
@@ -92,54 +94,53 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
         if(player.equals("white")) { playerType = Type.WHITE; }
         else if (player.equals("black")) { playerType = Type.BLACK; }
         else {
-            System.out.println("error at " + getPosition(ctx) + ", player's type is not exist, it can be 'white' or 'black'.");
-            System.exit(0);
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", player's type is not exist, it can be 'white' or 'black'.");
+            error();
         }
 
         return visitChildren(ctx);
     }
     @Override
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
-        if (ctx.INT(0).getText().equals("<missing INT>")) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); error(); }
-        else if (ctx.INT(1) == null) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row or the column is missing"); error(); }
+        if (ctx.INT(0).getText().equals("<missing INT>") || ctx.INT(1).getText().equals("<missing INT>")) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); error(); }
+        else if (ctx.getText().contains("<missing 'is at row'>") || ctx.getText().contains("<missing 'column'>")) {Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule is incorrect, you should give it like that: <pieceColor> <pieceType> is at row <INT> column <INT>"); error();}
 
         row = Integer.parseInt(ctx.INT(0).getText()) - 1;
         col = Integer.parseInt(ctx.INT(1).getText()) - 1;
 
-        if (row < 0) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); error(); }
-        else if (row >= size) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); error(); }
-        else if (col >= size) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); error(); }
-        else if (col < 0) { game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); error(); }
+        if (row < 0) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is lower than 1, and there is no row like that."); error(); }
+        else if (row >= size) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row number is higher than the board's size, and there is no row like that."); error(); }
+        else if (col >= size) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is higher than the board's size, and there is no column like that."); error(); }
+        else if (col < 0) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the column number is lower than 1, and there is no column like that."); error(); }
 
         return visitChildren(ctx);
     }
     @Override
     public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException {
-        if(!Controller.getInstance().getGame().getBoard().haveKings()) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is not enough kings.");
+        if(!ctx.getStart().getText().contains("next player is:")) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.");
             error();
-        } else if (ctx.player() == null) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no next player.");
+        }
+        else if(!Controller.getInstance().getGame().getBoard().haveKings()) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is not enough kings.");
             error();
-        } else if(ctx == null) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", there is no next player, you should give it.");
-            error();
-        } else if(!ctx.getStart().getText().equals("next player is: ")) {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.");
+        }
+        else if (ctx.player() == null) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", player's type is not exist, it can be 'white' or 'black'.");
             error();
         }
 
-        var player = ctx.player().getText();
+            var player = ctx.player().getText();
 
-        Type playerType;
         if(player.equals("white")) { playerType = Type.WHITE; }
         else if (player.equals("black")) { playerType = Type.BLACK; }
         else {
-            game.Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", next player's type is not exist, it can be 'white' or 'black'.");
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", next player's type is not exist, it can be 'white' or 'black'.");
             error();
             return null;
         }
-        game.Controller.getInstance().getGame().setType(playerType);
+
+        Controller.getInstance().getGame().setType(playerType);
         return visitChildren(ctx);
     }
 }

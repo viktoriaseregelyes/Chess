@@ -29,7 +29,7 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPiecePlacement(BoardParser.PiecePlacementContext ctx);
+	T visitPiecePlacement(BoardParser.PiecePlacementContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link BoardParser#pieceOnBoard}.
 	 * @param ctx the parse tree
@@ -53,5 +53,5 @@ public interface BoardVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPlayer(BoardParser.PlayerContext ctx);
+	T visitPlayer(BoardParser.PlayerContext ctx) throws IOException;
 }

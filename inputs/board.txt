@@ -2,7 +2,7 @@ board size is: 10
 
 piece(s) on the board is:
 white pawn is at row 2 column 3
-black king is at row 8 column 6
+black king is at row 7 column 6
 white king is at row 4 column 6
 white king is at row 6 column 1
 black rook is at row 7 column 7

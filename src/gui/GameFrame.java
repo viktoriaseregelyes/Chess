@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class GameFrame extends JFrame {
     ChessPanel chessPanel;
-    JLabel war_lab;
+    JTextArea war_lab;
 
     public GameFrame(String name, ResultData resultData) throws IOException {
         super(name);
@@ -30,9 +30,14 @@ public class GameFrame extends JFrame {
         panel_players.add(label_white);
         panel_players.add(label_black);
 
-        war_lab = new JLabel("", SwingConstants.CENTER);
+        war_lab = new JTextArea();
+        war_lab.setEditable(false);
+        war_lab.setLineWrap(true);
+        war_lab.setOpaque(false);
+        war_lab.setBorder(BorderFactory.createEmptyBorder());
         JPanel panel_war = new JPanel(new BorderLayout());
         war_lab.setForeground(Color.RED);
+        war_lab.setFont(new Font("Monospace", Font.BOLD, 12));
         war_lab.setSize(600, 150);
         panel_war.add(war_lab, BorderLayout.SOUTH);
 

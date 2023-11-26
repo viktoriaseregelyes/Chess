@@ -14,6 +14,8 @@ public class MoveCommand implements ICommand {
     private List<Integer> dir_num;
     private int endX, endY, startX, startY;
     private EventCommand eventcmd;
+    private boolean wrongMove = false;
+
     public MoveCommand(Piece piece, List<String> dir, List<Integer> dir_num, int endX, int endY, EventCommand eventcmd) {
         this.piece = piece;
         this.dir = dir;
@@ -36,6 +38,9 @@ public class MoveCommand implements ICommand {
                     default: System.out.println("null"); break;
                 }
             }
+            if(wrongMove) {
+                return 2;
+            }
             if((startX == endX) && (startY == endY)){
                 if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != null && Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != piece) {
                     eventcmd.hitter(this.piece);
@@ -51,23 +56,154 @@ public class MoveCommand implements ICommand {
         return 0;
     }
 
-    private void left(int num) {
-        if(piece.getType() == Type.WHITE) startX = startX+num;
-        if(piece.getType() == Type.BLACK) startX = startX-num;
-        if(num == 0) startX = endX;
+    private void left(int num) throws IOException {
+        if(piece.getType() == Type.BLACK) {
+            for(int i = 1; i < num; i++) {
+                System.out.println((startX-i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startX = startX-num;
+        }
+        if(piece.getType() == Type.WHITE) {
+            for(int i = 1; i < num; i++) {
+                System.out.println((startX+i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startX = startX+num;
+        }
+        if(num == 0) {
+            for(int i = 1; i < startX-endX; i++) {
+                System.out.println((startX-i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+            for (int i = 1; i < endX-startX; i++) {
+                System.out.println((startX+i)+", "+startY);
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+            startX = endX;
+        }
     }
-    private void right(int num) {
-        if(piece.getType() == Type.WHITE) startX = startX-num;
-        if(piece.getType() == Type.BLACK) startX = startX+num;
-        if(num == 0) startX = endX;
+    private void right(int num) throws IOException {
+        if(piece.getType() == Type.WHITE) {
+            for(int i = 1; i < num; i++) {
+                System.out.println((startX-i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startX = startX-num;
+        }
+        if(piece.getType() == Type.BLACK) {
+            for(int i = 1; i < num; i++) {
+                System.out.println((startX+i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startX = startX+num;
+        }
+        if(num == 0) {
+            for(int i = 1; i < startX-endX; i++) {
+                System.out.println((startX-i)+", "+startY);
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+            for (int i = 1; i < endX-startX; i++) {
+                System.out.println((startX+i)+", "+startY);
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+                    wrongMove = true;
+                }
+            }
+            startX = endX;
+        }
     }
-    private void forward(int num) {
-        if(piece.getType() == Type.WHITE) startY = startY+num;
-        if(piece.getType() == Type.BLACK) startY = startY-num;
+    private void forward(int num) throws IOException {
+        if(piece.getType() == Type.WHITE) {
+            for(int i = 1; i < num; i++) {
+                System.out.println(startX+", "+(startY+i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY+i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startY = startY+num;
+        }
+        if(piece.getType() == Type.BLACK) {
+            for(int i = 1; i < num; i++) {
+                System.out.println(startX+", "+(startY-i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startY = startY-num;
+        }
+        if(num == 0) {
+            for(int i = 1; i < startY-endY; i++) {
+                System.out.println(startX+", "+(startY-i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            for (int i = 1; i < endY-startY; i++) {
+                System.out.println(startX+", "+(startY+i));
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY+i) != null) {
+                    wrongMove = true;
+                }
+            }
+            startY = endY;
+        }
     }
-    private void backward(int num) {
-        if(piece.getType() == Type.WHITE) startY = startY-num;
-        if(piece.getType() == Type.BLACK) startY = startY+num;
-        if(num == 0) startY = endY;
+    private void backward(int num) throws IOException {
+        if(piece.getType() == Type.BLACK) {
+            for(int i = 1; i < num; i++) {
+                System.out.println(startX+", "+(startY+i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY+i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startY = startY+num;
+        }
+        if(piece.getType() == Type.WHITE) {
+            for(int i = 1; i < num; i++) {
+                System.out.println(startX+", "+(startY-i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            startY = startY-num;
+        }
+        if(num == 0) {
+            for(int i = 1; i < startY-endY; i++) {
+                System.out.println(startX+", "+(startY-i));
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null) {
+                    wrongMove = true;
+                }
+            }
+
+            for (int i = 1; i < endY-startY; i++) {
+                System.out.println(startX+", "+(startY+i));
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY+i) != null) {
+                    wrongMove = true;
+                }
+            }
+            startY = endY;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class Controller {
 
     public Controller() throws IOException {
         game = Game.getInstance();
-        frame = Frame.GetInstance();
+        frame = Frame.getInstance();
     }
     public static Controller getInstance() throws IOException {
         if (instance == null)

@@ -2,11 +2,11 @@ grammar Board;
 
 board: size piecePlacement nextPlayer;
 
-size: 'board size is: ' INT;
+size: 'board size is:' INT;
 piecePlacement: 'piece(s) on the board is:' pieceOnBoard*;
-pieceOnBoard: player piece ' is at row' INT 'column' INT;
+pieceOnBoard: player piece 'is at row' INT 'column' INT;
 piece: PAWN | KNIGHT | BISHOP | ROOK | QUEEN | KING;
-nextPlayer: 'next player is: ' player;
+nextPlayer: 'next player is:' player;
 player: WHITE | BLACK;
 
 INT: DIGIT+;

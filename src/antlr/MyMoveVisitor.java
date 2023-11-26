@@ -6,18 +6,22 @@ import commands.MoveAnywhereCommand;
 import commands.MoveCommand;
 import game.Controller;
 import game.Piece;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private Piece piece;
-    private int endX, endY;
+    private int endX, endY, rules;
     private ArrayList<String> dir = new ArrayList<>();
     private ArrayList<Integer> dir_num = new ArrayList<>();
     private EventCommand eventcmd = new EventCommand();
-    private boolean piece_changed = false;
+    private boolean piece_changed = false, moveOver = false;
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
 
     private void error() throws IOException {
@@ -33,6 +37,12 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             endX = Controller.getInstance().getGame().getEndX();
             endY = Controller.getInstance().getGame().getEndY();
         }
+        else {
+            var code = Files.readString(Paths.get("inputs\\moves.txt"));
+            var inputStream = CharStreams.fromString(code);
+            rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
+        }
+
         return visitChildren(ctx);
     }
     @Override
@@ -89,33 +99,39 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                 int rule_num = 0;
                 int moves = ctx.general_rule().move_more().move().size();
                 for (int i = 0; i < moves; i++) {
-                    dir.clear();
-                    dir_num.clear();
+                    if(!moveOver) {
+                        dir.clear();
+                        dir_num.clear();
 
-                    int dirnum = ctx.general_rule().move_more().move(i).directions().size();
-                    int k = 0;
-                    while (ctx.general_rule().move_more().move(i).INT(k) != null) {
-                        dir_num.add(Integer.parseInt(ctx.general_rule().move_more().move(i).INT(k).toString()));
-                        k++;
+                        int dirnum = ctx.general_rule().move_more().move(i).directions().size();
+                        int k = 0;
+                        while (ctx.general_rule().move_more().move(i).INT(k) != null) {
+                            dir_num.add(Integer.parseInt(ctx.general_rule().move_more().move(i).INT(k).toString()));
+                            k++;
+                        }
+
+                        for (int j = 0; j < dirnum; j++) {
+                            dir.add(ctx.general_rule().move_more().move(i).directions(j).getText());
+                        }
+
+                        MoveCommand movecmd = new MoveCommand(piece, dir, dir_num, endX, endY, eventcmd);
+                        int moveReturn = movecmd.Execute();
+                        if (moveReturn == 2) moveOver = true;
+                        else rule_num += moveReturn;
                     }
-
-                    for (int j = 0; j < dirnum; j++) {
-                        dir.add(ctx.general_rule().move_more().move(i).directions(j).getText());
-                    }
-
-                    MoveCommand movecmd = new MoveCommand(piece, dir, dir_num, endX, endY, eventcmd);
-                    rule_num += movecmd.Execute();
                 }
-                if (rule_num == moves) {
+                if(moveOver) Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
+                else if (rule_num == moves) {
                     if(this.piece.getMove_times() > 0) {
                         Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("csökkeni fog a move anywhere");
                     }
                     else
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("This move does not comply with any of the rules of the dummy. Step somewhere else.");
+                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
                 }
                 else {
                     Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
                 }
+                moveOver = false;
             }
 
             if (eventcmd.getHit() && eventcmd.getPiece().getType() == this.piece.getType() && ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
@@ -148,6 +164,20 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                     }
                 }
             }
+        }
+        else {
+            rules--;
+        }
+
+
+        if(rules != 0) {
+            Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
+            error();
+        }
+        else if(rules == 0){
+            Controller.getInstance().getFrame().getPanel_war().setVisible(false);
+            Controller.getInstance().getFrame().getPanel_menu().setVisible(true);
+            Controller.getInstance().getFrame().getFrame().add(Controller.getInstance().getFrame().getPanel_menu(), BorderLayout.CENTER);
         }
 
         return visitChildren(ctx);

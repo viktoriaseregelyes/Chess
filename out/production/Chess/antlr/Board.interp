@@ -1,10 +1,10 @@
 token literal names:
 null
-'board size is: '
+'board size is:'
 'piece(s) on the board is:'
-' is at row'
+'is at row'
 'column'
-'next player is: '
+'next player is:'
 null
 null
 'white'

@@ -34,7 +34,7 @@ public class BoardBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPiecePlacement(BoardParser.PiecePlacementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPiecePlacement(BoardParser.PiecePlacementContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -62,5 +62,5 @@ public class BoardBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlayer(BoardParser.PlayerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPlayer(BoardParser.PlayerContext ctx) throws IOException { return visitChildren(ctx); }
 }
