@@ -85,38 +85,28 @@ public class MoveCommand implements ICommand {
     }
     private void right(int num) throws IOException {
         if(piece.getType() == Type.WHITE) {
-            for(int i = 1; i < num; i++) {
-                System.out.println((startX-i)+", "+startY);
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+            for(int i = 1; i < num; i++)
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null)
                     wrongMove = true;
-                }
-            }
 
             startX = startX-num;
         }
         if(piece.getType() == Type.BLACK) {
-            for(int i = 1; i < num; i++) {
-                System.out.println((startX+i)+", "+startY);
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+            for(int i = 1; i < num; i++)
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null)
                     wrongMove = true;
-                }
-            }
 
             startX = startX+num;
         }
         if(num == 0) {
-            for(int i = 1; i < startX-endX; i++) {
-                System.out.println((startX-i)+", "+startY);
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null) {
+            for(int i = 1; i < startX-endX; i++)
+                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null)
                     wrongMove = true;
-                }
-            }
-            for (int i = 1; i < endX-startX; i++) {
-                System.out.println((startX+i)+", "+startY);
-                if (Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null) {
+
+            for (int i = 1; i < endX-startX; i++)
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null)
                     wrongMove = true;
-                }
-            }
+
             startX = endX;
         }
     }

@@ -4,6 +4,9 @@ import game.Controller;
 import game.ResultData;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +14,7 @@ import java.io.IOException;
 
 public class GameFrame extends JFrame {
     ChessPanel chessPanel;
-    JTextArea war_lab;
+    JTextPane war_lab;
 
     public GameFrame(String name, ResultData resultData) throws IOException {
         super(name);
@@ -30,15 +33,18 @@ public class GameFrame extends JFrame {
         panel_players.add(label_white);
         panel_players.add(label_black);
 
-        war_lab = new JTextArea();
+        war_lab = new JTextPane();
         war_lab.setEditable(false);
-        war_lab.setLineWrap(true);
         war_lab.setOpaque(false);
         war_lab.setBorder(BorderFactory.createEmptyBorder());
+        StyledDocument doc = war_lab.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
         JPanel panel_war = new JPanel(new BorderLayout());
         war_lab.setForeground(Color.RED);
         war_lab.setFont(new Font("Monospace", Font.BOLD, 12));
-        war_lab.setSize(600, 150);
+        war_lab.setSize(600, 200);
         panel_war.add(war_lab, BorderLayout.SOUTH);
 
         JPanel p = new JPanel(new BorderLayout());
@@ -53,7 +59,7 @@ public class GameFrame extends JFrame {
         this.add(chessPanel, BorderLayout.CENTER);
         this.add(panel_menu_war, BorderLayout.SOUTH);
         this.pack();
-        this.setSize(600, 600);
+        this.setSize(700, 700);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }

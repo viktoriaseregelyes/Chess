@@ -73,6 +73,9 @@ public class ChessPanel extends JPanel {
         }
         else this.type = Type.WHITE;
     }
+    public void switchTypeToType(Type type) {
+        this.type = type;
+    }
     public class ChessButton extends JButton {
         Point point;
 

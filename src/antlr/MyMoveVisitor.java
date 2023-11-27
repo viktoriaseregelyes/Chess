@@ -170,9 +170,8 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                 }
             }
         }
-        else {
+        else
             rules--;
-        }
 
         if(rules == 0 && Controller.getInstance().getFrame().getWarLabel().contains(", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.")){
             Controller.getInstance().getFrame().getPanel_war().setVisible(false);

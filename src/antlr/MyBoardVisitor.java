@@ -102,7 +102,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
-        if (ctx.INT(0).getText().equals("<missing INT>") || ctx.INT(1).getText().equals("<missing INT>")) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row and the column is missing"); error(); }
+        if (ctx.INT().size() < 2 || ctx.INT(1).getText().equals("<missing INT>")) { Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the row or the column is missing"); error(); }
         else if (ctx.getText().contains("<missing 'is at row'>") || ctx.getText().contains("<missing 'column'>")) {Controller.getInstance().getFrame().setWarLabel("error at " + getPosition(ctx) + ", the piece rule is incorrect, you should give it like that: <pieceColor> <pieceType> is at row <INT> column <INT>"); error();}
 
         row = Integer.parseInt(ctx.INT(0).getText()) - 1;

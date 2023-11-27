@@ -83,7 +83,8 @@ public class ActionCommand implements ICommand {
         }
     }
     private void move_again() throws IOException {
-        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
+        if(this.piece.getType() == Type.WHITE) Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchTypeToType(Type.BLACK);
+        else Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchTypeToType(Type.WHITE);
     }
     private void move_dir() throws IOException {
         switch(action.replace("move", "")) {
@@ -91,7 +92,7 @@ public class ActionCommand implements ICommand {
             case "right": right(); break;
             case "forward": forward(); break;
             case "backward": backward(); break;
-            default: System.out.println("null"); break;
+            default: break;
         }
         if((endX >= 0 && endX < Controller.getInstance().getGame().getBoard().getSize()) && (endY >= 0 && endY < Controller.getInstance().getGame().getBoard().getSize())){
             this.piece.Move(endX, endY);

@@ -26,9 +26,6 @@ public class MoveAnywhereCommand implements ICommand {
     public int Execute() throws IOException {
         this.piece.Move(endX, endY);
 
-        System.out.println(endX+", "+endY);
-        System.out.println(startX+", "+startY);
-
         Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
         Controller.getInstance().getGame().setPiece(this.piece);
         Controller.getInstance().getGame().getBoard().setPiece(this.piece);
