@@ -43,7 +43,7 @@ public class GameFrame extends JFrame {
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
         JPanel panel_war = new JPanel(new BorderLayout());
         war_lab.setForeground(Color.RED);
-        war_lab.setFont(new Font("Monospace", Font.BOLD, 12));
+        war_lab.setFont(new Font("Monospace", Font.BOLD, 16));
         war_lab.setSize(600, 200);
         panel_war.add(war_lab, BorderLayout.SOUTH);
 

@@ -41,13 +41,18 @@ public class MoveCommand implements ICommand {
             if(wrongMove) {
                 return 2;
             }
-            if((startX == endX) && (startY == endY)){
-                if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != null && Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != piece) {
+            if((startX == endX) && (startY == endY)) {
+                if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != null && Controller.getInstance().getGame().getBoard().getPiece(endX, endY) != piece && Controller.getInstance().getGame().getBoard().getPiece(endX, endY).getType() != piece.getType()) {
                     eventcmd.hitter(this.piece);
                     eventcmd.Execute();
                 }
-                piece.Move(endX, endY);
-                Controller.getInstance().getGame().setCanmove(true);
+                if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) == null || Controller.getInstance().getGame().getBoard().getPiece(endX, endY).getType() != piece.getType()) {
+                    piece.Move(endX, endY);
+                    Controller.getInstance().getGame().setCanmove(true);
+                }
+                else {
+                    return 1;
+                }
             }
             else {
                 return 1;
