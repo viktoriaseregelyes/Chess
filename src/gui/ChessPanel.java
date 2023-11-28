@@ -10,30 +10,26 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ChessPanel extends JPanel {
-    private static int SIZE = 60;
-    private int N, startX, startY, endX, endY;
+    private int size, startX, startY, endX, endY;
     private Piece piece;
     private boolean canMove = true;
     private Type type = Controller.getInstance().getGame().getType();
-    private WinnerFrame winnerFrame;
-    public ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(N);
+    public ArrayList<ArrayList<ChessButton>> chessButton = new ArrayList<>(size);
     enum State {
         FIRST, LAST
     }
     private State state = State.FIRST;
 
-    public ChessPanel(ResultData resultData, GameFrame gameFrame) throws IOException {
+    public ChessPanel() throws IOException {
         super(new GridLayout(game.Controller.getInstance().getGame().getBoard().getSize(), game.Controller.getInstance().getGame().getBoard().getSize()));
 
-        N = game.Controller.getInstance().getGame().getBoard().getSize();
+        size = game.Controller.getInstance().getGame().getBoard().getSize();
 
-        for (int x = 0; x < N; x++) {
-            chessButton.add(new ArrayList<>(N));
+        for (int x = 0; x < size; x++) {
+            chessButton.add(new ArrayList<>(size));
         }
 
-        this.winnerFrame = new WinnerFrame("Winner", resultData, gameFrame);
-
-        this.setPreferredSize(new Dimension(N * SIZE, N * SIZE));
+        this.setPreferredSize(new Dimension(size * 60, size * 60));
         addButtons();
         switchType();
     }
@@ -45,8 +41,8 @@ public class ChessPanel extends JPanel {
     }
     public void addButtons() throws IOException {
         chessButton.remove(chessButton);
-        for (int y=0;y<N;y++) {
-            for (int x=0;x<N;x++) {
+        for (int y = 0; y< size; y++) {
+            for (int x = 0; x< size; x++) {
                 Piece piece_tmp = Controller.getInstance().getGame().getBoard().getPiece(x, y);
                 if (piece_tmp != null) {
                     ImageIcon image = piece_tmp.getImageIcon();
@@ -77,7 +73,7 @@ public class ChessPanel extends JPanel {
         this.type = type;
     }
     public class ChessButton extends JButton {
-        Point point;
+        private Point point;
 
         public ChessButton(ImageIcon ii, int x, int y) {
             super(ii);
@@ -142,7 +138,10 @@ public class ChessPanel extends JPanel {
                         throw new RuntimeException(e);
                     }
                     try {
-                        if(Controller.getInstance().getGame().endGame()) winnerFrame.setVisible(true);
+                        if(Controller.getInstance().getGame().endGame()) {
+                            WinnerFrame winnerFrame = new WinnerFrame();
+                            winnerFrame.setVisible(true);
+                        }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

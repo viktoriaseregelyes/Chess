@@ -12,8 +12,8 @@ import java.io.IOException;
 public class ResultFrame extends JFrame {
     private ResultData resultData;
 
-    public ResultFrame(String name, ResultData resultData) {
-        super(name);
+    public ResultFrame(ResultData resultData) {
+        super("Results");
         this.resultData = resultData;
 
         this.setLayout(new BorderLayout());

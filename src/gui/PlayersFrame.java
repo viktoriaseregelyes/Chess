@@ -9,14 +9,12 @@ import java.awt.event.*;
 import java.io.IOException;
 
 public class PlayersFrame extends JFrame {
-    public JTextField textField_player1 = new JTextField(20);
-    public JTextField textField_player2 = new JTextField(20);
-    public GameFrame gameFrame;
-    public ResultData resultData;
+    private JTextField player1 = new JTextField(20);
+    private JTextField player2 = new JTextField(20);
+    private GameFrame gameFrame;
 
-    public PlayersFrame(String name, ResultData resultData) {
-        super(name);
-        this.resultData = resultData;
+    public PlayersFrame(){
+        super("Players");
 
         JPanel panel_player1 = new JPanel();
         JPanel panel_player2 = new JPanel();
@@ -27,9 +25,9 @@ public class PlayersFrame extends JFrame {
         button_start.addActionListener(new GameButtonActionListener());
 
         panel_player1.add(label_player1);
-        panel_player1.add(textField_player1);
+        panel_player1.add(player1);
         panel_player2.add(label_player2);
-        panel_player2.add(textField_player2);
+        panel_player2.add(player2);
         panel_button.add(button_start);
         this.add(panel_player1, BorderLayout.NORTH);
         this.add(panel_player2, BorderLayout.CENTER);
@@ -40,16 +38,13 @@ public class PlayersFrame extends JFrame {
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
-    public void setVisible(boolean bool) {
-        super.setVisible(bool);
-    }
     public GameFrame getGameFrame() {
         return gameFrame;
     }
     public class GameButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
-            String Player1 = textField_player1.getText();
-            String Player2 = textField_player2.getText();
+            String Player1 = player1.getText();
+            String Player2 = player2.getText();
             Player player1 = new Player(Player1, players.Type.BLACK);
             Player player2 = new Player(Player2, players.Type.WHITE);
 
@@ -65,14 +60,14 @@ public class PlayersFrame extends JFrame {
             }
 
             try {
-                gameFrame = new GameFrame("Chess", resultData);
+                gameFrame = new GameFrame();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
             setVisible(false);
-            textField_player1.setText("");
-            textField_player2.setText("");
+            PlayersFrame.this.player1.setText("");
+            PlayersFrame.this.player2.setText("");
             gameFrame.setVisible(true);
         }
     }

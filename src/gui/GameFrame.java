@@ -13,51 +13,51 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class GameFrame extends JFrame {
-    ChessPanel chessPanel;
-    JTextPane war_lab;
+    private ChessPanel chessPanel;
+    private JTextPane warLabel;
 
-    public GameFrame(String name, ResultData resultData) throws IOException {
-        super(name);
+    public GameFrame() throws IOException {
+        super("Chess");
 
-        JPanel panel_players = new JPanel();
-        panel_players.setLayout(new BoxLayout(panel_players, BoxLayout.PAGE_AXIS));
-        chessPanel = new ChessPanel(resultData, this);
+        JPanel playersPanel = new JPanel();
+        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.PAGE_AXIS));
+        chessPanel = new ChessPanel();
 
-        JPanel panel_menu = new JPanel();
-        JButton button_menu = new JButton("Menu");
-        button_menu.addActionListener(new MenuButtonActionListener());
-        panel_menu.add(button_menu);
+        JPanel panelMenu = new JPanel();
+        JButton buttonMenu = new JButton("Menu");
+        buttonMenu.addActionListener(new MenuButtonActionListener());
+        panelMenu.add(buttonMenu);
 
-        JLabel label_white = new JLabel("White: "+ Controller.getInstance().getGame().getPlayerWhite().GetName());
-        JLabel label_black = new JLabel("Black: "+ Controller.getInstance().getGame().getPlayerBlack().GetName());
-        panel_players.add(label_white);
-        panel_players.add(label_black);
+        JLabel whiteLabel = new JLabel("White: "+ Controller.getInstance().getGame().getPlayerWhite().GetName());
+        JLabel blackLabel = new JLabel("Black: "+ Controller.getInstance().getGame().getPlayerBlack().GetName());
+        playersPanel.add(whiteLabel);
+        playersPanel.add(blackLabel);
 
-        war_lab = new JTextPane();
-        war_lab.setEditable(false);
-        war_lab.setOpaque(false);
-        war_lab.setBorder(BorderFactory.createEmptyBorder());
-        StyledDocument doc = war_lab.getStyledDocument();
+        warLabel = new JTextPane();
+        warLabel.setEditable(false);
+        warLabel.setOpaque(false);
+        warLabel.setBorder(BorderFactory.createEmptyBorder());
+        StyledDocument doc = warLabel.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-        JPanel panel_war = new JPanel(new BorderLayout());
-        war_lab.setForeground(Color.RED);
-        war_lab.setFont(new Font("Monospace", Font.BOLD, 16));
-        war_lab.setSize(600, 200);
-        panel_war.add(war_lab, BorderLayout.SOUTH);
+        JPanel panelWar = new JPanel(new BorderLayout());
+        warLabel.setForeground(Color.RED);
+        warLabel.setFont(new Font("Monospace", Font.BOLD, 16));
+        warLabel.setSize(600, 200);
+        panelWar.add(warLabel, BorderLayout.SOUTH);
 
         JPanel p = new JPanel(new BorderLayout());
 
-        p.add(panel_war,BorderLayout.CENTER);
-        p.add(panel_menu,BorderLayout.NORTH);
+        p.add(panelWar,BorderLayout.CENTER);
+        p.add(panelMenu,BorderLayout.NORTH);
 
-        JPanel panel_menu_war = new JPanel(new BorderLayout());
-        panel_menu_war.add(p,BorderLayout.SOUTH);
+        JPanel panelMenuWar = new JPanel(new BorderLayout());
+        panelMenuWar.add(p,BorderLayout.SOUTH);
 
-        this.add(panel_players, BorderLayout.NORTH);
+        this.add(playersPanel, BorderLayout.NORTH);
         this.add(chessPanel, BorderLayout.CENTER);
-        this.add(panel_menu_war, BorderLayout.SOUTH);
+        this.add(panelMenuWar, BorderLayout.SOUTH);
         this.pack();
         this.setSize(700, 700);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -69,11 +69,7 @@ public class GameFrame extends JFrame {
     }
 
     public void setWarLabel(String wartext) {
-        this.war_lab.setText(wartext);
-    }
-
-    public void setVisible(boolean bool) {
-        super.setVisible(bool);
+        this.warLabel.setText(wartext);
     }
 
     private class MenuButtonActionListener implements ActionListener {

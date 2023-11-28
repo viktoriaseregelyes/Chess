@@ -8,22 +8,18 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class WinnerFrame extends JFrame {
-    private final ResultData resultData;
-    private final GameFrame gameFrame;
-    private final JLabel label_winner;
+    private final JLabel winnerLabel;
 
-    public WinnerFrame(String name, ResultData resultData, GameFrame gameFrame) {
-        super(name);
-        this.resultData = resultData;
-        this.gameFrame = gameFrame;
+    public WinnerFrame() {
+        super("Winner");
 
         JPanel panel_winner = new JPanel();
         JPanel panel_button = new JPanel();
-        this.label_winner = new JLabel();
+        this.winnerLabel = new JLabel();
         JButton button_menu = new JButton("Menu");
         button_menu.addActionListener(new OkButtonActionListener());
 
-        panel_winner.add(label_winner);
+        panel_winner.add(winnerLabel);
         panel_button.add(button_menu);
         this.add(panel_winner, BorderLayout.CENTER);
         this.add(panel_button, BorderLayout.SOUTH);
@@ -36,12 +32,12 @@ public class WinnerFrame extends JFrame {
         super.setVisible(bool);
         if(bool) {
             try {
-                this.label_winner.setText("Winner: " + Controller.getInstance().getGame().getWinner().GetName());
+                this.winnerLabel.setText("Winner: " + Controller.getInstance().getGame().getWinner().GetName());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try {
-                resultData.add(new Result(Controller.getInstance().getGame().getPlayerWhite(), Controller.getInstance().getGame().getPlayerBlack(), Controller.getInstance().getGame().getWinner()));
+                Controller.getInstance().getFrame().getResultData().add(new Result(Controller.getInstance().getGame().getPlayerWhite(), Controller.getInstance().getGame().getPlayerBlack(), Controller.getInstance().getGame().getWinner()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -51,7 +47,11 @@ public class WinnerFrame extends JFrame {
     private class OkButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
-            gameFrame.setVisible(false);
+            try {
+                Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setVisible(false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 Controller.getInstance().getFrame().setVisible(true);
             } catch (IOException e) {
