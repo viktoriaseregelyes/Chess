@@ -1,6 +1,7 @@
 package gui;
 
 import game.*;
+import results.Result;
 
 import java.awt.*;
 import java.awt.event.*;

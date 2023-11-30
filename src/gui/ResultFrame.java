@@ -1,7 +1,7 @@
 package gui;
 
 import game.Controller;
-import game.ResultData;
+import results.ResultData;
 
 import javax.swing.*;
 import javax.swing.table.*;

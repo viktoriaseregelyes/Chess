@@ -1,8 +1,7 @@
 package commands;
 
 import game.Controller;
-import game.ICommand;
-import game.Piece;
+import pieces.Piece;
 import players.Type;
 
 import java.io.IOException;

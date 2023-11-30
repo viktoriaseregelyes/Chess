@@ -47,7 +47,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMove(MoveParser.MoveContext ctx);
+	T visitMove(MoveParser.MoveContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by .
 	 * @param ctx the parse tree
@@ -83,7 +83,7 @@ public interface MoveVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMove_dir(MoveParser.Move_dirContext ctx);
+	T visitMove_dir(MoveParser.Move_dirContext ctx) throws IOException;
 	/**
 	 * Visit a parse tree produced by {@link MoveParser#become_piece}.
 	 * @param ctx the parse tree

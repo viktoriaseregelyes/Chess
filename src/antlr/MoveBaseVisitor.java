@@ -55,7 +55,7 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMove(MoveParser.MoveContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMove(MoveParser.MoveContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -97,7 +97,7 @@ public class MoveBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements M
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMove_dir(MoveParser.Move_dirContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMove_dir(MoveParser.Move_dirContext ctx) throws IOException { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

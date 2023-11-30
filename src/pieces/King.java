@@ -1,7 +1,6 @@
 package pieces;
 
-import board.Board;
-import game.*;
+import game.Board;
 import players.*;
 
 import javax.swing.*;

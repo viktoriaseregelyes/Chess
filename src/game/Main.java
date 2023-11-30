@@ -9,5 +9,6 @@ public class Main {
         Controller.getInstance();
         new MyBoardVisitor().visit(Controller.getInstance().getGame().getBoardTree());
         new MyMoveVisitor().visit(Controller.getInstance().getGame().getMoveTree());
+        Controller.getInstance().getErrorMessages().printMsg();
     }
 }

@@ -1,7 +1,6 @@
 package gui;
 
 import game.Controller;
-import game.ResultData;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;

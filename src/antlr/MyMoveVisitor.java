@@ -5,11 +5,10 @@ import commands.EventCommand;
 import commands.MoveAnywhereCommand;
 import commands.MoveCommand;
 import game.Controller;
-import game.Piece;
+import pieces.Piece;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,8 +24,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
 
     private void errorMessage(String message, String position) throws IOException {
-        Controller.getInstance().getFrame().setWarLabel("error at " + position + ", " + message);
-        Controller.getInstance().getFrame().disappearButtons();
+        Controller.getInstance().getErrorMessages().add("error at " + position + ", " + message);
     }
 
     private static String getPosition(ParserRuleContext ctx) {
@@ -43,6 +41,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             var code = Files.readString(Paths.get("inputs\\moves.cfg"));
             var inputStream = CharStreams.fromString(code);
             rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
+            errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", "one or more piece's name");
         }
 
         return visitChildren(ctx);
@@ -51,18 +50,18 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     public Object visitAll_piece_rule(MoveParser.All_piece_ruleContext ctx) throws IOException {
         if(!ctx.getStart().getText().contains("all piece rule:"))
             errorMessage("the all piece syntax is incorrect, you should add the rules like this: 'all piece rule: <rule><rule>'.", getPosition(ctx));
+        else allPieceRuleCtx = ctx;
 
-        allPieceRuleCtx = ctx;
         return visitChildren(ctx);
     }
     @Override
     public Object visitGeneral_rule(MoveParser.General_ruleContext ctx) throws IOException {
-        if(!ctx.getStart().getText().equals("general move:"))
+        if(!ctx.getStart().getText().contains("general move:"))
             errorMessage("the general move syntax is incorrect, you should add the moves like this: 'general move: <move>, <move>'.", getPosition(ctx));
-
-        for(int i = 0; i < ctx.move_more().move().size(); i++)
-            if(ctx.move_more().move(i).getText().equals(""))
-                errorMessage("the direction of the move is incorrect, you should select direction from this list: left, right, forward, backward.", getPosition(ctx));
+        else
+            for (int i = 0; i < ctx.move_more().move().size(); i++)
+                if (ctx.move_more().move(i).getText().equals(""))
+                    errorMessage("the direction of the move is incorrect, you should select direction from this list: left, right, forward, backward.", getPosition(ctx));
 
         return visitChildren(ctx);
     }
@@ -166,31 +165,22 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         else
             rules--;
 
-        if(rules == 0 && Controller.getInstance().getFrame().getWarLabel().contains(", the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.")){
-            Controller.getInstance().getFrame().getPanelWar().setVisible(false);
-            Controller.getInstance().getFrame().getPanelMenu().setVisible(true);
-            Controller.getInstance().getFrame().add(Controller.getInstance().getFrame().getPanelMenu(), BorderLayout.CENTER);
+        if(rules == 0) {
+            System.out.println("heloka");
+            Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
         }
-        else if(rules != 0 && Controller.getInstance().getFrame().getWarLabel().equals(""))
-            errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", getPosition(ctx));
 
         return visitChildren(ctx);
     }
     @Override
     public Object visitRule(MoveParser.RuleContext ctx) throws IOException {
-        String errorMessage = null;
-        if((!ctx.getText().contains("become") && !ctx.getText().contains("move") && !ctx.getText().contains("moveagain") && !ctx.getText().contains("moveanywhere")) || ctx.getText().contains("missing")) {
-            errorMessage = "the rule syntax is incorrect, you should add the rule like this: <action> when <event>, or move anywhere <INT> times in the game";
-        }
-
-        if(errorMessage != null) {
-            errorMessage(errorMessage, getPosition(ctx));
-        }
+        if((!ctx.getText().contains("become") && !ctx.getText().contains("moveforward") && !ctx.getText().contains("moveright") && !ctx.getText().contains("moveleft") && !ctx.getText().contains("movebackward") && !ctx.getText().contains("moveagain") && !ctx.getText().contains("moveanywhere")) || ctx.getText().contains("missing"))
+            errorMessage("the rule syntax is incorrect, you should add the rule like this: <action> when <event>, or move anywhere <INT> times in the game", getPosition(ctx));
 
         return visitChildren(ctx);
     }
     @Override
-    public Object visitMove(MoveParser.MoveContext ctx) {
+    public Object visitMove(MoveParser.MoveContext ctx)  {
         return visitChildren(ctx);
     }
     @Override

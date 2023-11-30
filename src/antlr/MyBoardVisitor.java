@@ -9,11 +9,10 @@ import java.io.IOException;
 
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     Type playerType;
-    int size, row, col;
+    int size = 0, row, col;
 
     private void errorMessage(String message, String position) throws IOException {
-        Controller.getInstance().getFrame().setWarLabel("error at " + position + ", " + message);
-        Controller.getInstance().getFrame().disappearButtons();
+        Controller.getInstance().getErrorMessages().add("error at " + position + ", " + message);
     }
     private static String getPosition(ParserRuleContext ctx) {
         return "at line #" + ctx.getStart().getLine() + ", column #" + ctx.getStart().getCharPositionInLine();
@@ -24,14 +23,17 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitSize(BoardParser.SizeContext ctx) throws IOException {
-        if(ctx.INT().getText().equals("<missing INT>"))
+        if(ctx.getText().contains("<missing INT>")) {
             errorMessage("there is no size of the board, you should give it.", getPosition(ctx));
-
-        if(!ctx.getStart().getText().equals("board size is:"))
+            System.out.println("hiba");
+        }
+        else if(!ctx.getStart().getText().equals("board size is:"))
             errorMessage("the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.", getPosition(ctx));
+        else {
+            size = Integer.parseInt(ctx.INT().getText());
+            Controller.getInstance().getGame().getBoard().createBoard(size);
+        }
 
-        size = Integer.parseInt(ctx.INT().getText());
-        Controller.getInstance().getGame().getBoard().createBoard(size);
         return visitChildren(ctx);
     }
     @Override
@@ -42,38 +44,39 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitPiece(BoardParser.PieceContext ctx) throws IOException {
-        switch(ctx.getText()) {
-            case "pawn":
-                Pawn pawn = new Pawn(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(pawn);
-                break;
-            case "knight":
-                Knight knight = new Knight(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(knight);
-                break;
-            case "king":
-                King king = new King(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(king);
-                break;
-            case "bishop":
-                Bishop bishop = new Bishop(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(bishop);
-                break;
-            case "rook":
-                Rook rook = new Rook(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(rook);
-                break;
-            case "queen":
-                Queen queen = new Queen(playerType, col, row, Controller.getInstance().getGame().getBoard());
-                Controller.getInstance().getGame().getBoard().setPiece(queen);
-                break;
-            default:
-                errorMessage("piece's type is not exist.", getPosition(ctx));
-                break;
+        if(size != 0) {
+            switch (ctx.getText()) {
+                case "pawn":
+                    Pawn pawn = new Pawn(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(pawn);
+                    break;
+                case "knight":
+                    Knight knight = new Knight(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(knight);
+                    break;
+                case "king":
+                    King king = new King(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(king);
+                    break;
+                case "bishop":
+                    Bishop bishop = new Bishop(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(bishop);
+                    break;
+                case "rook":
+                    Rook rook = new Rook(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(rook);
+                    break;
+                case "queen":
+                    Queen queen = new Queen(playerType, col, row, Controller.getInstance().getGame().getBoard());
+                    Controller.getInstance().getGame().getBoard().setPiece(queen);
+                    break;
+                default:
+                    errorMessage("piece's type is not exist.", getPosition(ctx));
+                    break;
+            }
+            row = -1;
+            col = -1;
         }
-
-        row = -1;
-        col = -1;
 
         return visitChildren(ctx);
     }
@@ -92,38 +95,44 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
-        if (ctx.INT().size() < 2 || ctx.INT(1).getText().equals("<missing INT>")) { errorMessage("the row or the column is missing.", getPosition(ctx)); }
-        else if (ctx.getText().contains("<missing 'is at row'>") || ctx.getText().contains("<missing 'column'>")) { errorMessage("the piece rule is incorrect, you should give it like that: <pieceColor> <pieceType> is at row <INT> column <INT>.", getPosition(ctx));}
+        if (ctx.INT().size() < 2 || ctx.INT(1).getText().equals("<missing INT>")) errorMessage("the row or the column is missing.", getPosition(ctx));
+        else if (ctx.getText().contains("<missing 'is at row'>") || ctx.getText().contains("<missing 'column'>")) errorMessage("the piece rule is incorrect, you should give it like that: <pieceColor> <pieceType> is at row <INT> column <INT>.", getPosition(ctx));
+        else {
+            row = Integer.parseInt(ctx.INT(0).getText()) - 1;
+            col = Integer.parseInt(ctx.INT(1).getText()) - 1;
 
-        row = Integer.parseInt(ctx.INT(0).getText()) - 1;
-        col = Integer.parseInt(ctx.INT(1).getText()) - 1;
-
-        if (row < 0) { errorMessage("the row number is lower than 1, and there is no row like that.", getPosition(ctx));}
-        else if (row >= size) { errorMessage("the row number is higher than the board's size, and there is no row like that.", getPosition(ctx));}
-        else if (col >= size) { errorMessage("the column number is higher than the board's size, and there is no column like that.", getPosition(ctx));}
-        else if (col < 0) { errorMessage("the column number is lower than 1, and there is no column like that.", getPosition(ctx));}
-
+            if (row < 0)
+                errorMessage("the row number is lower than 1, and there is no row like that.", getPosition(ctx));
+            else if (row >= size)
+                errorMessage("the row number is higher than the board's size, and there is no row like that.", getPosition(ctx));
+            else if (col >= size)
+                errorMessage("the column number is higher than the board's size, and there is no column like that.", getPosition(ctx));
+            else if (col < 0)
+                errorMessage("the column number is lower than 1, and there is no column like that.", getPosition(ctx));
+        }
         return visitChildren(ctx);
     }
     @Override
     public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException {
-        if(!ctx.getStart().getText().contains("next player is:"))
+        if(!ctx.getText().contains("next player is:"))
             errorMessage("the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.", getPosition(ctx));
         else if(!Controller.getInstance().getGame().getBoard().haveKings())
             errorMessage("there is not enough kings.", getPosition(ctx));
         else if (ctx.player() == null)
             errorMessage("player's type is not exist, it can be 'white' or 'black'.", getPosition(ctx));
-
+        else {
             var player = ctx.player().getText();
 
-        if(player.equals("white")) { playerType = Type.WHITE; }
-        else if (player.equals("black")) { playerType = Type.BLACK; }
-        else {
-            errorMessage("next player's type is not exist, it can be 'white' or 'black'.", getPosition(ctx));
-            return null;
+            if (player.equals("white")) playerType = Type.WHITE;
+            else if (player.equals("black")) playerType = Type.BLACK;
+            else {
+                errorMessage("next player's type is not exist, it can be 'white' or 'black'.", getPosition(ctx));
+                return null;
+            }
+
+            Controller.getInstance().getGame().setType(playerType);
         }
 
-        Controller.getInstance().getGame().setType(playerType);
         return visitChildren(ctx);
     }
 }

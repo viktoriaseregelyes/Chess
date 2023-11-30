@@ -1,7 +1,6 @@
 package commands;
 
-import game.ICommand;
-import game.Piece;
+import pieces.Piece;
 
 public class EventCommand implements ICommand {
     private boolean hit = false;

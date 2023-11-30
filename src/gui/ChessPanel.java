@@ -1,6 +1,7 @@
 package gui;
 
 import game.*;
+import pieces.Piece;
 import players.*;
 
 import java.io.IOException;

@@ -1,10 +1,10 @@
 package game;
 
 import antlr.*;
-import board.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import pieces.Piece;
 import players.*;
 
 import java.io.IOException;

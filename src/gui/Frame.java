@@ -2,6 +2,7 @@ package gui;
 
 import antlr.MyBoardVisitor;
 import game.*;
+import results.ResultData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,7 @@ public class Frame extends JFrame {
     private ResultFrame resultFrame;
     private ResultData resultData;
     private JPanel panelMenu = new JPanel();
-    private JPanel panelWar = new JPanel();
+    private JScrollPane panelWar;
     private JTextArea warLabel;
 
     public static Frame getInstance() {
@@ -40,7 +41,8 @@ public class Frame extends JFrame {
         warLabel.setBorder(BorderFactory.createEmptyBorder());
         warLabel.setFont(new Font("Monospace", Font.BOLD, 16));
         warLabel.setForeground(Color.RED);
-        warLabel.setSize(570, 150);
+        warLabel.setSize(570, 300);
+        panelWar = new JScrollPane(warLabel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         JButton button_game = new JButton("Game");
         JButton button_result = new JButton("Result");
@@ -52,10 +54,9 @@ public class Frame extends JFrame {
         this.add(panelMenu);
         panel_chess.add(label_chess);
         this.add(panel_chess, BorderLayout.NORTH);
-        panelWar.add(warLabel);
 
         this.pack();
-        this.setSize(600, 150);
+        this.setSize(600, 300);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -76,7 +77,7 @@ public class Frame extends JFrame {
     public JPanel getPanelMenu() {
         return panelMenu;
     }
-    public JPanel getPanelWar() {
+    public JScrollPane getPanelWar() {
         return panelWar;
     }
     public ResultData getResultData() {
