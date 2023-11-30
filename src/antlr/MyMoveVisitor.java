@@ -40,7 +40,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             endY = Controller.getInstance().getGame().getEndY();
         }
         else {
-            var code = Files.readString(Paths.get("inputs\\moves.txt"));
+            var code = Files.readString(Paths.get("inputs\\moves.cfg"));
             var inputStream = CharStreams.fromString(code);
             rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
         }

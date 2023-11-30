@@ -23,8 +23,8 @@ public class Game {
 
 	public Game() throws IOException {
 		this.board = new Board();
-		this.boardTree = readASTBoard("inputs\\board.txt");
-		this.moveTree = readASTMoves("inputs\\moves.txt");
+		this.boardTree = readASTBoard("inputs\\board.cfg");
+		this.moveTree = readASTMoves("inputs\\moves.cfg");
 	}
 	public static Game getInstance() throws IOException {
 		if (instance == null)
