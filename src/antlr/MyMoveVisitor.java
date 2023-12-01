@@ -23,6 +23,16 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private boolean piece_changed = false, moveOver = false;
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
 
+    /*1.kéne egy fv a boardra, ami kiszedi magából hogy milyen típusú bábuk vannak rajta
+      2.kéne az, hogy milyen bábukhoz készült szabály
+      3.kéne, hogy milyen bábukká lehet változni
+
+      1-2 ki kéne ütniük egymást
+      3nak ezek után ki kell ütnie a 2 maradékát
+
+      ha ez nincs, akkor hiányzik/hiányoznak piece szabályok
+     */
+
     private void errorMessage(String message, String position) throws IOException {
         Controller.getInstance().getErrorMessages().add("error at " + position + ", " + message);
     }
