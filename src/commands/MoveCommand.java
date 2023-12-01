@@ -66,15 +66,19 @@ public class MoveCommand implements ICommand {
             num = abs(startX - endX);
 
         if(piece.getType() == Type.BLACK) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null)
+            for(int i = 1; i < num; i++) {
+                if (startX - i < 0) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX - i, startY) != null)
                     wrongMove = true;
+            }
             startX = startX-num;
         }
         if(piece.getType() == Type.WHITE) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null)
+            for(int i = 1; i < num; i++) {
+                if (startX + i >= Controller.getInstance().getGame().getBoard().getSize()) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX + i, startY) != null)
                     wrongMove = true;
+            }
             startX = startX+num;
         }
     }
@@ -83,36 +87,40 @@ public class MoveCommand implements ICommand {
             num = abs(startX - endX);
 
         if(piece.getType() == Type.WHITE) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX-i, startY) != null)
+            for(int i = 1; i < num; i++) {
+                if (startX - i < 0) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX - i, startY) != null)
                     wrongMove = true;
-
+            }
             startX = startX-num;
         }
         if(piece.getType() == Type.BLACK) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX+i, startY) != null)
+            for(int i = 1; i < num; i++) {
+                if (startX + i >= Controller.getInstance().getGame().getBoard().getSize()) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX + i, startY) != null)
                     wrongMove = true;
-
+            }
             startX = startX+num;
         }
     }
     private void forward(int num) throws IOException {
         if(num == 0)
-            num = abs(startY - endY);
+            num = abs(startY-endY);
 
         if(piece.getType() == Type.WHITE) {
-            for(int i = 1; i < num; i++)
+            for(int i = 1; i < num; i++) {
+                if (startY + i >= Controller.getInstance().getGame().getBoard().getSize()) return;
                 if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY + i) != null)
                     wrongMove = true;
-
+            }
             startY = startY+num;
         }
         if(piece.getType() == Type.BLACK) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null)
+            for(int i = 1; i < num; i++) {
+                if (startY - i < 0) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY - i) != null)
                     wrongMove = true;
-
+            }
             startY = startY-num;
         }
     }
@@ -121,17 +129,19 @@ public class MoveCommand implements ICommand {
             num = abs(startY - endY);
 
         if(piece.getType() == Type.BLACK) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY+i) != null)
+            for(int i = 1; i < num; i++) {
+                if (startY + i >= Controller.getInstance().getGame().getBoard().getSize()) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY + i) != null)
                     wrongMove = true;
-
+            }
             startY = startY+num;
         }
         if(piece.getType() == Type.WHITE) {
-            for(int i = 1; i < num; i++)
-                if(Controller.getInstance().getGame().getBoard().getPiece(startX, startY-i) != null)
+            for(int i = 1; i < num; i++) {
+                if (startY - i < 0) return;
+                if (Controller.getInstance().getGame().getBoard().getPiece(startX, startY - i) != null)
                     wrongMove = true;
-
+            }
             startY = startY-num;
         }
     }
