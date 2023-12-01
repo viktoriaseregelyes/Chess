@@ -24,7 +24,6 @@ public class ErrorMessages {
     }
 
     public void printMsg() throws IOException {
-        System.out.println("hello" + msgs.size());
         if(msgs.size() != 0) {
             String message = "";
             for (String msg : msgs) {

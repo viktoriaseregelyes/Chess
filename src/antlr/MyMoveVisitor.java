@@ -165,10 +165,8 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         else
             rules--;
 
-        if(rules == 0) {
-            System.out.println("heloka");
+        if(rules == 0)
             Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
-        }
 
         return visitChildren(ctx);
     }
