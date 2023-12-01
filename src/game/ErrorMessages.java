@@ -27,7 +27,6 @@ public class ErrorMessages {
         if(msgs.size() != 0) {
             String message = "";
             for (String msg : msgs) {
-                System.out.println(msg);
                 message = message + msg + "\n";
             }
             Controller.getInstance().getFrame().setWarLabel(message);

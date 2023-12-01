@@ -8,6 +8,7 @@ import game.Controller;
 import pieces.Piece;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
+import pieces.TypeOfPiece;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,8 +23,9 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     private EventCommand eventcmd = new EventCommand();
     private boolean piece_changed = false, moveOver = false;
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
+    private ArrayList<String> typesOnBoard, typesWithRules = new ArrayList<>();
 
-    /*1.kéne egy fv a boardra, ami kiszedi magából hogy milyen típusú bábuk vannak rajta
+    /*+1.kéne egy fv a boardra, ami kiszedi magából hogy milyen típusú bábuk vannak rajta
       2.kéne az, hogy milyen bábukhoz készült szabály
       3.kéne, hogy milyen bábukká lehet változni
 
@@ -48,6 +50,8 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             endY = Controller.getInstance().getGame().getEndY();
         }
         else {
+            typesOnBoard = Controller.getInstance().getGame().getBoard().getAllPieceTypes();
+            System.out.println(typesOnBoard);
             var code = Files.readString(Paths.get("inputs\\moves.cfg"));
             var inputStream = CharStreams.fromString(code);
             rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
@@ -79,6 +83,8 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException {
         if(ctx.getText().contains("<missing ' rule:'>"))
             errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", getPosition(ctx));
+        if(!this.typesWithRules.contains(ctx.piece().getText().toUpperCase()))
+            typesWithRules.add(ctx.piece().getText().toUpperCase());
 
         if(this.piece != null) {
             if(ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
@@ -219,7 +225,31 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         return visitChildren(ctx);
     }
     @Override
-    public Object visitBecome_piece(MoveParser.Become_pieceContext ctx) {
+    public Object visitBecome_piece(MoveParser.Become_pieceContext ctx) throws IOException {
+        if(ctx.getText().equals("become"))
+            errorMessage("there is no piece type like this.", getPosition(ctx));
+
+        if(ctx.getText().contains("become") && !this.typesWithRules.contains(ctx.getText().replace("become", "").toUpperCase())) {
+            typesWithRules.add(ctx.getText().replace("become", "").toUpperCase());
+        }
+
+        if(rules == 0) {
+            if(typesWithRules.size() < typesOnBoard.size())
+                errorMessage("you should give all the piece rules for the pieces on the board and the 'become' pieces as well.", "the piece rules");
+            else {
+                for (String typesWithRule : typesWithRules)
+                    for (int j = 0; j < typesOnBoard.size(); j++)
+                        if (typesWithRule.equals(typesOnBoard.get(j)))
+                            typesOnBoard.remove(j);
+
+                System.out.println(typesOnBoard);
+
+                if(!typesOnBoard.isEmpty())
+                    errorMessage("you should give all the piece rules for the pieces on the board and the 'become' pieces as well.", "the piece rules");
+            }
+        }
+
+
         return visitChildren(ctx);
     }
 }

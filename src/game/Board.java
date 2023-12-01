@@ -49,4 +49,17 @@ public class Board {
     public int getSize() {
         return this.size;
     }
+
+    public ArrayList<String> getAllPieceTypes() {
+        ArrayList<String> types = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(this.getPiece(i, j) != null && !types.contains(this.getPiece(i, j).getTypeOfPiece().toString())) {
+                    types.add(this.getPiece(i, j).getTypeOfPiece().toString());
+                }
+            }
+        }
+            return types;
+    }
 }
