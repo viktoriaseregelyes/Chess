@@ -36,6 +36,8 @@ public class Game {
 		this.endX = endX;
 		this.endY = endY;
 
+		this.piece.specRules();
+
 		new MyMoveVisitor().visit(this.moveTree);
 
 		switchType();

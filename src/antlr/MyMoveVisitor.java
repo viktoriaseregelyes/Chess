@@ -8,7 +8,6 @@ import game.Controller;
 import pieces.Piece;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
-import pieces.TypeOfPiece;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -51,7 +50,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         }
         else {
             typesOnBoard = Controller.getInstance().getGame().getBoard().getAllPieceTypes();
-            System.out.println(typesOnBoard);
             var code = Files.readString(Paths.get("inputs\\moves.cfg"));
             var inputStream = CharStreams.fromString(code);
             rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
@@ -86,23 +84,22 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         if(!this.typesWithRules.contains(ctx.piece().getText().toUpperCase()))
             typesWithRules.add(ctx.piece().getText().toUpperCase());
 
-        if(this.piece != null) {
-            if(ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
-                for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
-                    if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
-                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
-                        moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                    }
-                }
+        for(int i=0;i<Controller.getInstance().getGame().getBoard().getSize();i++) {
+            for(int j=0;j<Controller.getInstance().getGame().getBoard().getSize();j++) {
+                if(Controller.getInstance().getGame().getBoard().getPiece(i,j) != null && ctx.piece().getText().equals(Controller.getInstance().getGame().getBoard().getPiece(i,j).getTypeOfPiece().toString().toLowerCase())) {
+                    for (int k=0; k<allPieceRuleCtx.rule_().size();k++)
+                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addSpecRule(allPieceRuleCtx.rule_(k).getText());
 
-                for (int i = 0; i < ctx.rule_().size(); i++) {
-                    if(ctx.rule_(i).getText().contains("moveanywhere")) {
-                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
-                        moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                    }
+                    for (int k=0; k<ctx.rule_().size();k++)
+                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addSpecRule(ctx.rule_(k).getText());
+
+                    for (int k=0; k<ctx.general_rule().move_more().move().size();k++)
+                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addGenRule(ctx.general_rule().move_more().move(k).getText());
                 }
             }
+        }
 
+        if(this.piece != null) {
             if (ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase()) && !piece_changed) {
                 int rule_num = 0;
                 int moves = ctx.general_rule().move_more().move().size();
@@ -129,10 +126,10 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                     }
                 }
                 if (rule_num == moves || moveOver) {
-                    if(this.piece.getMove_times() > 0) {
+                    if(this.piece.getMoveTimes() > 0) {
                         Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
                         MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, this.endX, this.endY);
-                        moveanywherecmd.setNumber(this.piece.getMove_times()-1);
+                        moveanywherecmd.setNumber(this.piece.getMoveTimes()-1);
                         moveanywherecmd.Execute();
 
                         Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
@@ -233,7 +230,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             typesWithRules.add(ctx.getText().replace("become", "").toUpperCase());
         }
 
-        if(rules == 0) {
+        if(rules == 0 && this.piece == null) {
             if(typesWithRules.size() < typesOnBoard.size())
                 errorMessage("you should give all the piece rules for the pieces on the board and the 'become' pieces as well.", "the piece rules");
             else {
@@ -241,8 +238,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
                     for (int j = 0; j < typesOnBoard.size(); j++)
                         if (typesWithRule.equals(typesOnBoard.get(j)))
                             typesOnBoard.remove(j);
-
-                System.out.println(typesOnBoard);
 
                 if(!typesOnBoard.isEmpty())
                     errorMessage("you should give all the piece rules for the pieces on the board and the 'become' pieces as well.", "the piece rules");

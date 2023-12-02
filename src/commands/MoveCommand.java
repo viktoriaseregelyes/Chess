@@ -48,7 +48,7 @@ public class MoveCommand implements ICommand {
                     eventcmd.Execute();
                 }
                 if(Controller.getInstance().getGame().getBoard().getPiece(endX, endY) == null || Controller.getInstance().getGame().getBoard().getPiece(endX, endY).getType() != piece.getType()) {
-                    piece.Move(endX, endY);
+                    piece.setNewLocation(endX, endY);
                     Controller.getInstance().getGame().setCanmove(true);
                 }
                 else {

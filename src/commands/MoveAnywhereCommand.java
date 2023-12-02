@@ -20,10 +20,9 @@ public class MoveAnywhereCommand implements ICommand {
     public MoveAnywhereCommand(Piece piece) {
         this.piece = piece;
     }
-
     @Override
     public int Execute() throws IOException {
-        this.piece.Move(endX, endY);
+        this.piece.setNewLocation(endX, endY);
 
         Controller.getInstance().getGame().getBoard().setFieldToNull(startX, startY);
         Controller.getInstance().getGame().setPiece(this.piece);
@@ -34,7 +33,7 @@ public class MoveAnywhereCommand implements ICommand {
 
     public void setNumber(int num) {
         this.num = num;
-        if(this.piece.getMove_times() == -1 || this.piece.getMove_times()-1 == num)
-            this.piece.setMove_times(this.num);
+        if(this.piece.getMoveTimes() == -1 || this.piece.getMoveTimes()-1 == num)
+            this.piece.setMoveTimes(this.num);
     }
 }

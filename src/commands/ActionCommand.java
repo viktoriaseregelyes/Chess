@@ -94,7 +94,7 @@ public class ActionCommand implements ICommand {
             default: break;
         }
         if((endX >= 0 && endX < Controller.getInstance().getGame().getBoard().getSize()) && (endY >= 0 && endY < Controller.getInstance().getGame().getBoard().getSize())){
-            this.piece.Move(endX, endY);
+            this.piece.setNewLocation(endX, endY);
         }
     }
     private void left() {
