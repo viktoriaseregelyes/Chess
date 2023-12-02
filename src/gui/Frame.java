@@ -87,11 +87,11 @@ public class Frame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             setVisible(false);
             playersFrame.setVisible(true);
-            try {
+            /*try {
                 new MyBoardVisitor().visit(Controller.getInstance().getGame().getBoardTree());
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
+            }*/
         }
     }
     public class ResultButtonActionListener implements ActionListener {

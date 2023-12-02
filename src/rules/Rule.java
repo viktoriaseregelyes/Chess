@@ -11,15 +11,12 @@ public class Rule {
         this.genRule = genRule;
         this.specRule = specRule;
     }
-
     public GeneralRule getGenRule() {
         return genRule;
     }
-
     public SpecialRule getSpecRule() {
         return specRule;
     }
-
     public String getTypeOfPiece() {
         return top;
     }

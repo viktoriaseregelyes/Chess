@@ -86,7 +86,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
 
         var player = ctx.getText();
 
-        if(player.equals("white")) { playerType = Type.WHITE; }
+        if (player.equals("white")) { playerType = Type.WHITE; }
         else if (player.equals("black")) { playerType = Type.BLACK; }
         else
             errorMessage("player's type is not exist, it can be 'white' or 'black'.", getPosition(ctx));

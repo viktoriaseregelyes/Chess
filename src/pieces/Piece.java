@@ -22,7 +22,7 @@ abstract public class Piece implements Serializable {
 	private final Board board;
 	private Rule rule = new Rule();
 	private EventCommand eventcmd = new EventCommand();
-	private boolean piece_changed = false, moveOver = false;
+	private boolean goodMove = false;
 	
 	public Piece(Type type, int x, int y, Board board) {
 		this.type = type;
@@ -35,8 +35,8 @@ abstract public class Piece implements Serializable {
 		this.setY(endY);
 		getBoard().setPiece(this);
 	}
-
 	public void moveAnywhere() throws IOException {
+		getPieceRule();
 		for (int i = 0; i < rule.getSpecRule().size(); i++) {
 			if (rule.getSpecRule().get(i).contains("moveanywhere")) {
 				MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this);
@@ -51,55 +51,52 @@ abstract public class Piece implements Serializable {
 	}
 	public void specRules() throws IOException {
 		for (int i=0;i<rule.getSpecRule().size();i++) {
-			if (!rule.getSpecRule().get(i).contains("moveanywhere")) {
-				ActionCommand actioncmd = new ActionCommand(this, rule.getSpecRule().get(i));
+			if (!rule.getSpecRule().get(i).contains("moveanywhere") && !rule.getSpecRule().get(i).contains("become")) {
+				ActionCommand actioncmd = new ActionCommand(this, rule.getSpecRule().get(i).replace("-","").substring(0, rule.getSpecRule().get(i).replace("-","").indexOf("when")));
 				actioncmd.Execute();
-
-				//King newPiece = new King(actioncmd.getPiece().getType(), actioncmd.getPiece().getX(), actioncmd.getPiece().getY(), this.board);
-
-				setNewLocation(actioncmd.getPiece().getX(), actioncmd.getPiece().getY());
-
-				//this = newPiece;
+			}
+		}
+	}
+	public void becomePiece() throws IOException {
+		for (int i=0;i<rule.getSpecRule().size();i++) {
+			if (rule.getSpecRule().get(i).contains("become")) {
+				ActionCommand actioncmd = new ActionCommand(this, rule.getSpecRule().get(i).replace("-", "").substring(0, rule.getSpecRule().get(i).replace("-","").indexOf("when")));
+				actioncmd.Execute();
 			}
 		}
 	}
 	public void move(int endX, int endY) throws IOException {
-		getPieceRule();
-		if(!piece_changed) {
-			int ruleNum = 0;
-			int moves = rule.getGenRule().size();
-			for(int i=0;i<moves;i++) {
-				if(!moveOver) {
-					MoveCommand movecmd = new MoveCommand(this, rule.getGenRule().getDir(i), rule.getGenRule().getDirNum(i), endX, endY, eventcmd);
-					int moveReturn = movecmd.Execute();
-					System.out.println(moveReturn);
-					if (moveReturn == 2) moveOver = true;
-					else ruleNum += moveReturn;
-				}
-			}
-			if(ruleNum == moves || moveOver) {
-				if(this.getMoveTimes() > 0) {
-					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
-					MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this, endX, endY);
-					moveanywherecmd.setNumber(this.getMoveTimes()-1);
-					moveanywherecmd.Execute();
+		int ruleNum = 0;
+		int moves = rule.getGenRule().size();
+		for(int i=0;i<moves;i++) {
+			MoveCommand movecmd = new MoveCommand(this, rule.getGenRule().getDir(i), rule.getGenRule().getDirNum(i), endX, endY, eventcmd);
+			int moveReturn = movecmd.Execute();
+			System.out.println(moveReturn);
+			if (moveReturn == 0) goodMove = true;
+			ruleNum += moveReturn;
+		}
+		if(ruleNum >= moves && !goodMove) {
+			if(this.getMoveTimes() > 0) {
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
+				MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this, endX, endY);
+				moveanywherecmd.setNumber(this.getMoveTimes()-1);
+				moveanywherecmd.Execute();
 
-					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
-					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
-					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchState();
-				}
-				else
-					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchState();
 			}
 			else
-				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
-
-			moveOver = false;
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
 		}
+		else
+			Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
+
+		goodMove = false;
 
 		if(eventcmd.getHit() && eventcmd.getPiece().getType() == this.type) {
-			if(!piece_changed)
-				this.specRules();
+			this.specRules();
+			this.becomePiece();
 		}
 	}
 	abstract public ImageIcon getImageIcon();

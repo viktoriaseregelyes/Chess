@@ -15,12 +15,12 @@ public class Result implements Serializable {
     }
 
     public String getPlayerWhite() {
-        return this.white.GetName();
+        return white.GetName();
     }
     public String getPlayerBlack() {
-        return this.black.GetName();
+        return black.GetName();
     }
     public String getWinner() {
-        return this.winner.GetName();
+        return winner.GetName();
     }
 }

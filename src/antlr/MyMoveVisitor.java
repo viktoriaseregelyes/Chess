@@ -76,8 +76,6 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             specRule.addSpecRule(ctx.rule_(k).getText());
 
         for (int k = 0; k < ctx.general_rule().move_more().move().size(); k++) {
-            genRule.addGenRule(ctx.general_rule().move_more().move(k).getText());
-
             int l = 0;
             while (ctx.general_rule().move_more().move(k).INT(l) != null) {
                 genRule.addDirNum(k, Integer.parseInt(ctx.general_rule().move_more().move(k).INT(l).toString()));

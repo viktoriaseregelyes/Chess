@@ -43,7 +43,7 @@ public class ResultData extends AbstractTableModel implements Serializable {
         try {
             FileInputStream f = new FileInputStream(System.getProperty("user.dir") + "\\src\\players_winner.ser");
             ObjectInputStream in = new ObjectInputStream(f);
-            this.results = (ArrayList<Result>) in.readObject();
+            results = (ArrayList<Result>) in.readObject();
             in.close();
             f.close();
         }
@@ -55,7 +55,7 @@ public class ResultData extends AbstractTableModel implements Serializable {
         try {
             FileOutputStream f = new FileOutputStream(System.getProperty("user.dir") + "\\src\\players_winner.ser");
             ObjectOutputStream out = new ObjectOutputStream(f);
-            out.writeObject(this.results);
+            out.writeObject(results);
             out.close();
             f.close();
         }

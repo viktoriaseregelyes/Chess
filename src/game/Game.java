@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import pieces.Piece;
+import pieces.TypeOfPiece;
 import players.*;
 import rules.Rule;
 
@@ -18,7 +19,7 @@ public class Game {
 	private Player black, white;
 	private Board board;
 	private Type type = Type.WHITE;
-	private ParseTree boardTree, moveTree;
+	private ParseTree boardTree;
 	private Piece piece;
 	private boolean canmove = false;
 	private int endX, endY;
@@ -27,7 +28,6 @@ public class Game {
 	public Game() throws IOException {
 		this.board = new Board();
 		this.boardTree = readASTBoard("inputs\\board.cfg");
-		this.moveTree = readASTMoves("inputs\\moves.cfg");
 	}
 	public static Game getInstance() throws IOException {
 		if (instance == null)
@@ -39,10 +39,8 @@ public class Game {
 		this.endX = endX;
 		this.endY = endY;
 
-		this.piece.move(endX, endY);
 		this.piece.moveAnywhere();
-
-		//new MyMoveVisitor().visit(this.moveTree);
+		this.piece.move(endX, endY);
 
 		switchType();
 		return canmove;
@@ -63,19 +61,6 @@ public class Game {
 	}
 	public void setPiece(Piece piece) {
 		this.piece = piece;
-	}
-	public static ParseTree readASTMoves(String fileName) throws IOException {
-		try {
-			var code = Files.readString(Paths.get(fileName));
-			var inputStream = CharStreams.fromString(code);
-			var lexer = new MoveLexer(inputStream);
-			var tokenStream = new CommonTokenStream(lexer);
-			var parser = new MoveParser(tokenStream);
-			return parser.moves();
-		}
-		catch(IOException e) {
-			throw e;
-		}
 	}
 	public static ParseTree readASTBoard(String fileName) throws IOException {
 		try {
@@ -129,8 +114,5 @@ public class Game {
 	}
 	public void setType(Type type) {
 		this.type = type;
-	}
-	public ParseTree getMoveTree() {
-		return moveTree;
 	}
 }
