@@ -1,9 +1,12 @@
 package pieces;
 
+import game.Controller;
 import players.*;
 import game.Board;
+import rules.Rule;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.lang.*;
 
 public class Bishop extends Piece {
@@ -14,12 +17,10 @@ public class Bishop extends Piece {
 	public Bishop(Type type, int x, int y, Board board) {
 		super(type, x, y, board);
 	}
-
 	public ImageIcon getImageIcon() {
 		if(this.getType() == Type.BLACK) return b_bishop;
 		return w_bishop;
 	}
-
 	public TypeOfPiece getTypeOfPiece() {
 		return this.top;
 	}

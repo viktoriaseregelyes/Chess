@@ -6,6 +6,7 @@ import pieces.*;
 import players.Type;
 
 import java.io.IOException;
+import java.sql.SQLSyntaxErrorException;
 
 public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     Type playerType;
@@ -25,7 +26,6 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     public Object visitSize(BoardParser.SizeContext ctx) throws IOException {
         if(ctx.getText().contains("<missing INT>")) {
             errorMessage("there is no size of the board, you should give it.", getPosition(ctx));
-            System.out.println("hiba");
         }
         else if(!ctx.getStart().getText().equals("board size is:"))
             errorMessage("the board size syntax is incorrect, you should add the board size like this: 'board size is: <INT>'.", getPosition(ctx));

@@ -1,9 +1,12 @@
 package pieces;
 
+import game.Controller;
 import players.*;
 import game.Board;
+import rules.Rule;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class Pawn extends Piece {
 	public ImageIcon w_pawn = new ImageIcon(System.getProperty("user.dir") + "\\src\\pieces_images\\w_pawn.png");

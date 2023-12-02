@@ -21,5 +21,4 @@ public class SpecialRule {
     public String get(int i) {
         return specRules.get(i);
     }
-
 }

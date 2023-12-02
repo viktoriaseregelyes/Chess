@@ -8,6 +8,11 @@ import game.Controller;
 import pieces.Piece;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
+import pieces.Queen;
+import pieces.TypeOfPiece;
+import rules.GeneralRule;
+import rules.Rule;
+import rules.SpecialRule;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,46 +20,23 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
-    private Piece piece;
-    private int endX, endY, rules;
-    private ArrayList<String> dir = new ArrayList<>();
-    private ArrayList<Integer> dir_num = new ArrayList<>();
-    private EventCommand eventcmd = new EventCommand();
-    private boolean piece_changed = false, moveOver = false;
+    private int rules;
     private MoveParser.All_piece_ruleContext allPieceRuleCtx;
     private ArrayList<String> typesOnBoard, typesWithRules = new ArrayList<>();
-
-    /*+1.kéne egy fv a boardra, ami kiszedi magából hogy milyen típusú bábuk vannak rajta
-      2.kéne az, hogy milyen bábukhoz készült szabály
-      3.kéne, hogy milyen bábukká lehet változni
-
-      1-2 ki kéne ütniük egymást
-      3nak ezek után ki kell ütnie a 2 maradékát
-
-      ha ez nincs, akkor hiányzik/hiányoznak piece szabályok
-     */
-
-    private void errorMessage(String message, String position) throws IOException {
-        Controller.getInstance().getErrorMessages().add("error at " + position + ", " + message);
-    }
 
     private static String getPosition(ParserRuleContext ctx) {
         return "at line #" + ctx.getStart().getLine() + ", column #" + ctx.getStart().getCharPositionInLine();
     }
+    private void errorMessage(String message, String position) throws IOException {
+        Controller.getInstance().getErrorMessages().add("error at " + position + ", " + message);
+    }
     @Override
     public Object visitMoves(MoveParser.MovesContext ctx) throws IOException {
-        if(Controller.getInstance().getGame().getPiece() != null) {
-            piece = Controller.getInstance().getGame().getPiece();
-            endX = Controller.getInstance().getGame().getEndX();
-            endY = Controller.getInstance().getGame().getEndY();
-        }
-        else {
-            typesOnBoard = Controller.getInstance().getGame().getBoard().getAllPieceTypes();
-            var code = Files.readString(Paths.get("inputs\\moves.cfg"));
-            var inputStream = CharStreams.fromString(code);
-            rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
-            errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", "one or more piece's name");
-        }
+        typesOnBoard = Controller.getInstance().getGame().getBoard().getAllPieceTypes();
+        var code = Files.readString(Paths.get("inputs\\moves.cfg"));
+        var inputStream = CharStreams.fromString(code);
+        rules = (inputStream.toString().length() - inputStream.toString().replaceAll("rule","").length())/4 - 1;
+        errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", "one or more piece's name");
 
         return visitChildren(ctx);
     }
@@ -84,102 +66,35 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
         if(!this.typesWithRules.contains(ctx.piece().getText().toUpperCase()))
             typesWithRules.add(ctx.piece().getText().toUpperCase());
 
-        for(int i=0;i<Controller.getInstance().getGame().getBoard().getSize();i++) {
-            for(int j=0;j<Controller.getInstance().getGame().getBoard().getSize();j++) {
-                if(Controller.getInstance().getGame().getBoard().getPiece(i,j) != null && ctx.piece().getText().equals(Controller.getInstance().getGame().getBoard().getPiece(i,j).getTypeOfPiece().toString().toLowerCase())) {
-                    for (int k=0; k<allPieceRuleCtx.rule_().size();k++)
-                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addSpecRule(allPieceRuleCtx.rule_(k).getText());
+        GeneralRule genRule = new GeneralRule();
+        SpecialRule specRule = new SpecialRule();
 
-                    for (int k=0; k<ctx.rule_().size();k++)
-                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addSpecRule(ctx.rule_(k).getText());
+        for (int k = 0; k < allPieceRuleCtx.rule_().size(); k++)
+            specRule.addSpecRule(allPieceRuleCtx.rule_(k).getText());
 
-                    for (int k=0; k<ctx.general_rule().move_more().move().size();k++)
-                        Controller.getInstance().getGame().getBoard().getPiece(i,j).addGenRule(ctx.general_rule().move_more().move(k).getText());
-                }
+        for (int k = 0; k < ctx.rule_().size(); k++)
+            specRule.addSpecRule(ctx.rule_(k).getText());
+
+        for (int k = 0; k < ctx.general_rule().move_more().move().size(); k++) {
+            genRule.addGenRule(ctx.general_rule().move_more().move(k).getText());
+
+            int l = 0;
+            while (ctx.general_rule().move_more().move(k).INT(l) != null) {
+                genRule.addDirNum(k, Integer.parseInt(ctx.general_rule().move_more().move(k).INT(l).toString()));
+                l++;
             }
+
+            for (int m=0;m<ctx.general_rule().move_more().move(k).directions().size();m++) {
+                genRule.addDir(k, ctx.general_rule().move_more().move(k).directions(m).getText());
+                genRule.addDirNum(k, 0);
+            }
+
+            Rule newRule = new Rule(ctx.piece().getText().toUpperCase(), genRule, specRule);
+            Controller.getInstance().getGame().addRule(newRule);
         }
 
-        if(this.piece != null) {
-            if (ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase()) && !piece_changed) {
-                int rule_num = 0;
-                int moves = ctx.general_rule().move_more().move().size();
-                for (int i = 0; i < moves; i++) {
-                    if(!moveOver) {
-                        dir.clear();
-                        dir_num.clear();
-
-                        int dirnum = ctx.general_rule().move_more().move(i).directions().size();
-                        int k = 0;
-                        while (ctx.general_rule().move_more().move(i).INT(k) != null) {
-                            dir_num.add(Integer.parseInt(ctx.general_rule().move_more().move(i).INT(k).toString()));
-                            k++;
-                        }
-
-                        for (int j = 0; j < dirnum; j++) {
-                            dir.add(ctx.general_rule().move_more().move(i).directions(j).getText());
-                        }
-
-                        MoveCommand movecmd = new MoveCommand(piece, dir, dir_num, endX, endY, eventcmd);
-                        int moveReturn = movecmd.Execute();
-                        if (moveReturn == 2) moveOver = true;
-                        else rule_num += moveReturn;
-                    }
-                }
-                if (rule_num == moves || moveOver) {
-                    if(this.piece.getMoveTimes() > 0) {
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
-                        MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece, this.endX, this.endY);
-                        moveanywherecmd.setNumber(this.piece.getMoveTimes()-1);
-                        moveanywherecmd.Execute();
-
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchState();
-                    }
-                    else
-                        Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
-                }
-                else
-                    Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
-
-                moveOver = false;
-            }
-
-            if (eventcmd.getHit() && eventcmd.getPiece().getType() == this.piece.getType() && ctx.piece().getText().equals(piece.getTypeOfPiece().toString().toLowerCase())) {
-                if (!piece_changed) {
-                    for (int i = 0; i < allPieceRuleCtx.rule_().size(); i++) {
-                        if(!allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
-                            ActionCommand actioncmd = new ActionCommand(this.piece, allPieceRuleCtx.rule_(i).action().getText());
-                            actioncmd.Execute();
-
-                            this.piece = actioncmd.getPiece();
-                        }
-
-                        if(allPieceRuleCtx.rule_(i).getText().contains("moveanywhere")) {
-                            MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this.piece);
-                            moveanywherecmd.setNumber(Integer.parseInt(ctx.rule_(i).move_anywhere().INT().getText()));
-                        }
-                    }
-
-                    for (int j = 0; j < ctx.rule_().size(); j++) {
-                        if(!ctx.rule_(j).getText().contains("moveanywhere")) {
-                            ActionCommand actioncmd = new ActionCommand(this.piece, ctx.rule_(j).action().getText());
-                            actioncmd.Execute();
-
-                            if (this.piece != actioncmd.getPiece())
-                                this.piece_changed = true;
-
-                            this.piece = actioncmd.getPiece();
-                        }
-                    }
-                }
-            }
-        }
-        else
-            rules--;
-
-        if(rules == 0)
-            Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
+        rules--;
+        if(rules == 0) Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
 
         return visitChildren(ctx);
     }
@@ -230,7 +145,7 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
             typesWithRules.add(ctx.getText().replace("become", "").toUpperCase());
         }
 
-        if(rules == 0 && this.piece == null) {
+        if(rules == 0) {
             if(typesWithRules.size() < typesOnBoard.size())
                 errorMessage("you should give all the piece rules for the pieces on the board and the 'become' pieces as well.", "the piece rules");
             else {

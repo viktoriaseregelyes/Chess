@@ -6,10 +6,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import pieces.Piece;
 import players.*;
+import rules.Rule;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Game {
 	private static Game instance = null;
@@ -20,6 +22,7 @@ public class Game {
 	private Piece piece;
 	private boolean canmove = false;
 	private int endX, endY;
+	private ArrayList<Rule> rules = new ArrayList<>();
 
 	public Game() throws IOException {
 		this.board = new Board();
@@ -31,17 +34,25 @@ public class Game {
 			instance = new Game();
 		return instance;
 	}
-	public boolean round(Piece piece, int endX, int endY) {
+	public boolean round(Piece piece, int endX, int endY) throws IOException {
 		this.piece = piece;
 		this.endX = endX;
 		this.endY = endY;
 
-		this.piece.specRules();
+		this.piece.move(endX, endY);
+		this.piece.moveAnywhere();
 
-		new MyMoveVisitor().visit(this.moveTree);
+		//new MyMoveVisitor().visit(this.moveTree);
 
 		switchType();
 		return canmove;
+	}
+
+	public ArrayList<Rule> getRules() {
+		return rules;
+	}
+	public void addRule(Rule rule) {
+		rules.add(rule);
 	}
 	public ParseTree getBoardTree() {
 		return boardTree;

@@ -1,22 +1,28 @@
 package pieces;
 
+import commands.ActionCommand;
+import commands.EventCommand;
 import commands.MoveAnywhereCommand;
+import commands.MoveCommand;
+import game.Controller;
 import players.*;
 import game.Board;
 import rules.GeneralRule;
+import rules.Rule;
 import rules.SpecialRule;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 abstract public class Piece implements Serializable {
 	private final Type type;
-	private TypeOfPiece top;
+	private TypeOfPiece top = TypeOfPiece.KING;
 	private int x, y, moveTimes = -1;
 	private final Board board;
-	private GeneralRule genRules = new GeneralRule();
-	private SpecialRule specRules = new SpecialRule();
+	private Rule rule = new Rule();
+	private EventCommand eventcmd = new EventCommand();
+	private boolean piece_changed = false, moveOver = false;
 	
 	public Piece(Type type, int x, int y, Board board) {
 		this.type = type;
@@ -30,15 +36,72 @@ abstract public class Piece implements Serializable {
 		getBoard().setPiece(this);
 	}
 
-	public void specRules() {
-		for (int i=0;i<specRules.size();i++) {
-			if (specRules.get(i).contains("moveanywhere")) {
+	public void moveAnywhere() throws IOException {
+		for (int i = 0; i < rule.getSpecRule().size(); i++) {
+			if (rule.getSpecRule().get(i).contains("moveanywhere")) {
 				MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this);
-				moveanywherecmd.setNumber(Integer.parseInt(specRules.get(i).replace("-moveanywhere ", "").replace(" times in the game", "")));
+				moveanywherecmd.setNumber(Integer.parseInt(rule.getSpecRule().get(i).replace("-moveanywhere ", "").replace(" times in the game", "")));
 			}
 		}
 	}
+	public void getPieceRule() throws IOException {
+		for(int i = 0; i< Controller.getInstance().getGame().getRules().size(); i++)
+			if(Controller.getInstance().getGame().getRules().get(i).getTypeOfPiece().equals(this.getTypeOfPiece().toString()))
+				rule = Controller.getInstance().getGame().getRules().get(i);
+	}
+	public void specRules() throws IOException {
+		for (int i=0;i<rule.getSpecRule().size();i++) {
+			if (!rule.getSpecRule().get(i).contains("moveanywhere")) {
+				ActionCommand actioncmd = new ActionCommand(this, rule.getSpecRule().get(i));
+				actioncmd.Execute();
 
+				//King newPiece = new King(actioncmd.getPiece().getType(), actioncmd.getPiece().getX(), actioncmd.getPiece().getY(), this.board);
+
+				setNewLocation(actioncmd.getPiece().getX(), actioncmd.getPiece().getY());
+
+				//this = newPiece;
+			}
+		}
+	}
+	public void move(int endX, int endY) throws IOException {
+		getPieceRule();
+		if(!piece_changed) {
+			int ruleNum = 0;
+			int moves = rule.getGenRule().size();
+			for(int i=0;i<moves;i++) {
+				if(!moveOver) {
+					MoveCommand movecmd = new MoveCommand(this, rule.getGenRule().getDir(i), rule.getGenRule().getDirNum(i), endX, endY, eventcmd);
+					int moveReturn = movecmd.Execute();
+					System.out.println(moveReturn);
+					if (moveReturn == 2) moveOver = true;
+					else ruleNum += moveReturn;
+				}
+			}
+			if(ruleNum == moves || moveOver) {
+				if(this.getMoveTimes() > 0) {
+					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("One less step anywhere.");
+					MoveAnywhereCommand moveanywherecmd = new MoveAnywhereCommand(this, endX, endY);
+					moveanywherecmd.setNumber(this.getMoveTimes()-1);
+					moveanywherecmd.Execute();
+
+					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().repaintPanel();
+					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchType();
+					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().getChessPanel().switchState();
+				}
+				else
+					Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("You're trying to move to a field that doesn't match the rules, or you're trying to step over a dummy. Step somewhere else.");
+			}
+			else
+				Controller.getInstance().getFrame().getPlayersFrame().getGameFrame().setWarLabel("");
+
+			moveOver = false;
+		}
+
+		if(eventcmd.getHit() && eventcmd.getPiece().getType() == this.type) {
+			if(!piece_changed)
+				this.specRules();
+		}
+	}
 	abstract public ImageIcon getImageIcon();
 	public void setX(int x) {this.x = x;}
 	public void setY(int y) {this.y = y;}
@@ -55,20 +118,7 @@ abstract public class Piece implements Serializable {
 	public TypeOfPiece getTypeOfPiece() {
 		return top;
 	}
-
-	public void addGenRule(String rule) {
-		this.genRules.addGenRule(rule);
-	}
-
-	public void addSpecRule(String rule) {
-		this.specRules.addSpecRule(rule);
-	}
-
-	public ArrayList<String> getGenRule() {
-        return this.genRules.getGenRules();
-	}
-
-	public ArrayList<String> getSpecRule() {
-		return this.specRules.getSpecRules();
+	public Rule getRule() {
+		return rule;
 	}
 }
