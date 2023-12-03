@@ -71,7 +71,6 @@ abstract public class Piece implements Serializable {
 		for(int i=0;i<moves;i++) {
 			MoveCommand movecmd = new MoveCommand(this, rule.getGenRule().getDir(i), rule.getGenRule().getDirNum(i), endX, endY, eventcmd);
 			int moveReturn = movecmd.Execute();
-			System.out.println(moveReturn);
 			if (moveReturn == 0) goodMove = true;
 			ruleNum += moveReturn;
 		}

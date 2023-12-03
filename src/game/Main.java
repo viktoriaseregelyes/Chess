@@ -27,9 +27,7 @@ public class Main {
         Controller.getInstance();
 
         new MyBoardVisitor().visit(Controller.getInstance().getGame().getBoardTree());
-
-        ParseTree moveTree = readASTMoves("inputs\\moves.cfg");
-        new MyMoveVisitor().visit(moveTree);
+        new MyMoveVisitor().visit(readASTMoves("inputs\\moves.cfg"));
 
         Controller.getInstance().getErrorMessages().printMsg();
     }

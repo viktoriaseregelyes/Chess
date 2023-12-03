@@ -1,15 +1,8 @@
 package antlr;
 
-import commands.ActionCommand;
-import commands.EventCommand;
-import commands.MoveAnywhereCommand;
-import commands.MoveCommand;
 import game.Controller;
-import pieces.Piece;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
-import pieces.Queen;
-import pieces.TypeOfPiece;
 import rules.GeneralRule;
 import rules.Rule;
 import rules.SpecialRule;
@@ -63,36 +56,39 @@ public class MyMoveVisitor extends MoveBaseVisitor<Object>  {
     public Object visitPiece_rule(MoveParser.Piece_ruleContext ctx) throws IOException {
         if(ctx.getText().contains("<missing ' rule:'>"))
             errorMessage("the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.", getPosition(ctx));
-        if(!this.typesWithRules.contains(ctx.piece().getText().toUpperCase()))
-            typesWithRules.add(ctx.piece().getText().toUpperCase());
+        else if(ctx.general_rule().move_more() != null) {
+            GeneralRule genRule = new GeneralRule();
+            SpecialRule specRule = new SpecialRule();
 
-        GeneralRule genRule = new GeneralRule();
-        SpecialRule specRule = new SpecialRule();
+            for (int k = 0; k < allPieceRuleCtx.rule_().size(); k++)
+                specRule.addSpecRule(allPieceRuleCtx.rule_(k).getText());
 
-        for (int k = 0; k < allPieceRuleCtx.rule_().size(); k++)
-            specRule.addSpecRule(allPieceRuleCtx.rule_(k).getText());
+            for (int k = 0; k < ctx.rule_().size(); k++)
+                specRule.addSpecRule(ctx.rule_(k).getText());
 
-        for (int k = 0; k < ctx.rule_().size(); k++)
-            specRule.addSpecRule(ctx.rule_(k).getText());
+            for (int k = 0; k < ctx.general_rule().move_more().move().size(); k++) {
+                int l = 0;
+                while (ctx.general_rule().move_more().move(k).INT(l) != null) {
+                    genRule.addDirNum(k, Integer.parseInt(ctx.general_rule().move_more().move(k).INT(l).toString()));
+                    l++;
+                }
 
-        for (int k = 0; k < ctx.general_rule().move_more().move().size(); k++) {
-            int l = 0;
-            while (ctx.general_rule().move_more().move(k).INT(l) != null) {
-                genRule.addDirNum(k, Integer.parseInt(ctx.general_rule().move_more().move(k).INT(l).toString()));
-                l++;
+                for (int m = 0; m < ctx.general_rule().move_more().move(k).directions().size(); m++) {
+                    genRule.addDir(k, ctx.general_rule().move_more().move(k).directions(m).getText());
+                    genRule.addDirNum(k, 0);
+                }
+
+                Rule newRule = new Rule(ctx.piece().getText().toUpperCase(), genRule, specRule);
+                Controller.getInstance().getGame().addRule(newRule);
             }
 
-            for (int m=0;m<ctx.general_rule().move_more().move(k).directions().size();m++) {
-                genRule.addDir(k, ctx.general_rule().move_more().move(k).directions(m).getText());
-                genRule.addDirNum(k, 0);
-            }
-
-            Rule newRule = new Rule(ctx.piece().getText().toUpperCase(), genRule, specRule);
-            Controller.getInstance().getGame().addRule(newRule);
+            rules--;
+            if (rules == 0)
+                Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
         }
 
-        rules--;
-        if(rules == 0) Controller.getInstance().getErrorMessages().remove("error at one or more piece's name, the piece rule syntax is incorrect, you should add the rules like this: '<piece name> rule: <general move><rule>'.");
+        if(!this.typesWithRules.contains(ctx.piece().getText().toUpperCase()))
+            typesWithRules.add(ctx.piece().getText().toUpperCase());
 
         return visitChildren(ctx);
     }

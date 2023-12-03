@@ -44,7 +44,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     }
     @Override
     public Object visitPiece(BoardParser.PieceContext ctx) throws IOException {
-        if(size != 0) {
+        if(size != 0 && row != -1 && col != -1) {
             switch (ctx.getText()) {
                 case "pawn":
                     Pawn pawn = new Pawn(playerType, col, row, Controller.getInstance().getGame().getBoard());
@@ -97,7 +97,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     public Object visitPieceOnBoard(BoardParser.PieceOnBoardContext ctx) throws IOException {
         if (ctx.INT().size() < 2 || ctx.INT(1).getText().equals("<missing INT>")) errorMessage("the row or the column is missing.", getPosition(ctx));
         else if (ctx.getText().contains("<missing 'is at row'>") || ctx.getText().contains("<missing 'column'>")) errorMessage("the piece rule is incorrect, you should give it like that: <pieceColor> <pieceType> is at row <INT> column <INT>.", getPosition(ctx));
-        else {
+        else if (size != 0) {
             row = Integer.parseInt(ctx.INT(0).getText()) - 1;
             col = Integer.parseInt(ctx.INT(1).getText()) - 1;
 
@@ -116,7 +116,7 @@ public class MyBoardVisitor extends BoardBaseVisitor<Object> {
     public Object visitNextPlayer(BoardParser.NextPlayerContext ctx) throws IOException {
         if(!ctx.getText().contains("next player is:"))
             errorMessage("the next player syntax is incorrect, you should add the next player like this: 'next player is: <Player>'.", getPosition(ctx));
-        else if(!Controller.getInstance().getGame().getBoard().haveKings())
+        else if(!Controller.getInstance().getGame().getBoard().haveKings() && size != 0)
             errorMessage("there is not enough kings.", getPosition(ctx));
         else if (ctx.player() == null)
             errorMessage("player's type is not exist, it can be 'white' or 'black'.", getPosition(ctx));
